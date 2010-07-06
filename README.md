@@ -1,4 +1,4 @@
-JsBevhaviour README
+JsBehaviour README
 =======================
 
 Version: 1.0
