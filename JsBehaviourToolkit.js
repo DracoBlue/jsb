@@ -1,7 +1,7 @@
 /*
- * JsBehaviourToolkit 1.0
+ * JsBehaviourToolkit 1.0.1
  *
- * Released on 6th July 2010.
+ * Released on 19th August 2010.
  *
  * This file is part of JsBehaviour.
  * Copyright (c) 2010 DracoBlue, http://dracoblue.net/
@@ -27,7 +27,7 @@ JsBehaviourToolkit = {
         var input_element = dom_element.getFirst('input');
         
         if (input_element) {
-            var value = JSON.parse(input_element.get('value'));
+            var value = JSON.decode(input_element.get('value'));
             new this.handlers[key](dom_element, value);
         } else {
             new this.handlers[key](dom_element);

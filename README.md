@@ -1,7 +1,7 @@
 JsBehaviour README
 =======================
 
-Version: 1.0
+Version: 1.0.1
 
 Official Site: <http://dracoblue.net/>
 
