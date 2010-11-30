@@ -1,7 +1,7 @@
 /*
- * JsBehaviourToolkit 1.0.1
+ * JsBehaviourToolkit 1.0.2
  *
- * Released on 19th August 2010.
+ * Released on 30th November 2010.
  *
  * This file is part of JsBehaviour.
  * Copyright (c) 2010 DracoBlue, http://dracoblue.net/
@@ -12,7 +12,7 @@
 
 JsBehaviourToolkit = {
     prefix: 'jsb_',
-    
+
     handlers: {},
     
     registerHandler: function(key, handler_function) {
@@ -23,8 +23,23 @@ JsBehaviourToolkit = {
         if (typeof this.handlers[key] === 'undefined') {
             throw new Error('The handler ' + key + ' is not defined!');
         }
-        
-        var input_element = dom_element.getFirst('input');
+
+        var input_element;
+
+        if (dom_element.get('tag') === 'input') {
+            /*
+             * The class is on the input dom element, let's fetch
+             * it's parent
+             */
+            input_element = dom_element;
+            dom_element = input_element.getParent();
+        } else {
+            /*
+             * The class is NOT on the input dom element, let's 
+             * find it's first input!
+             */
+            input_element = dom_element.getFirst('input');
+        }
         
         if (input_element) {
             var value = JSON.decode(input_element.get('value'));

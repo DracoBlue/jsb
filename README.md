@@ -1,7 +1,7 @@
 JsBehaviour README
 =======================
 
-Version: 1.0.1
+Version: 1.1.0
 
 Official Site: <http://dracoblue.net/>
 
@@ -64,7 +64,7 @@ Now create a new file `ExampleBehaviour.js`
 
 Now add somewhere in your html code the following:
 
-    <span class="jsb_ jsb_example"><input type="hidden" value="{&quot;name&quot;:&quot;Jan&quot;}" />Are you loaded?</span>
+    <span><input class="jsb_ jsb_example" type="hidden" value="{&quot;name&quot;:&quot;Jan&quot;}" />Are you loaded?</span>
 
 When you execute the html page now, the text "Are you loaded?" won't display,
 but will be replaced with 'I am loaded with name: Jan'.
@@ -73,7 +73,7 @@ but will be replaced with 'I am loaded with name: Jan'.
 
 You can generate this tag easily with PHP:
 
-    <span class="jsb_ jsb_example"><input type="hidden" value="<?php echo htmlspecialchars(json_encode(array("name" => "Jan")))"/> Are you loaded?</span>
+    <span><input class="jsb_ jsb_example" type="hidden" value="<?php echo htmlspecialchars(json_encode(array("name" => "Jan")))"/> Are you loaded?</span>
 
 ## Generate the Html-Tag with Spludo-Framework
 
@@ -97,6 +97,16 @@ Resources
 * Blog: <http://dracoblue.net/c/js-behaviour/>
 * Feed: <http://dracoblue.net/c/js-behaviour/feed/>
 * Issue Tracker: <http://github.com/DracoBlue/js-behaviour/issues>
+
+Changelog
+---------
+
+* 1.1.0 (2010/11/30)
+ - jsb_ can be put right on an input field now
+* 1.0.1 (2010/09/24)
+ - bugfix with reg exp
+* 1.0.0
+ - initial release
 
 Thanks
 -------
