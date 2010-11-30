@@ -102,11 +102,11 @@ Changelog
 ---------
 
 * 1.1.0 (2010/11/30)
- - jsb_ can be put right on an input field now
+  - jsb_ can be put right on an input field now
 * 1.0.1 (2010/09/24)
- - bugfix with reg exp
+  - bugfix with reg exp
 * 1.0.0
- - initial release
+  - initial release
 
 Thanks
 -------
