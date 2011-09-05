@@ -70,11 +70,7 @@ It is also possible to use the query string syntax:
 
     <span><input class="jsb_ jsb_example" type="hidden" value="name=Jan&amp;param1=one" />Are you loaded?</span>
 
-## Generate the Html-Tag with PHP
-
-You can generate this tag easily with PHP:
-
-    <span><input class="jsb_ jsb_example" type="hidden" value="<?php echo htmlspecialchars(json_encode(array("name" => "Jan")))"/> Are you loaded?</span>
+Check out the generator functions for your favorite programming language.
 
 Why an Extra jsb_-Class?
 ---------------------
@@ -102,6 +98,16 @@ Generator-Helpers
     }
     ?>
 
+### Rails
+
+    # Generates a jsb tag
+    #
+    #   <%= jsb('example', {:name => 'Jan'}) %>
+    #
+    def jsb(handler_name, data)
+      tag("input", { :type => 'hidden', :class => 'jsb_ jsb_' + handler_name, :value => h(data.to_json) })
+    end
+
 Resources
 ----------
 
@@ -114,6 +120,7 @@ Changelog
 
 * 1.2.0 (2011/09/05)
   - added support for jquery, mootools and a native version
+  - added generator for php and rails
 * 1.1.0 (2010/11/30)
   - jsb_ can be put right on an input field now
 * 1.0.1 (2010/09/24)
