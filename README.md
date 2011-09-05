@@ -1,26 +1,31 @@
 JsBehaviour README
 =======================
 
-Version: 1.1.0
+Version: 1.2.0
+
+Date: 2011/09/05
 
 Official Site: <http://dracoblue.net/>
 
-JsBehaviour is copyright 2010 by DracoBlue <http://dracoblue.net>
+JsBehaviour is copyright 2010-2011 by DracoBlue <http://dracoblue.net>
 
 What is JsBehaviour?
 --------------------
 
-JsBehaviour A very extendable Toolkit to inject Javascript Behaviour into
+JsBehaviour is very extendable Toolkit to inject Javascript Behaviour into
 rendered HTML without Inline Javascript.
 
-It works currently only with mootools.
+Requirements:
+
+* .jquery/.mootools-Version: Firefox, Safari, Chrome, Opera, IE6+
+* .native-Version: Firefox 3+, Safari 5+, Chrome, Opera, IE9+
 
 How does it work?
 -----------------
 
 The idea behind JsBehaviour is pretty simple. Put a class (jsb_) on all
 elements which should be enriched/enhanced by javascript. Additionally
-put a class jsb_*keyword* on the element to define which behaviour
+put a class `jsb_`*keyword* on the element to define which behaviour
 should be applied to the element.
 
 Each behaviour can register on such *keyword* by using this
@@ -38,7 +43,7 @@ Example
 -------
 
 Include the JsBehaviourToolkit into your website with the following meta
-tag (right after the mootools definition):
+tag (before you define any behaviours):
 
     <script type="text/javascript" src="js/JsBehaviourToolkit.js"> </script>
 
@@ -46,20 +51,12 @@ Additionally add this one:
 
     <script type="text/javascript" src="js/ExampleBehaviour.js"> </script>
 
-Now create a new file `ExampleBehaviour.js`
+Now create a new file `js/ExampleBehaviour.js`
 
-    ExampleBehaviour = new Class( {
-
-        Implements: [
-            Events, Options
-        ],
+    ExampleBehaviour = function(dom_element, options) {
+       dom_element.textContent = 'I am loaded with name: ' + options.name;
+    };
     
-        is_open: false,
-
-        initialize: function(dom_element, options) {
-            dom_element.set('text', 'I am loaded with name: ' + options.name);
-        }
-    }
     JsBehaviourToolkit.registerHandler('example', ExampleBehaviour);
 
 Now add somewhere in your html code the following:
@@ -69,27 +66,41 @@ Now add somewhere in your html code the following:
 When you execute the html page now, the text "Are you loaded?" won't display,
 but will be replaced with 'I am loaded with name: Jan'.
 
+It is also possible to use the query string syntax:
+
+    <span><input class="jsb_ jsb_example" type="hidden" value="name=Jan&amp;param1=one" />Are you loaded?</span>
+
 ## Generate the Html-Tag with PHP
 
 You can generate this tag easily with PHP:
 
     <span><input class="jsb_ jsb_example" type="hidden" value="<?php echo htmlspecialchars(json_encode(array("name" => "Jan")))"/> Are you loaded?</span>
 
-## Generate the Html-Tag with Spludo-Framework
+Why an Extra jsb_-Class?
+---------------------
 
-You can drop in the [spludo] plugin from the spludo-plugin folder into your
-spludo application folder.
+One could expect to use `class="jsb_example"` instead of `class="jsb_ jsb_example"`.
+But this is necessary, since searching for all elements which have a class `jsb_*`
+is way slower then using the built in methods to search for one class `jsb_`.
 
-    var JsBehaviourToolkit = require("JsBehaviourToolkit");
-    var element_xml = JsBehaviourToolkit.createElementXml({
-        'tag': 'span',
-        'key': "example",
-        'value': {
-            "name": "Jan",
-        }
-    });
+You can use one of the Generators (or build your own) to make generation of those
+tags easier.
 
-  [spludo]: http://spludo.com
+Generator-Helpers
+-----------------
+
+### PHP
+
+    <?php
+    /**
+     * @example <pre>
+     *    <?php echo jsb('example', array('name' => 'Jan')); ?>
+     * </pre>
+     */
+    function jsb($name, array $options = array()) {
+        return '<input class="jsb_ jsb_' . $name . '" type="hidden" value="' . htmlspecialchars(json_encode($options))" />';
+    }
+    ?>
 
 Resources
 ----------
@@ -101,6 +112,8 @@ Resources
 Changelog
 ---------
 
+* 1.2.0 (2011/09/05)
+  - added support for jquery, mootools and a native version
 * 1.1.0 (2010/11/30)
   - jsb_ can be put right on an input field now
 * 1.0.1 (2010/09/24)
@@ -110,7 +123,7 @@ Changelog
 
 Thanks
 -------
-Thanks to hoffigk for the discussions and feedback!
+Thanks to hoffigk and graste for the discussions and feedback!
 
 License
 --------
