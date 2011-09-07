@@ -94,7 +94,7 @@ Generator-Helpers
      * </pre>
      */
     function jsb($name, array $options = array()) {
-        return '<input class="jsb_ jsb_' . $name . '" type="hidden" value="' . htmlspecialchars(json_encode($options))" />';
+        return '<input class="jsb_ jsb_' . $name . '" type="hidden" value="' . htmlspecialchars(json_encode($options)) . '" />';
     }
     ?>
 
