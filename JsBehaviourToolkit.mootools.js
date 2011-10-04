@@ -48,11 +48,12 @@ JsBehaviourToolkit = {
         }
         
         if (input_element) {
-            var value_string = input_element.get('value');
+            var value_string = input_element.get('value'),
+                value;
             if (value_string.substr(0, 1) == '{') {
                 value = JSON.decode(value_string);
             } else {
-                var value = {};
+                value = {};
                 var parts = value_string.split("&");
                 var parts_length = parts.length;
                 for (var i = 0; i < parts_length; i++) {
