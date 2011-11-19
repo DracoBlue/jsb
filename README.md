@@ -1,9 +1,9 @@
 JsBehaviour README
 =======================
 
-Version: 1.2.0
+Version: 1.2.1
 
-Date: 2011/09/05
+Date: 2011/11/19
 
 Official Site: <http://dracoblue.net/>
 
@@ -118,6 +118,8 @@ Resources
 Changelog
 ---------
 
+* 1.2.1 (2011/11/19)
+  - value was used before it was defined
 * 1.2.0 (2011/09/05)
   - added support for jquery, mootools and a native version
   - added generator for php and rails
@@ -131,6 +133,10 @@ Changelog
 Thanks
 -------
 Thanks to hoffigk and graste for the discussions and feedback!
+
+Contributors
+------------
+* lar-zzz https://github.com/lar-zzz
 
 License
 --------
