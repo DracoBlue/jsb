@@ -1,9 +1,9 @@
 JsBehaviour README
 =======================
 
-Version: 1.2.1
+Version: 1.2.2
 
-Date: 2011/11/19
+Date: 2011/11/29
 
 Official Site: <http://dracoblue.net/>
 
@@ -118,6 +118,8 @@ Resources
 Changelog
 ---------
 
+* 1.2.2 (2011/11/29)
+  - fixes issue with parentNode in IE <= 7
 * 1.2.1 (2011/11/19)
   - value was used before it was defined
 * 1.2.0 (2011/09/05)
