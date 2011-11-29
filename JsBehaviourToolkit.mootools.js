@@ -38,7 +38,7 @@ JsBehaviourToolkit = {
              * it's parent
              */
             input_element = dom_element;
-            dom_element = input_element.parentNode;
+            dom_element = $(input_element.parentNode);
         } else {
             /*
              * The class is NOT on the input dom element, let's 
