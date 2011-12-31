@@ -1,7 +1,7 @@
 /*
- * JsBehaviourToolkit 1.2.0 - jQuery Version
+ * JsBehaviourToolkit 1.2.3 - jQuery Version
  *
- * Released on 5th September 2011.
+ * Released on 31st December 2011.
  *
  * This file is part of JsBehaviour.
  * Copyright (c) 2010-2011 DracoBlue, http://dracoblue.net/
@@ -83,6 +83,7 @@ JsBehaviourToolkit = {
     }
 };
 
+jsb = JsBehaviourToolkit;
 
 jQuery(window.document).ready(function() {
     JsBehaviourToolkit.applyBehaviour(window.document);

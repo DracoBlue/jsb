@@ -1,7 +1,7 @@
 /*
- * JsBehaviourToolkit 1.2.0 - MooTools Version
+ * JsBehaviourToolkit 1.2.3 - MooTools Version
  *
- * Released on 5th September 2011.
+ * Released on 31st December 2011.
  *
  * This file is part of JsBehaviour.
  * Copyright (c) 2010-2011 DracoBlue, http://dracoblue.net/
@@ -83,6 +83,8 @@ JsBehaviourToolkit = {
         
     }
 };
+
+jsb = JsBehaviourToolkit;
 
 $(window).addEvent('domready', function() {
     JsBehaviourToolkit.applyBehaviour(window.document);

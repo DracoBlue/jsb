@@ -1,9 +1,9 @@
 JsBehaviour README
 =======================
 
-Version: 1.2.2
+Version: 1.2.3
 
-Date: 2011/11/29
+Date: 2011/12/31
 
 Official Site: <http://dracoblue.net/>
 
@@ -30,11 +30,11 @@ should be applied to the element.
 
 Each behaviour can register on such *keyword* by using this
 
-    JsBehaviourToolkit.registerHandler('keyword', KeywordBehaviour);
+    jsb.registerHandler('keyword', KeywordBehaviour);
 
 method. As soon as the dom is loaded
 
-    JsBehaviourToolkit.applyBehaviour(window.document);
+    jsb.applyBehaviour(window.document);
 
 is executed. You might even overwrite your Request.HTML method to do the
 same.
@@ -57,7 +57,7 @@ Now create a new file `js/ExampleBehaviour.js`
        dom_element.textContent = 'I am loaded with name: ' + options.name;
     };
     
-    JsBehaviourToolkit.registerHandler('example', ExampleBehaviour);
+    jsb.registerHandler('example', ExampleBehaviour);
 
 Now add somewhere in your html code the following:
 
@@ -118,6 +118,8 @@ Resources
 Changelog
 ---------
 
+* 1.2.3 (2011/12/31)
+  - added jsb as alias for JsBehaviourToolkit
 * 1.2.2 (2011/11/29)
   - fixes issue with parentNode in IE <= 7
 * 1.2.1 (2011/11/19)
