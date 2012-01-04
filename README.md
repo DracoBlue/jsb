@@ -1,13 +1,13 @@
 JsBehaviour README
 =======================
 
-Version: 1.2.3
+Version: 1.3.0
 
-Date: 2011/12/31
+Date: 2012/01/04
 
 Official Site: <http://dracoblue.net/>
 
-JsBehaviour is copyright 2010-2011 by DracoBlue <http://dracoblue.net>
+JsBehaviour is copyright 2010-2012 by DracoBlue <http://dracoblue.net>
 
 What is JsBehaviour?
 --------------------
@@ -108,6 +108,50 @@ Generator-Helpers
       tag("input", { :type => 'hidden', :class => 'jsb_ jsb_' + handler_name, :value => h(data.to_json) })
     end
 
+Advanced: Communication between instances
+-----------------------------------------
+
+If you get used to `jsb`, you'll noticed that you have the need to communicate
+between multiple jsb_-objects.
+
+Since 1.3.0 jsb ships with a very simple (by design) event system. It is
+framework independent and works with simple channel identifier and a
+json-object as value.
+
+    jsb.fireEvent('HoneyPot::CLICKED', {"name": "Bob", "times": 2});
+
+This should be fired by a Js-Behaviour which needs to say something, instead
+of global variables and direct call. This enables you to use dependency
+injection if you keep the channel identifier the same.
+
+You can listen to that event, too:
+
+    jsb.on(
+        'HoneyPot::CLICKED', // identifier
+        function(values) { // callback
+            alert('The user ' + values.name + ' clicked it already ' + values.times);
+        }
+    );
+
+It's even possible to filter for a filter-object when listening:
+
+    jsb.on(
+        'HoneyPot::CLICKED', // identifier
+        {"name": "Bob"}, // filter everything with name = Bob
+        function(values) { // callback
+            alert('The user ' + values.name + ' clicked it already ' + values.times);
+        }
+    );
+
+You may also use RegExp as channel identifier when calling `jsb.on`:
+
+    jsb.on(
+        /^HoneyPot.*$, // identifier which starts with HoneyPot*
+        function(values) { // callback
+            alert('The user ' + values.name + ' clicked it already ' + values.times);
+        }
+    );
+
 Resources
 ----------
 
@@ -118,6 +162,9 @@ Resources
 Changelog
 ---------
 
+* 1.3.0 (2012/01/04)
+  - added `jsb.on(name, [filter, ] callback)`
+  - added `jsb.fireEvent(name, (values = {}))`
 * 1.2.3 (2011/12/31)
   - added jsb as alias for JsBehaviourToolkit
 * 1.2.2 (2011/11/29)

@@ -4,25 +4,44 @@
     <script type="text/javascript" src="../JsBehaviourToolkit.jquery.js"> </script>
     <script type="text/javascript" src="TimeDifference.js"> </script>
     <script type="text/javascript" src="CurrentTime.js"> </script>
+    <script type="text/javascript" src="HoneyPot.js"> </script>
+    <script type="text/javascript" src="HoneyPotDisplay.js"> </script>
 </head>
 <body>
+    <h2>TimeDifference Test</h2>
     <div>
-        TimeDifference Test with input-field only: <span>
+        with input-field only: <span>
             <input type="hidden" class="jsb_ jsb_time_difference" value="interval=1000&amp;timestamp=Thu May 23 1985 00:00:00 GMT+0200 (CEST)"/>
             23th May 2010
         </span>
     </div>
+    <h2>TimeDifference Test</h2>
     <div>
-        TimeDifference Test with first input-field: <span class="jsb_ jsb_time_difference">
+        with first input-field: <span class="jsb_ jsb_time_difference">
             <input type="hidden" value="{&quot;interval&quot;:1000,&quot;timestamp&quot;:&quot;Thu May 23 1985 00:00:00 GMT+0200 (CEST)&quot;}"/>
             23th May 2010
         </span>
     </div>
+    <h2>CurrentTime Test</h2>
     <div>
-        CurrentTime Test without input-field: <span class="jsb_ jsb_current_time">
+        without input-field: <span class="jsb_ jsb_current_time">
             23th May 2010
         </span>
     </div>
+    
+    <h2>HoneyPot (first element)</h2>
+    Communicating with <code>jsb.fireEvent(name, values)</code>
+    <div class="jsb_ jsb_honey_pot" style="background-color: yellow">
+        Honey Pot! Click me!
+    </div>
+
+    <h2>HoneyPot second Element</h2>
+    Communicating with <code>jsb.on(name, [filter,] callback)</code>
+    
+    <div class="jsb_ jsb_honey_pot_display">
+        Loading ....
+    </div>
+
 </body>
 
 </html>
