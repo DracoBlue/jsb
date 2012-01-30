@@ -1,7 +1,7 @@
 /*
- * JsBehaviourToolkit 1.3.0 - MooTools Version
+ * JsBehaviourToolkit 1.3.1 - MooTools Version
  *
- * Released on 4th January 2012.
+ * Released on 30th January 2012.
  *
  * This file is part of JsBehaviour.
  * Copyright (c) 2010-2012 DracoBlue, http://dracoblue.net/
@@ -77,9 +77,11 @@ JsBehaviourToolkit = {
         for (var i = 0; i < dom_elements_length; i++) {
             var dom_element = dom_elements[i];
             var key = dom_element.get('class').match(this.prefix_regexp)[1];
-            this.callHandler(key, dom_element);
-            dom_element.removeClass(this.prefix);
-            dom_element.removeClass(this.prefix + '' + key);
+            if (key) {
+                this.callHandler(key, dom_element);
+                dom_element.removeClass(this.prefix);
+                dom_element.removeClass(this.prefix + '' + key);
+            }
         }
         
     },

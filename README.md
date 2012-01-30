@@ -1,9 +1,9 @@
 JsBehaviour README
 =======================
 
-Version: 1.3.0
+Version: 1.3.1
 
-Date: 2012/01/04
+Date: 2012/01/30
 
 Official Site: <http://dracoblue.net/>
 
@@ -162,6 +162,8 @@ Resources
 Changelog
 ---------
 
+* 1.3.1 (2012/01/30)
+  - check if the key still exists, before calling handler
 * 1.3.0 (2012/01/04)
   - added `jsb.on(name, [filter, ] callback)`
   - added `jsb.fireEvent(name, (values = {}))`
