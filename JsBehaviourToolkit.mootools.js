@@ -32,25 +32,37 @@ JsBehaviourToolkit = {
         }
 
         var input_element;
-
-        if (dom_element.get('tag') === 'input') {
+        var value_string = null;
+        
+        if (dom_element.getAttribute('data-jsb')) {
             /*
-             * The class is on the input dom element, let's fetch
-             * it's parent
+             * Nice, we have a data-jsb attribute -> let's use that one!
              */
-            input_element = dom_element;
-            dom_element = $(input_element.parentNode);
+            value_string = dom_element.getAttribute('data-jsb');
         } else {
-            /*
-             * The class is NOT on the input dom element, let's 
-             * find it's first input!
-             */
-            input_element = dom_element.getFirst('input');
+            if (dom_element.get('tag') === 'input') {
+                /*
+                 * The class is on the input dom element, let's fetch
+                 * it's parent
+                 */
+                input_element = dom_element;
+                dom_element = $(input_element.parentNode);
+                value_string = input_element.value;
+            } else {
+                /*
+                 * The class is NOT on the input dom element, let's 
+                 * find it's first input!
+                 */
+                input_element = dom_element.getFirst('input');
+                if (input_element) {
+                    value_string = input_element.value;
+                }
+            }
         }
         
-        if (input_element) {
-            var value_string = input_element.get('value'),
-                value;
+        if (value_string !== null) {
+            var value;
+
             if (value_string.substr(0, 1) == '{') {
                 value = JSON.decode(value_string);
             } else {

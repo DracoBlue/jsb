@@ -1,9 +1,9 @@
 JsBehaviour README
 =======================
 
-Version: 1.3.1
+Version: 1.4-dev
 
-Date: 2012/01/30
+Date: Not yet released
 
 Official Site: <http://dracoblue.net/>
 
@@ -71,6 +71,10 @@ It is also possible to use the query string syntax:
     <span><input class="jsb_ jsb_example" type="hidden" value="name=Jan&amp;param1=one" />Are you loaded?</span>
 
 Check out the generator functions for your favorite programming language.
+
+Since 1.4.0 it's possible to use also html5 data attributes:
+
+    <span class="jsb_ jsb_example" data-jsb="{&quot;name&quot;:&quot;Jan&quot;}">Are you loaded?</span>
 
 Why an Extra jsb_-Class?
 ---------------------
@@ -162,6 +166,10 @@ Resources
 Changelog
 ---------
 
+* 1.4-dev
+  - cleaned up the tests cases and put them into a separate test runner
+  - fixed bug in native version (did not work with first-input element)
+  - added support for `data-jsb` instead of input element
 * 1.3.1 (2012/01/30)
   - check if the key still exists, before calling handler
 * 1.3.0 (2012/01/04)
