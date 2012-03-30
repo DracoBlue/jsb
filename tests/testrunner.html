@@ -1,0 +1,126 @@
+<html>
+<head>
+    <title>JSB TestRunner</title>
+    
+    <style>
+    
+        h3 {
+            font-size: 20px;
+            font-family: monospace;
+            font-weight: bold;
+            padding: 5px;
+            display: inline;
+        }
+    
+        .test_failed {
+            padding: 5px;
+            margin: 5px;
+            background-color: #f99;
+        }
+        
+        .failed_info,
+        .succeeded_info {
+            font-size: 20px;
+            font-family: sans-serif;
+            display: none;
+        }
+        
+        .test_failed .failed_info {
+            font-style: italic;
+            display: inline;
+        }
+        
+        .test_succeeded {
+            padding: 5px;
+            margin: 5px;
+            background-color: #9f4;
+        }
+        
+        .test_succeeded .succeeded_info {
+            display: inline;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>JSB Testrunner</h1>
+    <form action="testrunner.html" method="get">
+        <h2>Choose a Framework</h2>
+        <select id="version_selector" name="version">
+            <option selected="selected" disabled="disabled">choose ...</option>
+            <option value="jquery">jQuery 1.6.2</option>
+            <option value="mootools">MooTools 1.3.2</option>
+            <option value="native">Native (no framework)</option>
+        </select>
+        <input type="submit" value="Run!" />
+    </form>
+    
+    <h2>Tests: <span id="tests_succeeded">...</span> of <span id="tests_count">...</span></h2>
+    
+
+    <div class="test_failed">
+        <h3>Query String Test</h3>
+        <input type="hidden" class="jsb_ jsb_change_class" value="remove_class=test_failed&amp;add_class=test_succeeded"/>
+        <span class="failed_info">Failed!</span>
+        <span class="succeeded_info">Ok!</span>
+    </div>
+    
+    <div class="test_failed">
+        <h3>Json Object String Test</h3>
+        <input type="hidden" class="jsb_ jsb_change_class" value="{&quot;remove_class&quot;:&quot;test_failed&quot;,&quot;add_class&quot;:&quot;test_succeeded&quot;}"/>
+        <span class="failed_info">Failed!</span>
+        <span class="succeeded_info">Ok!</span>
+    </div>
+    
+    <div class="test_failed">
+        <h3>Empty String Test</h3>
+        <input type="hidden" class="jsb_ jsb_succeed_test" value=""/>
+        <span class="failed_info">Failed!</span>
+        <span class="succeeded_info">Ok!</span>
+    </div>
+    
+    <div class="test_failed jsb_ jsb_change_class" data-jsb="remove_class=test_failed&amp;add_class=test_succeeded">
+        <h3>Data-Attribute Query String Test</h3>
+        <span class="failed_info">Failed!</span>
+        <span class="succeeded_info">Ok!</span>
+    </div>
+    
+    <div class="test_failed jsb_ jsb_change_class" data-jsb="{&quot;remove_class&quot;:&quot;test_failed&quot;,&quot;add_class&quot;:&quot;test_succeeded&quot;}">
+        <h3>Data-Attribute Json String Test</h3>
+        <span class="failed_info">Failed!</span>
+        <span class="succeeded_info">Ok!</span>
+    </div>
+    
+    <div class="jsb_ jsb_change_class test_failed">
+        <h3>Query String Test with first input field</h3>
+        <input type="hidden" value="remove_class=test_failed&amp;add_class=test_succeeded"/>
+        <span class="failed_info">Failed!</span>
+        <span class="succeeded_info">Ok!</span>
+    </div>
+    
+    <div class="jsb_ jsb_change_class test_failed">
+        <h3>Json Object String Test with first input field</h3>
+        <input type="hidden" value="{&quot;remove_class&quot;:&quot;test_failed&quot;,&quot;add_class&quot;:&quot;test_succeeded&quot;}"/>
+        <span class="failed_info">Failed!</span>
+        <span class="succeeded_info">Ok!</span>
+    </div>
+    
+    <div class="jsb_ jsb_succeed_test test_failed">
+        <h3>Query String Test without input field</h3>
+        <span class="failed_info">Failed!</span>
+        <span class="succeeded_info">Ok!</span>
+    </div>
+    
+    <div class="jsb_ jsb_pong test_failed">
+        <h3>Fire and Catch Event</h3>
+        <span class="failed_info">Failed!</span>
+        <span class="succeeded_info">Ok!</span>
+        
+        <div class="jsb_ jsb_ping">
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="testrunner.js"> </script>
+</body>
+
+</html>
