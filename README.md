@@ -170,6 +170,7 @@ Changelog
   - cleaned up the tests cases and put them into a separate test runner
   - fixed bug in native version (did not work with first-input element)
   - added support for `data-jsb` instead of input element
+  - merged all jsb versions into one JsBehaviourToolkit.js
 * 1.3.1 (2012/01/30)
   - check if the key still exists, before calling handler
 * 1.3.0 (2012/01/04)
