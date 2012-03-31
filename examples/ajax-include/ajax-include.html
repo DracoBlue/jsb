@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ajax Include with Jsb</title>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+        <script type="text/javascript" src="../../JsBehaviourToolkit.js"></script>
+        <script type="text/javascript" src="AjaxInclude.js"></script>
+    </head>
+    <body>
+        <h1>Ajax-Include Demo with JSB</h1>
+        <p>A short demo which implements the ajax-include pattern (recently <a href="http://filamentgroup.com/lab/ajax_includes_modular_content/">posted</a> by filamentgroup) with <a href="https://github.com/DracoBlue/js-behaviour">JSB</a> in jQuery.</p>
+        <p>Additional Feature: Since it's jsb, it works <strong>recursive</strong> and you can have <em>behaviours in ajax content, too</em> (see sub-content example)!</p>
+        <h2 class="jsb_ jsb_ajax_include" data-jsb="url=_summary.html&amp;method=after">Summary</h2>
+        <h2>Content</h2>
+        <div class="jsb_ jsb_ajax_include" data-jsb="url=_content.html">
+            Loading ...
+        </div>
+        <h2 class="jsb_ jsb_ajax_include" data-jsb="url=_footer.html&amp;method=after">Footer</h2>
+    </body>
+</html>
