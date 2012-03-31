@@ -33,13 +33,30 @@
     
     var injectScriptTag = function(src, cb)
     {
-        var jsb_script = document.createElement('script');
-        jsb_script.onload = function()
-        {
-            cb();
+        var head = document.getElementsByTagName('head')[0] || document.documentElement;
+        var script = document.createElement('script');
+        
+        /*
+         * Have a proper onload-handling for every browser similar to jquery's getScript
+         */
+        var is_loaded = false;
+        script.onload = script.onreadystatechange = function() {
+            if (!is_loaded && (!this.readyState || this.readyState === "loaded" || this.readyState === "complete")) {
+                is_loaded = true;
+    
+                /*
+                 * Avoid memory leaks in IE
+                 */
+                script.onload = script.onreadystatechange = null;
+                if (head && script.parentNode) {
+                    head.removeChild(script);
+                }
+                cb();
+            }
         };
-        jsb_script.src = src;
-        document.getElementsByTagName('head')[0].appendChild(jsb_script);
+    
+        script.src = src;
+        head.appendChild(script);
     };
     
     var loadAllBehavioursAndApplyThem = function()
@@ -47,7 +64,7 @@
         /*
          * Wait for jsb to become available, afterwards apply the behaviours!
          */
-        injectScriptTag('../JsBehaviourToolkit.' + version + '.js', function()
+        injectScriptTag('../JsBehaviourToolkit.js', function()
         {
             injectScriptTag('ChangeClass.js', function()
             {
