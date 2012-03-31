@@ -129,6 +129,9 @@ JsBehaviourToolkit = {
         }
     },
     
+    /**
+     * @private
+     */
     rawFireEventToListener: function(listener, name, values) {
         var is_regexp_match = (listener[1] instanceof RegExp && name.match(listener[1]));
 
@@ -189,10 +192,7 @@ JsBehaviourToolkit = {
             }
         }
 
-        
         if (value_string !== null) {
-            var value;
-            
             new this.handlers[key](dom_element, this.parseValueString(value_string));
         } else {
             new this.handlers[key](dom_element);
