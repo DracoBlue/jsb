@@ -118,6 +118,9 @@ Advanced: Communication between instances
 If you get used to `jsb`, you'll noticed that you have the need to communicate
 between multiple jsb_-objects.
 
+
+### jsb.fireEvent(`name`, `[values = {}]`)
+
 Since 1.3.0 jsb ships with a very simple (by design) event system. It is
 framework independent and works with simple channel identifier and a
 json-object as value.
@@ -127,6 +130,8 @@ json-object as value.
 This should be fired by a Js-Behaviour which needs to say something, instead
 of global variables and direct call. This enables you to use dependency
 injection if you keep the channel identifier the same.
+
+### jsb.on(`name`, `[filter, ]` `callback`)
 
 You can listen to that event, too:
 
@@ -156,6 +161,22 @@ You may also use RegExp as channel identifier when calling `jsb.on`:
         }
     );
 
+### jsb.whenFired(`name`, `[filter, ]` `callback`)
+
+If the event may be triggered before your jsb class is loaded, you can use `jsb.whenFired`.
+
+    var counter = 0;
+    jsb.fireEvent('MASTER_READY', { "key": "value"});
+    jsb.whenFired(/^MASTER_READY$/, function(values) {
+        /*
+         * Will be called IMMEDIATELY because the event
+         * was already fired.
+         */
+        counter++;
+    });
+    jsb.fireEvent('MASTER_READY', { "key": "value"});
+	 // counter is now 2!
+
 Resources
 ----------
 
@@ -171,6 +192,7 @@ Changelog
   - fixed bug in native version (did not work with first-input element)
   - added support for `data-jsb` instead of input element
   - merged all jsb versions into one JsBehaviourToolkit.js
+  - added `jsb.whenFired(name, [filter, ] callback)`
 * 1.3.1 (2012/01/30)
   - check if the key still exists, before calling handler
 * 1.3.0 (2012/01/04)

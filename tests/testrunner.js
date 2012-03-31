@@ -74,7 +74,10 @@
                     {
                         injectScriptTag('Pong.js', function()
                         {
-                            jsb.applyBehaviour(document.body);
+                            injectScriptTag('WhenFiredTest.js', function()
+                            {
+                                jsb.applyBehaviour(document.body);
+                            });
                         });
                     });
                 });

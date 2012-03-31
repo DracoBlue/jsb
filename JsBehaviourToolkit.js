@@ -16,6 +16,7 @@ JsBehaviourToolkit = {
 
     handlers: {},
     listeners: [],
+    last_event_values: {},
     
     /**
      * Set the prefix for the jsb toolkit.
@@ -64,27 +65,16 @@ JsBehaviourToolkit = {
      */
     fireEvent: function(name, values) {
         values = values || {};
+        
+        /*
+         * Remember the last value for calls to `jsb.whenFired`
+         */
+        this.last_event_values[name] = values; 
+        
         var listeners = this.listeners;
         var listeners_length = listeners.length;
         for (var i = 0; i < listeners_length; i++) {
-            var listener = listeners[i];
-            var is_regexp_match = (listener[1] instanceof RegExp && name.match(listener[1]));
-
-            if (is_regexp_match || listener[1] === name) {
-                var filter = listener[2];
-                var is_match = true;
-                if (filter) {
-                    for (var filter_key in filter) {
-                        if (filter.hasOwnProperty(filter_key)) {
-                            is_match = is_match && (typeof values[filter_key] !== 'undefined' && filter[filter_key] === values[filter_key]);
-                        }
-                    }
-                }
-                
-                if (is_match) {
-                    listener[0](values);
-                }
-            }
+            this.rawFireEventToListener(listeners[i], name, values);
         }
     },
     
@@ -104,7 +94,60 @@ JsBehaviourToolkit = {
         }
         
         this.listeners.push([cb, name_or_regexp, filter || null]);
-    },    
+    },
+    
+    /**
+     * Register to an event as soon as it's fired for the first time
+     * even if that happend earlier!
+     * 
+     * @param {String|RegExp} name_or_regexp
+     * @param {Object|Function} [filter_or_cb=null]
+     * @param {Function} cb
+     */
+    whenFired: function(name_or_regexp, filter_or_cb, cb)
+    {
+        var filter = filter_or_cb;
+
+        if (!cb) {
+            filter = null;
+            cb = filter_or_cb;
+        }
+                
+        this.on(name_or_regexp, filter, cb);
+        
+        var is_regexp = (name_or_regexp instanceof RegExp);
+        if (is_regexp) {
+            for (var key in this.last_event_values) {
+                if (this.last_event_values.hasOwnProperty(key) && key.match(name_or_regexp)) {
+                    this.rawFireEventToListener([cb, name_or_regexp, filter], key, this.last_event_values[key]);
+                }
+            }
+        } else {
+            if (typeof this.last_event_values[name_or_regexp] !== 'undefined') {
+                this.rawFireEventToListener([cb, name_or_regexp, filter], name_or_regexp, this.last_event_values[name_or_regexp]);
+            }
+        }
+    },
+    
+    rawFireEventToListener: function(listener, name, values) {
+        var is_regexp_match = (listener[1] instanceof RegExp && name.match(listener[1]));
+
+        if (is_regexp_match || listener[1] === name) {
+            var filter = listener[2];
+            var is_match = true;
+            if (filter) {
+                for (var filter_key in filter) {
+                    if (filter.hasOwnProperty(filter_key)) {
+                        is_match = is_match && (typeof values[filter_key] !== 'undefined' && filter[filter_key] === values[filter_key]);
+                    }
+                }
+            }
+            
+            if (is_match) {
+                listener[0](values);
+            }
+        }
+    },
     
     /**
      * Call a specific handler on a given dom element
