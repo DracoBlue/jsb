@@ -120,6 +120,7 @@ JsBehaviourToolkit = {
             for (var key in this.last_event_values) {
                 if (this.last_event_values.hasOwnProperty(key) && key.match(name_or_regexp)) {
                     this.rawFireEventToListener([cb, name_or_regexp, filter], key, this.last_event_values[key]);
+                    return ;
                 }
             }
         } else {
