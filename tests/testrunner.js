@@ -76,7 +76,13 @@
                         {
                             injectScriptTag('WhenFiredTest.js', function()
                             {
-                                jsb.applyBehaviour(document.body);
+                                injectScriptTag('OffTest.js', function()
+                                {
+                                    injectScriptTag('OffGeneratorTest.js', function()
+                                    {
+                                        jsb.applyBehaviour(document.body);
+                                    });
+                                });
                             });
                         });
                     });

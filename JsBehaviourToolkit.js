@@ -94,8 +94,31 @@ JsBehaviourToolkit = {
         }
         
         this.listeners.push([cb, name_or_regexp, filter || null]);
+
+        var that = this;
+        return function() {
+            that.off(name_or_regexp, cb);
+        };
     },
     
+    /**
+     * Removes an event listener for a given name or regular expression and handler function.
+     *
+     * The handler function needs to be the exact same Function object that was previously registered as an event handler.
+     * 
+     * @param {String|RegExp} name_or_regexp
+     * @param {Function} cb
+     */
+    off: function(name_or_regexp, cb) {
+        var listeners = this.listeners;
+        var listeners_length = listeners.length;
+        for (var i = 0; i < listeners_length; i++) {
+            if (listeners[i][0] === cb && listeners[i][1].toString() === name_or_regexp.toString()) {
+                listeners.splice(i,1);
+            }
+        }
+    },
+
     /**
      * Register to an event as soon as it's fired for the first time
      * even if that happend earlier!
