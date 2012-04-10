@@ -248,7 +248,7 @@ Thanks to hoffigk and graste for the discussions and feedback!
 Contributors
 ------------
 * lar-zzz https://github.com/lar-zzz
-* leonweidauer https://github.com/leonweidauer
+* Leon Weidauer http://sevenmil.es
 
 License
 --------
