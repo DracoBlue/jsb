@@ -161,6 +161,8 @@ You may also use RegExp as channel identifier when calling `jsb.on`:
         }
     );
 
+### jsb.off(`name`, `callback`)
+
 Event handlers can be removed by passing the exact same name/regex and Function object to `jsb.off`.
 
     var counter = 0;
