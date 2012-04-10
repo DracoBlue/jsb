@@ -1,9 +1,9 @@
 JsBehaviour README
 =======================
 
-Version: 1.4-dev
+Version: 1.4.0
 
-Date: Not yet released
+Date: 2012/04/10
 
 Official Site: <http://dracoblue.net/>
 
@@ -211,7 +211,7 @@ Resources
 Changelog
 ---------
 
-* 1.4-dev
+* 1.4.0 (2012/04/10)
   - cleaned up the tests cases and put them into a separate test runner
   - fixed bug in native version (did not work with first-input element)
   - added support for `data-jsb` instead of input element
@@ -248,6 +248,7 @@ Thanks to hoffigk and graste for the discussions and feedback!
 Contributors
 ------------
 * lar-zzz https://github.com/lar-zzz
+* leonweidauer https://github.com/leonweidauer
 
 License
 --------
