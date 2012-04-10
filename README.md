@@ -161,6 +161,28 @@ You may also use RegExp as channel identifier when calling `jsb.on`:
         }
     );
 
+Event handlers can be removed by passing the exact same name/regex and Function object to `jsb.off`.
+
+    var counter = 0;
+    var handler = function(){
+        counter++
+    };
+    jsb.on('OFF_TEST', handler);
+    jsb.fireEvent('OFF_TEST'); //counter is now 1
+    jsb.off('OFF_TEST', handler);
+    jsb.fireEvent('OFF_TEST'); //counter is still 1 because the listener was removed before the second event fired.
+
+Alternatively `jsb.on` returns a function that can be called without any parameters and will remove the name/handler pair that was registered by `jsb.on` in that call.
+
+    var counter = 0;
+    var handler = function(){
+        counter++
+    };
+    var off = jsb.on('OFF_TEST', handler);
+    jsb.fireEvent('OFF_TEST'); //counter is now 1
+    off();
+    jsb.fireEvent('OFF_TEST'); //counter is still 1 because the listener was removed before the second event fired.
+
 ### jsb.whenFired(`name`, `[filter, ]` `callback`)
 
 If the event may be triggered before your jsb class is loaded, you can use `jsb.whenFired`.
@@ -194,6 +216,8 @@ Changelog
   - merged all jsb versions into one JsBehaviourToolkit.js
   - added `jsb.whenFired(name, [filter, ] callback)`
   - added `examples/ajax-include`
+  - added jsb.off method for event handler removal
+  - added generator for event removal function to jsb.on
 * 1.3.1 (2012/01/30)
   - check if the key still exists, before calling handler
 * 1.3.0 (2012/01/04)
