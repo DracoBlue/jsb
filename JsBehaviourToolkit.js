@@ -113,8 +113,23 @@ JsBehaviourToolkit = {
         var listeners = this.listeners;
         this.listeners = []
         var listeners_length = listeners.length;
+        var listener_key_string;
+        var remove_handler;
+
+        name_or_regexp = name_or_regexp.toString(); //we always want it as a string to be comparable without needing object equality
+
         for (var i = 0; i < listeners_length; i++) {
-            if (!(listeners[i][0] === cb && listeners[i][1].toString() === name_or_regexp.toString())) {
+
+            listener_key_string = listeners[i][1].toString();
+            remove_handler = false;
+
+            if (listener_key_string === name_or_regexp) {
+                if (typeof cb === 'undefined' || listeners[i][0] === cb) {
+                    remove_handler = true;
+                }
+            }
+
+            if (!remove_handler) {
                 this.listeners.push(listeners[i]);
             }
         }
