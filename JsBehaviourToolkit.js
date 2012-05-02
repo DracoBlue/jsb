@@ -1,7 +1,7 @@
 /*
- * JsBehaviourToolkit 1.4-dev
+ * JsBehaviourToolkit 1.4.0
  *
- * Not yet released.
+ * Released: 2012/04/10
  *
  * This file is part of JsBehaviour.
  * Copyright (c) 2010-2012 DracoBlue, http://dracoblue.net/
