@@ -116,7 +116,10 @@ JsBehaviourToolkit = {
         var listener_key_string;
         var remove_handler;
 
-        name_or_regexp = name_or_regexp.toString(); //we always want it as a string to be comparable without needing object equality
+        /* 
+         * we always want it as a string to be comparable without needing object equality
+         */
+        name_or_regexp = name_or_regexp.toString();
 
         for (var i = 0; i < listeners_length; i++) {
 
