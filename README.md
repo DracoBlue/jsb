@@ -247,7 +247,7 @@ Thanks to hoffigk and graste for the discussions and feedback!
 
 Contributors
 ------------
-* lar-zzz https://github.com/lar-zzz
+* Lars Laade https://github.com/larslaade
 * Leon Weidauer http://sevenmil.es
 
 License
