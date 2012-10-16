@@ -1,9 +1,9 @@
 JsBehaviour README
 =======================
 
-Version: 1.4.0
+Version: 1.4.1
 
-Date: 2012/04/10
+Date: 2012/10/16
 
 Official Site: <http://dracoblue.net/>
 
@@ -187,7 +187,8 @@ Alternatively `jsb.on` returns a function that can be called without any paramet
 
 ### jsb.whenFired(`name`, `[filter, ]` `callback`)
 
-If the event may be triggered before your jsb class is loaded, you can use `jsb.whenFired`.
+If the event may be triggered before your jsb class is loaded, you can use `jsb.whenFired`. Afterwards it behaves
+the same like `jsb.on`.
 
     var counter = 0;
     jsb.fireEvent('MASTER_READY', { "key": "value"});
@@ -211,6 +212,8 @@ Resources
 Changelog
 ---------
 
+* 1.4.1 (2012/10/16)
+  - whenFired also returns the off handler
 * 1.4.0 (2012/04/10)
   - cleaned up the tests cases and put them into a separate test runner
   - fixed bug in native version (did not work with first-input element)
