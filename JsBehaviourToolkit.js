@@ -1,7 +1,7 @@
 /*
- * JsBehaviourToolkit 1.4.0
+ * JsBehaviourToolkit 1.4.1
  *
- * Released: 2012/04/10
+ * Released: 2012/10/16
  *
  * This file is part of JsBehaviour.
  * Copyright (c) 2010-2012 DracoBlue, http://dracoblue.net/
@@ -137,14 +137,14 @@ JsBehaviourToolkit = {
             cb = filter_or_cb;
         }
                 
-        this.on(name_or_regexp, filter, cb);
+        var off_handler = this.on(name_or_regexp, filter, cb);
         
         var is_regexp = (name_or_regexp instanceof RegExp);
         if (is_regexp) {
             for (var key in this.last_event_values) {
                 if (this.last_event_values.hasOwnProperty(key) && key.match(name_or_regexp)) {
                     this.rawFireEventToListener([cb, name_or_regexp, filter], key, this.last_event_values[key]);
-                    return ;
+                    return off_handler;
                 }
             }
         } else {
@@ -152,6 +152,8 @@ JsBehaviourToolkit = {
                 this.rawFireEventToListener([cb, name_or_regexp, filter], name_or_regexp, this.last_event_values[name_or_regexp]);
             }
         }
+
+        return off_handler;
     },
     
     /**
