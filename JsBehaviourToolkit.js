@@ -1,10 +1,10 @@
 /*
- * JsBehaviourToolkit 1.4.1
+ * JsBehaviourToolkit 1.5.0
  *
- * Released: 2012/10/16
+ * Released: 2013/01/09
  *
  * This file is part of JsBehaviour.
- * Copyright (c) 2010-2012 DracoBlue, http://dracoblue.net/
+ * Copyright (c) 2010-2013 DracoBlue, http://dracoblue.net/
  *
  * Licensed under the terms of MIT License. For the full copyright and license
  * information, please see the LICENSE file in the root folder.
@@ -187,7 +187,17 @@ JsBehaviourToolkit = {
      */
     callHandler: function(key, dom_element) {
         if (typeof this.handlers[key] === 'undefined') {
-            throw new Error('The handler ' + key + ' is not defined!');
+            if (typeof require === "undefined") {
+                throw new Error('The handler ' + key + ' is not defined!');
+            } else {
+                require([key], function() {
+                    if (typeof JsBehaviourToolkit.handlers[key] === 'undefined') {
+                        throw new Error('The handler ' + key + ' is not defined (even with requirejs)!');
+                    }
+                    JsBehaviourToolkit.callHandler(key, dom_element);
+                });
+                return ;
+            }
         }
 
         var input_element;

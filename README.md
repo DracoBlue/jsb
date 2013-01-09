@@ -1,13 +1,13 @@
 JsBehaviour README
 =======================
 
-Version: 1.4.1
+Version: 1.5.0
 
-Date: 2012/10/16
+Date: 2013/01/09
 
 Official Site: <http://dracoblue.net/>
 
-JsBehaviour is copyright 2010-2012 by DracoBlue <http://dracoblue.net>
+JsBehaviour is copyright 2010-2013 by DracoBlue <http://dracoblue.net>
 
 What is JsBehaviour?
 --------------------
@@ -212,6 +212,8 @@ Resources
 Changelog
 ---------
 
+* 1.5.0 (2013/01/09)
+  - requirejs support added
 * 1.4.1 (2012/10/16)
   - whenFired also returns the off handler
 * 1.4.0 (2012/04/10)
