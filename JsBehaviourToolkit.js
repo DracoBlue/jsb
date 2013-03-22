@@ -56,6 +56,8 @@ JsBehaviourToolkit = {
                 this.removeClassFromElement(dom_element, this.prefix + key);
             }
         }
+        
+        this.fireEvent('Jsb::BEHAVIOURS_APPLIED');
     },
     
     /**
@@ -76,6 +78,11 @@ JsBehaviourToolkit = {
         for (var i = 0; i < listeners_length; i++) {
             this.rawFireEventToListener(listeners[i], name, values);
         }
+        
+        if (name === 'Jsb::REMOVED_INSTANCE')
+        {
+            this.removeBoundListenersForInstance(values);
+        }
     },
     
     /**
@@ -86,19 +93,56 @@ JsBehaviourToolkit = {
      * @param {Function} cb
      */
     on: function(name_or_regexp, filter_or_cb, cb) {
-        var filter = filter_or_cb;
+        var filter = filter_or_cb || null;
 
         if (!cb) {
             filter = null;
             cb = filter_or_cb;
         }
         
-        this.listeners.push([cb, name_or_regexp, filter || null]);
+        this.listeners.push([cb, name_or_regexp, filter]);
 
         var that = this;
-        return function() {
+        var off_handler = function() {
             that.off(name_or_regexp, cb);
         };
+        
+        /*
+         * Call this method with your jsb instance, to allow automatic removal of the handler on
+         * disposal of the jsb instance.
+         */
+        off_handler.dontLeak = function(element) {
+            for (var i = 0; i < that.listeners.length; i++) {
+                var listener = that.listeners[i];
+                if (listener[0] === cb && listener[1] === name_or_regexp && listener[2] === filter) {
+                    listener[3] = element;
+                    return ;
+                }
+            }
+        };
+        
+        return off_handler;
+    },
+    
+    /**
+     * Please call jsb.fireEvent('Jsb::REMOVED_INSTANCE', this) within your object
+     * to free all handlers which are bound to the element (by using the dontLeak-method).
+     * 
+     * @private
+     * 
+     * @param instance Jsb Instance
+     */
+    removeBoundListenersForInstance: function(instance) {
+        var new_listeners = [];
+        var listeners = this.listeners;
+        var listeners_length = listeners.length;
+        for (var i = 0; i < listeners_length; i++) {
+            if (listeners[i][3] !== instance) {
+                new_listeners.push(listeners[i]);
+            }
+        }
+        
+        this.listeners = new_listeners;
     },
     
     /**

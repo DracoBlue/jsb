@@ -1,9 +1,9 @@
 JsBehaviour README
 =======================
 
-Version: 1.5.0
+Version: 1.6.0
 
-Date: 2013/01/09
+Date: 2013/03/22
 
 Official Site: <http://dracoblue.net/>
 
@@ -212,6 +212,13 @@ Resources
 Changelog
 ---------
 
+* 1.6.0 (2013/03/22)
+  - added Jsb::BEHAVIOURS_APPLIED-Event which is fired as soon as all
+    behaviours have been applied. May be called multiple times (on
+    ajax and stuff)
+  - added `.dontLeak()`-Method on off-Handler to remove the instance
+    as soon as an instance got removed by triggering: Jsb::REMOVED_INSTANCE
+    with `this` of the instance
 * 1.5.0 (2013/01/09)
   - requirejs support added
 * 1.4.1 (2012/10/16)
