@@ -1,9 +1,9 @@
 JsBehaviour README
 =======================
 
-Version: 1.6.0
+Version: 1.6.1
 
-Date: 2013/03/22
+Date: 2013/08/22
 
 Official Site: <http://dracoblue.net/>
 
@@ -212,6 +212,8 @@ Resources
 Changelog
 ---------
 
+* 1.6.1 (2013/08/22)
+  - use `setTimeout(*, 0)` in whenFired enable off handler #8
 * 1.6.0 (2013/03/22)
   - added Jsb::BEHAVIOURS_APPLIED-Event which is fired as soon as all
     behaviours have been applied. May be called multiple times (on

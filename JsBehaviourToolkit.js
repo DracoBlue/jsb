@@ -174,6 +174,7 @@ JsBehaviourToolkit = {
      */
     whenFired: function(name_or_regexp, filter_or_cb, cb)
     {
+        var that = this;
         var filter = filter_or_cb;
 
         if (!cb) {
@@ -187,13 +188,19 @@ JsBehaviourToolkit = {
         if (is_regexp) {
             for (var key in this.last_event_values) {
                 if (this.last_event_values.hasOwnProperty(key) && key.match(name_or_regexp)) {
-                    this.rawFireEventToListener([cb, name_or_regexp, filter], key, this.last_event_values[key]);
+                    setTimeout(function()
+                    {
+                        that.rawFireEventToListener([cb, name_or_regexp, filter], key, that.last_event_values[key]);
+                    }, 0);
                     return off_handler;
                 }
             }
         } else {
             if (typeof this.last_event_values[name_or_regexp] !== 'undefined') {
-                this.rawFireEventToListener([cb, name_or_regexp, filter], name_or_regexp, this.last_event_values[name_or_regexp]);
+                setTimeout(function()
+                {
+                    that.rawFireEventToListener([cb, name_or_regexp, filter], name_or_regexp, that.last_event_values[name_or_regexp]);
+                }, 0);
             }
         }
 

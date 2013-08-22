@@ -80,7 +80,10 @@
                                 {
                                     injectScriptTag('OffGeneratorTest.js', function()
                                     {
-                                        jsb.applyBehaviour(document.body);
+                                        injectScriptTag('WhenFiredOffTest.js', function()
+                                        {
+                                            jsb.applyBehaviour(document.body);
+                                        });
                                     });
                                 });
                             });
