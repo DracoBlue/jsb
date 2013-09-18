@@ -1,6 +1,12 @@
 Pong = function(dom_element, options) 
 {
-    jsb.on('PING', function() {
+    jsb.on('PING', function(values, name) {
+        if (name !== 'PING')
+        {
+            console.error('Event name ' + name + ' was not PING!');
+            return;
+        }
+        
         /*
          * jQuery/Mootools
          */

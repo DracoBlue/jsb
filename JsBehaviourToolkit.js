@@ -1,7 +1,7 @@
 /*
- * JsBehaviourToolkit 1.6.1
+ * JsBehaviourToolkit 1.6.2
  *
- * Released: 2013/08/22
+ * Released: 2013/09/18
  *
  * This file is part of JsBehaviour.
  * Copyright (c) 2010-2013 DracoBlue, http://dracoblue.net/
@@ -225,7 +225,7 @@ JsBehaviourToolkit = {
             }
             
             if (is_match) {
-                listener[0](values);
+                listener[0](values, name);
             }
         }
     },

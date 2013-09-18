@@ -1,9 +1,9 @@
 JsBehaviour README
 =======================
 
-Version: 1.6.1
+Version: 1.6.2
 
-Date: 2013/08/22
+Date: 2013/09/18
 
 Official Site: <http://dracoblue.net/>
 
@@ -137,7 +137,7 @@ You can listen to that event, too:
 
     jsb.on(
         'HoneyPot::CLICKED', // identifier
-        function(values) { // callback
+        function(values, event_name) { // callback
             alert('The user ' + values.name + ' clicked it already ' + values.times);
         }
     );
@@ -147,7 +147,7 @@ It's even possible to filter for a filter-object when listening:
     jsb.on(
         'HoneyPot::CLICKED', // identifier
         {"name": "Bob"}, // filter everything with name = Bob
-        function(values) { // callback
+        function(values, event_name) { // callback
             alert('The user ' + values.name + ' clicked it already ' + values.times);
         }
     );
@@ -156,8 +156,8 @@ You may also use RegExp as channel identifier when calling `jsb.on`:
 
     jsb.on(
         /^HoneyPot.*$, // identifier which starts with HoneyPot*
-        function(values) { // callback
-            alert('The user ' + values.name + ' clicked it already ' + values.times);
+        function(values, event_name) { // callback
+            alert('The user ' + values.name + ' clicked it already ' + values.times + ' with event name: ' + event_name);
         }
     );
 
@@ -192,7 +192,7 @@ the same like `jsb.on`.
 
     var counter = 0;
     jsb.fireEvent('MASTER_READY', { "key": "value"});
-    jsb.whenFired(/^MASTER_READY$/, function(values) {
+    jsb.whenFired(/^MASTER_READY$/, function(values, event_name) {
         /*
          * Will be called IMMEDIATELY because the event
          * was already fired.
@@ -212,6 +212,8 @@ Resources
 Changelog
 ---------
 
+* 1.6.2 (2013/09/18)
+  - fireEvent/whenFired fires the event with values and event_name now
 * 1.6.1 (2013/08/22)
   - use `setTimeout(*, 0)` in whenFired enable off handler #8
 * 1.6.0 (2013/03/22)
