@@ -32,6 +32,6 @@ define('ChangeClass', [], function()
         }
     };
 
-    jsb.registerHandler('ChangeClass', ChangeClass);
+    return ChangeClass;
 });
 

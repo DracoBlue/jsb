@@ -1,9 +1,9 @@
 JsBehaviour README
 =======================
 
-Version: 1.6-dev
+Version: 1.7.0
 
-Date: not-yet-released
+Date: 2013/09/26
 
 Official Site: <http://dracoblue.net/>
 
@@ -60,16 +60,17 @@ Now create a new file `js/Example.js`
     
     jsb.registerHandler('Example', Example);
 
-If you want to use requirejs integration, create it like this:
+If you want to use requirejs integration, create it like this (no `registerHandler` necessary!):
 
-    define("Example", [], function() {
+    define("Example", [], function()
+    {
         "use strict";
 
         var Example = function(dom_element, options) {
            dom_element.textContent = 'I am loaded with name: ' + options.name;
         };
 
-        jsb.registerHandler('Example', Example);
+        return Example;
     });
 
 Now add somewhere in your html code the following:
@@ -141,14 +142,15 @@ Inject jsb *after* requirejs:
 
 Create a new file (`js/Example.js`), but don't include it with `<script>` into the head:
 
-    define("Example", [], function() {
+    define("Example", [], function()
+    {
         "use strict";
 
         var Example = function(dom_element, options) {
            dom_element.textContent = 'I am loaded with name: ' + options.name;
         };
 
-        jsb.registerHandler('Example', Example);
+        return Example;
     });
 
 And now just include your Behaviours in HTML, e.g.:
@@ -264,8 +266,9 @@ Resources
 Changelog
 ---------
 
-* 1.6-dev
-  - refactored testrunner into require.js
+* 1.7.0 (2013/09/26)
+  - requirejs don't need to call `jsb.registerHandler` anymore #11
+  - refactored testrunner into require.js #10
 * 1.6.2 (2013/09/18)
   - fireEvent/whenFired fires the event with values and event_name now
 * 1.6.1 (2013/08/22)

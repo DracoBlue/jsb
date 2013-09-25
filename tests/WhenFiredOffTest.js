@@ -54,8 +54,6 @@ define("WhenFiredOffTest", [], function()
         }, 10);
     };
 
-    jsb.registerHandler('WhenFiredOffTest', WhenFiredOffTest);
-
     WhenFiredOffTest.prototype.markAsSucceeded = function()
     {
         /*

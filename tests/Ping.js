@@ -7,8 +7,6 @@ define("Ping", [], function()
         jsb.fireEvent('PING');
     };
 
-    jsb.registerHandler('Ping', Ping);
-
     return Ping;
 });
 

@@ -1,7 +1,7 @@
 /*
- * JsBehaviourToolkit 1.6.2
+ * JsBehaviourToolkit 1.7.0
  *
- * Released: 2013/09/18
+ * Released: 2013/09/26
  *
  * This file is part of JsBehaviour.
  * Copyright (c) 2010-2013 DracoBlue, http://dracoblue.net/
@@ -241,9 +241,16 @@ JsBehaviourToolkit = {
             if (typeof require === "undefined") {
                 throw new Error('The handler ' + key + ' is not defined!');
             } else {
-                require([key], function() {
+                require([key], function(require_result) {
                     if (typeof JsBehaviourToolkit.handlers[key] === 'undefined') {
-                        throw new Error('The handler ' + key + ' is not defined (even with requirejs)!');
+                        if (typeof require_result === "undefined")
+                        {
+                            throw new Error('The handler ' + key + ' is not defined (even with requirejs)!');
+                        }
+                        else
+                        {
+                            JsBehaviourToolkit.registerHandler(key, require_result);
+                        }
                     }
                     JsBehaviourToolkit.callHandler(key, dom_element);
                 });

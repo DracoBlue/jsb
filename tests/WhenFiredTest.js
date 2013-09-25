@@ -61,8 +61,6 @@ define("WhenFiredTest", [], function()
         }, 10);
     };
 
-    jsb.registerHandler('WhenFiredTest', WhenFiredTest);
-
     WhenFiredTest.prototype.markAsSucceeded = function()
     {
         /*

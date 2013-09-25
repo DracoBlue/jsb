@@ -26,8 +26,6 @@ define("OffGeneratorTest", [], function()
         }, 10);
     };
 
-    jsb.registerHandler('OffGeneratorTest', OffGeneratorTest);
-
     OffGeneratorTest.prototype.markAsSucceeded = function()
     {
         /*

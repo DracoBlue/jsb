@@ -29,7 +29,5 @@ define("Pong", [], function()
         });
     };
 
-    jsb.registerHandler('Pong', Pong);
-
     return Pong;
 });

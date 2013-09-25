@@ -24,8 +24,6 @@ define('OffTest', [], function()
         }, 10);
     };
 
-    jsb.registerHandler('OffTest', OffTest);
-
     OffTest.prototype.markAsSucceeded = function()
     {
         /*

@@ -21,7 +21,5 @@ define("SucceedTest", [], function()
         }
     };
 
-    jsb.registerHandler('SucceedTest', SucceedTest);
-
     return SucceedTest;
 });
