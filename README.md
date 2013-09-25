@@ -19,6 +19,7 @@ Requirements:
 
 * .jquery/.mootools-Version: Firefox, Safari, Chrome, Opera, IE6+
 * .native-Version: Firefox 3+, Safari 5+, Chrome, Opera, IE9+
+* (optional) requirejs - for on demand and subfolder loading
 
 How does it work?
 -----------------
@@ -49,37 +50,49 @@ tag (before you define any behaviours):
 
 Additionally add this one:
 
-    <script type="text/javascript" src="js/ExampleBehaviour.js"> </script>
+    <script type="text/javascript" src="js/Example.js"> </script>
 
-Now create a new file `js/ExampleBehaviour.js`
+Now create a new file `js/Example.js`
 
-    ExampleBehaviour = function(dom_element, options) {
+    Example = function(dom_element, options) {
        dom_element.textContent = 'I am loaded with name: ' + options.name;
     };
     
-    jsb.registerHandler('example', ExampleBehaviour);
+    jsb.registerHandler('Example', Example);
+
+If you want to use requirejs integration, create it like this:
+
+    define("Example", [], function() {
+        "use strict";
+
+        var Example = function(dom_element, options) {
+           dom_element.textContent = 'I am loaded with name: ' + options.name;
+        };
+
+        jsb.registerHandler('Example', Example);
+    });
 
 Now add somewhere in your html code the following:
 
-    <span><input class="jsb_ jsb_example" type="hidden" value="{&quot;name&quot;:&quot;Jan&quot;}" />Are you loaded?</span>
+    <span><input class="jsb_ jsb_Example" type="hidden" value="{&quot;name&quot;:&quot;Jan&quot;}" />Are you loaded?</span>
 
 When you execute the html page now, the text "Are you loaded?" won't display,
 but will be replaced with 'I am loaded with name: Jan'.
 
 It is also possible to use the query string syntax:
 
-    <span><input class="jsb_ jsb_example" type="hidden" value="name=Jan&amp;param1=one" />Are you loaded?</span>
+    <span><input class="jsb_ jsb_Example" type="hidden" value="name=Jan&amp;param1=one" />Are you loaded?</span>
 
 Check out the generator functions for your favorite programming language.
 
 Since 1.4.0 it's possible to use also html5 data attributes:
 
-    <span class="jsb_ jsb_example" data-jsb="{&quot;name&quot;:&quot;Jan&quot;}">Are you loaded?</span>
+    <span class="jsb_ jsb_Example" data-jsb="{&quot;name&quot;:&quot;Jan&quot;}">Are you loaded?</span>
 
 Why an Extra jsb_-Class?
 ---------------------
 
-One could expect to use `class="jsb_example"` instead of `class="jsb_ jsb_example"`.
+One could expect to use `class="jsb_Example"` instead of `class="jsb_ jsb_Example"`.
 But this is necessary, since searching for all elements which have a class `jsb_*`
 is way slower then using the built in methods to search for one class `jsb_`.
 
@@ -94,7 +107,7 @@ Generator-Helpers
     <?php
     /**
      * @example <pre>
-     *    <?php echo jsb('example', array('name' => 'Jan')); ?>
+     *    <?php echo jsb('Example', array('name' => 'Jan')); ?>
      * </pre>
      */
     function jsb($name, array $options = array()) {
@@ -106,11 +119,50 @@ Generator-Helpers
 
     # Generates a jsb tag
     #
-    #   <%= jsb('example', {:name => 'Jan'}) %>
+    #   <%= jsb('Example', {:name => 'Jan'}) %>
     #
     def jsb(handler_name, data)
       tag("input", { :type => 'hidden', :class => 'jsb_ jsb_' + handler_name, :value => h(data.to_json) })
     end
+
+Advanced: Using with requirejs
+------------------------------
+
+If you want to avoid to include all those script tags:
+
+    <script type="text/javascript" src="js/Example.js"> </script>
+
+for your behaviours. You may use the requirejs loader:
+
+Inject jsb *after* requirejs:
+
+     <script type="text/javascript" src="js/requirejs.js"> </script>
+     <script type="text/javascript" src="js/JsBehaviourToolkit.js"> </script>
+
+Create a new file (`js/Example.js`), but don't include it with `<script>` into the head:
+
+    define("Example", [], function() {
+        "use strict";
+
+        var Example = function(dom_element, options) {
+           dom_element.textContent = 'I am loaded with name: ' + options.name;
+        };
+
+        jsb.registerHandler('Example', Example);
+    });
+
+And now just include your Behaviours in HTML, e.g.:
+
+    <span><input class="jsb_ jsb_Example" type="hidden" value="name=Jan&amp;param1=one" />Are you loaded?</span>
+
+If jsb notices, that the handler "Example" is not yet registered, it will call require for "Example" and since the
+define-call in `Example.js` contains this `jsb.registerHandler('Example', Example)` it will be defined afterwards.
+
+This is very good if you want to keep the global namespace clean (since `var Example` defines a local variable). It's
+also very nice, if you only want to load the element on demand!
+
+You can even use sub folders of any required depth: Put the file into `js/mymodule/Example.js` and call it from html with
+`class="jsb_ jsb_mymodule/Example.js"`.
 
 Advanced: Communication between instances
 -----------------------------------------
