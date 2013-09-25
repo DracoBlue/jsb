@@ -157,8 +157,8 @@ And now just include your Behaviours in HTML, e.g.:
 
     <span><input class="jsb_ jsb_Example" type="hidden" value="name=Jan&amp;param1=one" />Are you loaded?</span>
 
-If jsb notices, that the handler "Example" is not yet registered, it will call require for "Example" and since the
-define-call in `Example.js` contains this `jsb.registerHandler('Example', Example)` it will be defined afterwards.
+If jsb notices, that the handler "Example" is not yet registered. It will call `require` for "Example" and use the result
+with `jsb.registerHandler`. Afterwards is the handler for "Example" defined.
 
 This is very good if you want to keep the global namespace clean (since `var Example` defines a local variable). It's
 also very nice, if you only want to load the element on demand!
