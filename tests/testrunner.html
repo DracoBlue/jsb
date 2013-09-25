@@ -1,7 +1,9 @@
 <html>
 <head>
     <title>JSB TestRunner</title>
-    
+
+    <script src="http://requirejs.org/docs/release/2.1.8/comments/require.js"> </script>
+
     <style>
     
         h3 {
@@ -60,85 +62,85 @@
 
     <div class="test_failed">
         <h3>Query String Test</h3>
-        <input type="hidden" class="jsb_ jsb_change_class" value="remove_class=test_failed&amp;add_class=test_succeeded"/>
+        <input type="hidden" class="jsb_ jsb_ChangeClass" value="remove_class=test_failed&amp;add_class=test_succeeded"/>
         <span class="failed_info">Failed!</span>
         <span class="succeeded_info">Ok!</span>
     </div>
     
     <div class="test_failed">
         <h3>Json Object String Test</h3>
-        <input type="hidden" class="jsb_ jsb_change_class" value="{&quot;remove_class&quot;:&quot;test_failed&quot;,&quot;add_class&quot;:&quot;test_succeeded&quot;}"/>
+        <input type="hidden" class="jsb_ jsb_ChangeClass" value="{&quot;remove_class&quot;:&quot;test_failed&quot;,&quot;add_class&quot;:&quot;test_succeeded&quot;}"/>
         <span class="failed_info">Failed!</span>
         <span class="succeeded_info">Ok!</span>
     </div>
     
     <div class="test_failed">
         <h3>Empty String Test</h3>
-        <input type="hidden" class="jsb_ jsb_succeed_test" value=""/>
+        <input type="hidden" class="jsb_ jsb_SucceedTest" value=""/>
         <span class="failed_info">Failed!</span>
         <span class="succeeded_info">Ok!</span>
     </div>
     
-    <div class="test_failed jsb_ jsb_change_class" data-jsb="remove_class=test_failed&amp;add_class=test_succeeded">
+    <div class="test_failed jsb_ jsb_ChangeClass" data-jsb="remove_class=test_failed&amp;add_class=test_succeeded">
         <h3>Data-Attribute Query String Test</h3>
         <span class="failed_info">Failed!</span>
         <span class="succeeded_info">Ok!</span>
     </div>
     
-    <div class="test_failed jsb_ jsb_change_class" data-jsb="{&quot;remove_class&quot;:&quot;test_failed&quot;,&quot;add_class&quot;:&quot;test_succeeded&quot;}">
+    <div class="test_failed jsb_ jsb_ChangeClass" data-jsb="{&quot;remove_class&quot;:&quot;test_failed&quot;,&quot;add_class&quot;:&quot;test_succeeded&quot;}">
         <h3>Data-Attribute Json String Test</h3>
         <span class="failed_info">Failed!</span>
         <span class="succeeded_info">Ok!</span>
     </div>
     
-    <div class="jsb_ jsb_change_class test_failed">
+    <div class="jsb_ jsb_ChangeClass test_failed">
         <h3>Query String Test with first input field</h3>
         <input type="hidden" value="remove_class=test_failed&amp;add_class=test_succeeded"/>
         <span class="failed_info">Failed!</span>
         <span class="succeeded_info">Ok!</span>
     </div>
     
-    <div class="jsb_ jsb_change_class test_failed">
+    <div class="jsb_ jsb_ChangeClass test_failed">
         <h3>Json Object String Test with first input field</h3>
         <input type="hidden" value="{&quot;remove_class&quot;:&quot;test_failed&quot;,&quot;add_class&quot;:&quot;test_succeeded&quot;}"/>
         <span class="failed_info">Failed!</span>
         <span class="succeeded_info">Ok!</span>
     </div>
     
-    <div class="jsb_ jsb_succeed_test test_failed">
+    <div class="jsb_ jsb_SucceedTest test_failed">
         <h3>Query String Test without input field</h3>
         <span class="failed_info">Failed!</span>
         <span class="succeeded_info">Ok!</span>
     </div>
     
-    <div class="jsb_ jsb_pong test_failed">
+    <div class="jsb_ jsb_Pong test_failed">
         <h3>Fire and Catch Event</h3>
         <span class="failed_info">Failed!</span>
         <span class="succeeded_info">Ok!</span>
         
-        <div class="jsb_ jsb_ping">
+        <div class="jsb_ jsb_Ping">
         </div>
     </div>
 
-    <div class="jsb_ jsb_when_fired_test test_failed">
+    <div class="jsb_ jsb_WhenFiredTest test_failed">
         <h3>whenFired Test</h3>
         <span class="failed_info">Failed!</span>
         <span class="succeeded_info">Ok!</span>
     </div>
     
-    <div class="jsb_ jsb_off_test test_failed">
+    <div class="jsb_ jsb_OffTest test_failed">
         <h3>off Test</h3>
         <span class="failed_info">Failed!</span>
         <span class="succeeded_info">Ok!</span>
     </div>
 
-    <div class="jsb_ jsb_off_generator_test test_failed">
+    <div class="jsb_ jsb_OffGeneratorTest test_failed">
         <h3>off Generator Test</h3>
         <span class="failed_info">Failed!</span>
         <span class="succeeded_info">Ok!</span>
     </div>
 
-    <div class="jsb_ jsb_when_fired_off_test test_failed">
+    <div class="jsb_ jsb_WhenFiredOffTest test_failed">
         <h3>when fired off Test</h3>
         <span class="failed_info">Failed!</span>
         <span class="succeeded_info">Ok!</span>

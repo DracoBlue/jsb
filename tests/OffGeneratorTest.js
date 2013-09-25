@@ -1,63 +1,71 @@
-OffGeneratorTest = function(dom_element, options)
+define("OffGeneratorTest", [], function()
 {
-    var that = this;
-    this.dom_element = dom_element;
-    var event_counter = 0;
+    "use strict";
 
-    var offTestHandler = function() {
-        event_counter++;
+    var OffGeneratorTest = function(dom_element, options)
+    {
+        var that = this;
+        this.dom_element = dom_element;
+        var event_counter = 0;
+
+        var offTestHandler = function() {
+            event_counter++;
+        };
+
+        var off = jsb.on('OFF_GENERATOR_TEST', offTestHandler);
+
+        jsb.fireEvent('OFF_GENERATOR_TEST');
+        off();
+        jsb.fireEvent('OFF_GENERATOR_TEST');
+
+        setTimeout(function()
+        {
+            if (event_counter === 1) {
+                that.markAsSucceeded();
+            }
+        }, 10);
     };
 
-    var off = jsb.on('OFF_GENERATOR_TEST', offTestHandler);
+    jsb.registerHandler('OffGeneratorTest', OffGeneratorTest);
 
-    jsb.fireEvent('OFF_GENERATOR_TEST');
-    off();
-    jsb.fireEvent('OFF_GENERATOR_TEST');
-
-    setTimeout(function()
+    OffGeneratorTest.prototype.markAsSucceeded = function()
     {
-        if (event_counter === 1) {
-            that.markAsSucceeded();
+        /*
+         * jQuery/Mootools
+         */
+        if (typeof $ !== 'undefined')
+        {
+            $(this.dom_element).addClass('test_succeeded');
+            $(this.dom_element).removeClass('test_failed');
         }
-    }, 10);
-};
+        else
+        {
+            /*
+             * Native
+             */
+            this.dom_element['className'] = 'test_succeeded';
+        }
+    };
 
-OffGeneratorTest.prototype.markAsSucceeded = function()
-{
-    /*
-     * jQuery/Mootools
-     */
-    if (typeof $ !== 'undefined')
-    {
-        $(this.dom_element).addClass('test_succeeded');
-        $(this.dom_element).removeClass('test_failed');
-    }
-    else
+    OffGeneratorTest.prototype.markAsFailed = function()
     {
         /*
-         * Native
+         * jQuery/Mootools
          */
-        this.dom_element['className'] = 'test_succeeded';
-    }
-};
+        if (typeof $ !== 'undefined')
+        {
+            $(this.dom_element).addClass('test_failed');
+            $(this.dom_element).removeClass('test_succeeded');
+        }
+        else
+        {
+            /*
+             * Native
+             */
+            this.dom_element['className'] = 'test_failed';
+        }
+    };
 
-OffGeneratorTest.prototype.markAsFailed = function()
-{
-    /*
-     * jQuery/Mootools
-     */
-    if (typeof $ !== 'undefined')
-    {
-        $(this.dom_element).addClass('test_failed');
-        $(this.dom_element).removeClass('test_succeeded');
-    }
-    else
-    {
-        /*
-         * Native
-         */
-        this.dom_element['className'] = 'test_failed';
-    }
-};
+    return OffGeneratorTest;
+});
 
-jsb.registerHandler('off_generator_test', OffGeneratorTest);

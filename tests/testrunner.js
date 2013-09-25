@@ -10,106 +10,46 @@
     {
         version = version_match[1];
     }
-    
-    
-    var library_script_src = null;
+
+    var libraries = [];
     
     if (version === 'jquery')
     {
         document.getElementById('version_selector').selectedIndex = 1;
-        library_script_src = 'http://code.jquery.com/jquery-1.6.2.min.js';
+        libraries.push('jquery');
     }
     
     if (version === 'mootools')
     {
         document.getElementById('version_selector').selectedIndex = 2;
-        library_script_src = 'http://ajax.googleapis.com/ajax/libs/mootools/1.3.2/mootools.js';
+        libraries.push('mootools');
     }
     
     if (version === 'native')
     {
         document.getElementById('version_selector').selectedIndex = 3;
     }
-    
-    var injectScriptTag = function(src, cb)
+
+    require.config({
+        baseUrl: "./",
+        urlArgs: "cb=" +  (new Date()).getTime(),
+        paths: {
+            "jquery": "http://code.jquery.com/jquery-1.6.2.min",
+            "mootools": "http://ajax.googleapis.com/ajax/libs/mootools/1.3.2/mootools"
+        }
+    });
+
+    require(libraries, function()
     {
-        var head = document.getElementsByTagName('head')[0] || document.documentElement;
-        var script = document.createElement('script');
-        
-        /*
-         * Have a proper onload-handling for every browser similar to jquery's getScript
-         */
-        var is_loaded = false;
-        script.onload = script.onreadystatechange = function() {
-            if (!is_loaded && (!this.readyState || this.readyState === "loaded" || this.readyState === "complete")) {
-                is_loaded = true;
-    
-                /*
-                 * Avoid memory leaks in IE
-                 */
-                script.onload = script.onreadystatechange = null;
-                if (head && script.parentNode) {
-                    head.removeChild(script);
-                }
-                cb();
-            }
-        };
-    
-        script.src = src;
-        head.appendChild(script);
-    };
-    
-    var loadAllBehavioursAndApplyThem = function()
-    {
-        /*
-         * Wait for jsb to become available, afterwards apply the behaviours!
-         */
-        injectScriptTag('../JsBehaviourToolkit.js', function()
-        {
-            injectScriptTag('ChangeClass.js', function()
-            {
-                injectScriptTag('SucceedTest.js', function()
-                {
-                    injectScriptTag('Ping.js', function()
-                    {
-                        injectScriptTag('Pong.js', function()
-                        {
-                            injectScriptTag('WhenFiredTest.js', function()
-                            {
-                                injectScriptTag('OffTest.js', function()
-                                {
-                                    injectScriptTag('OffGeneratorTest.js', function()
-                                    {
-                                        injectScriptTag('WhenFiredOffTest.js', function()
-                                        {
-                                            jsb.applyBehaviour(document.body);
-                                        });
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-            });
+        require(["./../JsBehaviourToolkit"], function() {
+            jsb.applyBehaviour(document.body);
         });
-    };
-    
+    });
+
     /*
      * Load the library (if one is required)
      */
-    
-    if (library_script_src)
-    {
-        injectScriptTag(library_script_src, function()
-        {
-            loadAllBehavioursAndApplyThem();
-        });
-    }
-    else
-    {
-        loadAllBehavioursAndApplyThem();
-    }
-    
+
     setInterval(function() {
         /*
          * Update test counter (poor man style, but works even without frameworks;))

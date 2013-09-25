@@ -1,63 +1,69 @@
-OffTest = function(dom_element, options)
+define('OffTest', [], function()
 {
-    var that = this;
-    this.dom_element = dom_element;
-    var event_counter = 0;
+    var OffTest = function(dom_element, options)
+    {
+        var that = this;
+        this.dom_element = dom_element;
+        var event_counter = 0;
 
-    var offTestHandler = function() {
-        event_counter++;
+        var offTestHandler = function() {
+            event_counter++;
+        };
+
+        jsb.on('OFF_TEST', offTestHandler);
+
+        jsb.fireEvent('OFF_TEST');
+        jsb.off('OFF_TEST', offTestHandler);
+        jsb.fireEvent('OFF_TEST');
+
+        setTimeout(function()
+        {
+            if (event_counter === 1) {
+                that.markAsSucceeded();
+            }
+        }, 10);
     };
 
-    jsb.on('OFF_TEST', offTestHandler);
+    jsb.registerHandler('OffTest', OffTest);
 
-    jsb.fireEvent('OFF_TEST');
-    jsb.off('OFF_TEST', offTestHandler);
-    jsb.fireEvent('OFF_TEST');
-
-    setTimeout(function()
+    OffTest.prototype.markAsSucceeded = function()
     {
-        if (event_counter === 1) {
-            that.markAsSucceeded();
+        /*
+         * jQuery/Mootools
+         */
+        if (typeof $ !== 'undefined')
+        {
+            $(this.dom_element).addClass('test_succeeded');
+            $(this.dom_element).removeClass('test_failed');
         }
-    }, 10);
-};
+        else
+        {
+            /*
+             * Native
+             */
+            this.dom_element['className'] = 'test_succeeded';
+        }
+    };
 
-OffTest.prototype.markAsSucceeded = function()
-{
-    /*
-     * jQuery/Mootools
-     */
-    if (typeof $ !== 'undefined')
-    {
-        $(this.dom_element).addClass('test_succeeded');
-        $(this.dom_element).removeClass('test_failed');
-    }
-    else
+    OffTest.prototype.markAsFailed = function()
     {
         /*
-         * Native
+         * jQuery/Mootools
          */
-        this.dom_element['className'] = 'test_succeeded';
-    }
-};
+        if (typeof $ !== 'undefined')
+        {
+            $(this.dom_element).addClass('test_failed');
+            $(this.dom_element).removeClass('test_succeeded');
+        }
+        else
+        {
+            /*
+             * Native
+             */
+            this.dom_element['className'] = 'test_failed';
+        }
+    };
 
-OffTest.prototype.markAsFailed = function()
-{
-    /*
-     * jQuery/Mootools
-     */
-    if (typeof $ !== 'undefined')
-    {
-        $(this.dom_element).addClass('test_failed');
-        $(this.dom_element).removeClass('test_succeeded');
-    }
-    else
-    {
-        /*
-         * Native
-         */
-        this.dom_element['className'] = 'test_failed';
-    }
-};
+    return OffTest;
+});
 
-jsb.registerHandler('off_test', OffTest);

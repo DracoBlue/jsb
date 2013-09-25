@@ -1,6 +1,14 @@
-Ping = function(dom_element, options) 
+define("Ping", [], function()
 {
-    jsb.fireEvent('PING');
-};
+    "use strict";
 
-jsb.registerHandler('ping', Ping);
+    var Ping = function(dom_element, options)
+    {
+        jsb.fireEvent('PING');
+    };
+
+    jsb.registerHandler('Ping', Ping);
+
+    return Ping;
+});
+

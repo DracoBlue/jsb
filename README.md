@@ -1,9 +1,9 @@
 JsBehaviour README
 =======================
 
-Version: 1.6.2
+Version: 1.6-dev
 
-Date: 2013/09/18
+Date: not-yet-released
 
 Official Site: <http://dracoblue.net/>
 
@@ -264,6 +264,8 @@ Resources
 Changelog
 ---------
 
+* 1.6-dev
+  - refactored testrunner into require.js
 * 1.6.2 (2013/09/18)
   - fireEvent/whenFired fires the event with values and event_name now
 * 1.6.1 (2013/08/22)
