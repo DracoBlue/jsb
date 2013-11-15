@@ -155,7 +155,7 @@ JsBehaviourToolkit = {
      */
     off: function(name_or_regexp, cb) {
         var listeners = this.listeners;
-        this.listeners = []
+        this.listeners = [];
         var listeners_length = listeners.length;
         for (var i = 0; i < listeners_length; i++) {
             if (!(listeners[i][0] === cb && listeners[i][1].toString() === name_or_regexp.toString())) {
@@ -377,7 +377,7 @@ if (typeof jQuery !== 'undefined') {
     };
     
     JsBehaviourToolkit.getJsbElementsInDomElement = function(dom_element) {
-        return jQuery(dom_element).find('.' + this.prefix);;
+        return jQuery(dom_element).find('.' + this.prefix);
     };
     
     JsBehaviourToolkit.parseValueString = function(value_string) {
@@ -419,7 +419,7 @@ if (typeof jQuery !== 'undefined') {
     };
     
     JsBehaviourToolkit.getJsbElementsInDomElement = function(dom_element) {
-        return $(dom_element).getElements('.' + this.prefix);;
+        return $(dom_element).getElements('.' + this.prefix);
     };
     
     JsBehaviourToolkit.parseValueString = function(value_string) {
