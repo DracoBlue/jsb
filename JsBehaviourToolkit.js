@@ -47,12 +47,21 @@ JsBehaviourToolkit = {
         
         for (var i = 0; i < dom_elements_length; i++) {
             var dom_element = dom_elements[i];
-            var key = dom_element.className.match(this.prefix_regexp)[1];
-            if (key) {
-                this.callHandler(key, dom_element);
-                this.removeClassFromElement(dom_element, this.prefix);
-                this.removeClassFromElement(dom_element, this.prefix + key);
-            }
+            this.removeClassFromElement(dom_element, this.prefix);
+
+            var key = null;
+            var key_match = null;
+
+            do {
+                key_match = dom_element.className.match(this.prefix_regexp);
+                if (key_match) {
+                    key = key_match[1];
+                    console.log('key', key);
+                    this.callHandler(key, dom_element);
+                    this.removeClassFromElement(dom_element, this.prefix + key);
+                }
+            } while(key_match);
+
         }
         
         this.fireEvent('Jsb::BEHAVIOURS_APPLIED');
