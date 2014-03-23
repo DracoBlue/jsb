@@ -41,8 +41,8 @@ JsBehaviourToolkit = {
      * 
      * @param {HTMLElement} dom_element
      */
-    applyBehaviour: function(dom_element) {
-        var dom_elements = this.getJsbElementsInDomElement(dom_element);
+    applyBehaviour: function(parent_dom_element) {
+        var dom_elements = this.getJsbElementsInDomElement(parent_dom_element);
         var dom_elements_length = dom_elements.length;
         var dom_element = null;
         var key = null;
