@@ -194,10 +194,13 @@ JsBehaviourToolkit = {
         if (is_regexp) {
             for (var key in this.last_event_values) {
                 if (this.last_event_values.hasOwnProperty(key) && key.match(name_or_regexp)) {
-                    setTimeout(function()
+                    (function(key)
                     {
-                        that.rawFireEventToListener([cb, name_or_regexp, filter], key, that.last_event_values[key]);
-                    }, 0);
+                        setTimeout(function()
+                        {
+                            that.rawFireEventToListener([cb, name_or_regexp, filter], key, that.last_event_values[key]);
+                        }, 0);
+                    })(key);
                 }
             }
         } else {
