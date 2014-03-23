@@ -355,7 +355,7 @@ if (typeof jQuery !== 'undefined') {
     };
     
     JsBehaviourToolkit.getJsbElementsInDomElement = function(dom_element) {
-        return jQuery(dom_element).find('.' + this.prefix);;
+        return jQuery(dom_element).find('.' + this.prefix);
     };
     
     JsBehaviourToolkit.parseValueString = function(value_string) {
@@ -393,7 +393,7 @@ if (typeof jQuery !== 'undefined') {
     };
     
     JsBehaviourToolkit.getJsbElementsInDomElement = function(dom_element) {
-        return $(dom_element).getElements('.' + this.prefix);;
+        return $(dom_element).getElements('.' + this.prefix);
     };
     
     JsBehaviourToolkit.parseValueString = function(value_string) {
