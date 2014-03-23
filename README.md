@@ -1,13 +1,11 @@
 JsBehaviour README
 =======================
 
-Version: 1.7.0
-
-Date: 2013/09/26
+Latest Release: [![GitHub version](https://badge.fury.io/gh/DracoBlue%2Fjs-behaviour.png)](https://github.com/DracoBlue/js-behaviour/releases)
 
 Official Site: <http://dracoblue.net/>
 
-JsBehaviour is copyright 2010-2013 by DracoBlue <http://dracoblue.net>
+JsBehaviour is copyright 2010-2014 by DracoBlue <http://dracoblue.net>
 
 What is JsBehaviour?
 --------------------
