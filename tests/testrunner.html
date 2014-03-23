@@ -60,55 +60,26 @@
     <h2>Tests: <span id="tests_succeeded">...</span> of <span id="tests_count">...</span></h2>
     
 
-    <div class="test_failed">
-        <h3>Query String Test</h3>
-        <input type="hidden" class="jsb_ jsb_ChangeClass" value="remove_class=test_failed&amp;add_class=test_succeeded"/>
-        <span class="failed_info">Failed!</span>
-        <span class="succeeded_info">Ok!</span>
-    </div>
-    
-    <div class="test_failed">
-        <h3>Json Object String Test</h3>
-        <input type="hidden" class="jsb_ jsb_ChangeClass" value="{&quot;remove_class&quot;:&quot;test_failed&quot;,&quot;add_class&quot;:&quot;test_succeeded&quot;}"/>
-        <span class="failed_info">Failed!</span>
-        <span class="succeeded_info">Ok!</span>
-    </div>
-    
-    <div class="test_failed">
+    <div class="test_failed jsb_ jsb_SucceedTest" data-jsb="">
         <h3>Empty String Test</h3>
-        <input type="hidden" class="jsb_ jsb_SucceedTest" value=""/>
         <span class="failed_info">Failed!</span>
         <span class="succeeded_info">Ok!</span>
     </div>
     
     <div class="test_failed jsb_ jsb_ChangeClass" data-jsb="remove_class=test_failed&amp;add_class=test_succeeded">
-        <h3>Data-Attribute Query String Test</h3>
+        <h3>Query String Test</h3>
         <span class="failed_info">Failed!</span>
         <span class="succeeded_info">Ok!</span>
     </div>
     
     <div class="test_failed jsb_ jsb_ChangeClass" data-jsb="{&quot;remove_class&quot;:&quot;test_failed&quot;,&quot;add_class&quot;:&quot;test_succeeded&quot;}">
-        <h3>Data-Attribute Json String Test</h3>
-        <span class="failed_info">Failed!</span>
-        <span class="succeeded_info">Ok!</span>
-    </div>
-    
-    <div class="jsb_ jsb_ChangeClass test_failed">
-        <h3>Query String Test with first input field</h3>
-        <input type="hidden" value="remove_class=test_failed&amp;add_class=test_succeeded"/>
-        <span class="failed_info">Failed!</span>
-        <span class="succeeded_info">Ok!</span>
-    </div>
-    
-    <div class="jsb_ jsb_ChangeClass test_failed">
-        <h3>Json Object String Test with first input field</h3>
-        <input type="hidden" value="{&quot;remove_class&quot;:&quot;test_failed&quot;,&quot;add_class&quot;:&quot;test_succeeded&quot;}"/>
+        <h3>Json String Test</h3>
         <span class="failed_info">Failed!</span>
         <span class="succeeded_info">Ok!</span>
     </div>
     
     <div class="jsb_ jsb_SucceedTest test_failed">
-        <h3>Query String Test without input field</h3>
+        <h3>Query String Test without a data attribute</h3>
         <span class="failed_info">Failed!</span>
         <span class="succeeded_info">Ok!</span>
     </div>

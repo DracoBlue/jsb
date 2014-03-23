@@ -264,6 +264,8 @@ Resources
 Changelog
 ---------
 
+* dev
+  - removed input[hidden] as source for jsb data #17
 * 1.7.0 (2013/09/26)
   - requirejs don't need to call `jsb.registerHandler` anymore #11
   - refactored testrunner into require.js #10

@@ -1,10 +1,8 @@
 /*
- * JsBehaviourToolkit 1.7.0
- *
- * Released: 2013/09/26
+ * JsBehaviourToolkit 2.x-dev
  *
  * This file is part of JsBehaviour.
- * Copyright (c) 2010-2013 DracoBlue, http://dracoblue.net/
+ * Copyright (c) 2010-2014 DracoBlue, http://dracoblue.net/
  *
  * Licensed under the terms of MIT License. For the full copyright and license
  * information, please see the LICENSE file in the root folder.
@@ -258,7 +256,6 @@ JsBehaviourToolkit = {
             }
         }
 
-        var input_element;
         var value_string = null;
         
         if (dom_element.getAttribute('data-jsb')) {
@@ -266,25 +263,6 @@ JsBehaviourToolkit = {
              * Nice, we have a data-jsb attribute -> let's use that one!
              */
             value_string = dom_element.getAttribute('data-jsb');
-        } else {
-            if (dom_element.nodeName.toLowerCase() === 'input') {
-                /*
-                 * The class is on the input dom element, let's fetch
-                 * it's parent
-                 */
-                input_element = dom_element;
-                dom_element = input_element.parentNode;
-                value_string = input_element.value;
-            } else {
-                /*
-                 * The class is NOT on the input dom element, let's 
-                 * find it's first input!
-                 */
-                input_element = this.getFirstInputElementInDomElement(dom_element);
-                if (input_element) {
-                    value_string = input_element.value;
-                }
-            }
         }
 
         if (value_string !== null) {
@@ -329,15 +307,6 @@ JsBehaviourToolkit = {
         dom_element.className = element_class_name;
     },
 
-    /**
-     * @private
-     * @param {HTMLElement} dom_element
-     * @return {HTMLElement}
-     */
-    getFirstInputElementInDomElement: function(dom_element) {
-        return dom_element.getElementsByTagName('input')[0] || null;
-    },
-    
     /**
      * Return all elements within the dom_element, which match the
      * jsb prefix.
@@ -396,10 +365,6 @@ if (typeof jQuery !== 'undefined') {
             return value;
         }
     };
-    
-    JsBehaviourToolkit.getFirstInputElementInDomElement = function(dom_element) {
-        return jQuery(dom_element).find('input')[0] || null;
-    };
 
     /*
      * Fire domready in a jQuery way!
@@ -437,10 +402,6 @@ if (typeof jQuery !== 'undefined') {
             }   
             return value;
         }
-    };
-    
-    JsBehaviourToolkit.getFirstInputElementInDomElement = function(dom_element) {
-        return $(dom_element).getFirst('input') || null;
     };
     
     /*
