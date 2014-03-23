@@ -198,7 +198,6 @@ JsBehaviourToolkit = {
                     {
                         that.rawFireEventToListener([cb, name_or_regexp, filter], key, that.last_event_values[key]);
                     }, 0);
-                    return off_handler;
                 }
             }
         } else {
