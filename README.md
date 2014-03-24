@@ -88,6 +88,12 @@ Since 1.4.0 it's possible to use also html5 data attributes:
 
     <span class="jsb_ jsb_Example" data-jsb="{&quot;name&quot;:&quot;Jan&quot;}">Are you loaded?</span>
 
+If you want to have special data for one class, you might use `data-jsb-ClassName`.
+
+    <span class="jsb_ jsb_Example" data-jsb-Example="{&quot;name&quot;:&quot;Jan&quot;}">Are you loaded?</span>
+
+Foldernames must be replaced with dashes, so: `view/ui/Gui` becomes to `data-jsb-view-ui-Gui`.
+
 Why an Extra jsb_-Class?
 ---------------------
 
@@ -265,6 +271,7 @@ Changelog
 ---------
 
 * dev
+  - added specific data with `data-jsb-ClassName` #16
   - removed input[hidden] as source for jsb data #17
   - multiple behaviours can be put on one element #16
 * 1.7.0 (2013/09/26)

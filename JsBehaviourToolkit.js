@@ -267,8 +267,14 @@ JsBehaviourToolkit = {
         }
 
         var value_string = null;
-        
-        if (dom_element.getAttribute('data-jsb')) {
+        var dashed_key_name = key.toString().replace(/\//g, "-");
+
+        if (dom_element.getAttribute('data-jsb-' + dashed_key_name)) {
+            /*
+             * Nice, we have a class specific data-jsb attribute -> let's use that one!
+             */
+            value_string = dom_element.getAttribute('data-jsb-' + dashed_key_name);
+        } else if (dom_element.getAttribute('data-jsb')) {
             /*
              * Nice, we have a data-jsb attribute -> let's use that one!
              */
