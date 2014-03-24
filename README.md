@@ -73,26 +73,27 @@ If you want to use requirejs integration, create it like this (no `registerHandl
 
 Now add somewhere in your html code the following:
 
-    <span><input class="jsb_ jsb_Example" type="hidden" value="{&quot;name&quot;:&quot;Jan&quot;}" />Are you loaded?</span>
+    <span class="jsb_ jsb_Example" data-jsb="{&quot;name&quot;:&quot;Jan&quot;}" >Are you loaded?</span>
 
 When you execute the html page now, the text "Are you loaded?" won't display,
 but will be replaced with 'I am loaded with name: Jan'.
 
 It is also possible to use the query string syntax:
 
-    <span><input class="jsb_ jsb_Example" type="hidden" value="name=Jan&amp;param1=one" />Are you loaded?</span>
+    <span class="jsb_ jsb_Example" data-jsb="name=Jan&amp;param1=one" >Are you loaded?</span>
 
 Check out the generator functions for your favorite programming language.
-
-Since 1.4.0 it's possible to use also html5 data attributes:
-
-    <span class="jsb_ jsb_Example" data-jsb="{&quot;name&quot;:&quot;Jan&quot;}">Are you loaded?</span>
 
 If you want to have special data for one class, you might use `data-jsb-ClassName`.
 
     <span class="jsb_ jsb_Example" data-jsb-Example="{&quot;name&quot;:&quot;Jan&quot;}">Are you loaded?</span>
 
 Foldernames must be replaced with dashes, so: `view/ui/Gui` becomes to `data-jsb-view-ui-Gui`.
+
+Since jsb 2.0 it's also possible to put multiple classes on one element:
+
+    <span class="jsb_ jsb_Example jsb_OtherExample" data-jsb="name=Jan&amp;param1=one" data-jsb-OtherExample="only=for-other">Are you loaded?</span>
+
 
 Why an Extra jsb_-Class?
 ---------------------
@@ -109,26 +110,18 @@ Generator-Helpers
 
 ### PHP
 
-    <?php
-    /**
-     * @example <pre>
-     *    <?php echo jsb('Example', array('name' => 'Jan')); ?>
-     * </pre>
-     */
-    function jsb($name, array $options = array()) {
-        return '<input class="jsb_ jsb_' . $name . '" type="hidden" value="' . htmlspecialchars(json_encode($options)) . '" />';
-    }
-    ?>
-
-### Rails
-
-    # Generates a jsb tag
-    #
-    #   <%= jsb('Example', {:name => 'Jan'}) %>
-    #
-    def jsb(handler_name, data)
-      tag("input", { :type => 'hidden', :class => 'jsb_ jsb_' + handler_name, :value => h(data.to_json) })
-    end
+``` php
+<?php
+/**
+ * @example <pre>
+ *    <span class="jsb_ jsb_Example" data-jsb="<?php echo jsbOptions(array('name' => 'Jan')); ?>"></span>
+ * </pre>
+ */
+function jsbOptions(array $options = array()) {
+    return htmlspecialchars(json_encode($options));
+}
+?>
+```
 
 Advanced: Using with requirejs
 ------------------------------
@@ -159,9 +152,9 @@ Create a new file (`js/Example.js`), but don't include it with `<script>` into t
 
 And now just include your Behaviours in HTML, e.g.:
 
-    <span><input class="jsb_ jsb_Example" type="hidden" value="name=Jan&amp;param1=one" />Are you loaded?</span>
+    <span class="jsb_ jsb_Example" data-jsb="name=Jan&amp;param1=one" />Are you loaded?</span>
 
-If jsb notices, that the handler "Example" is not yet registered. It will call `require` for "Example" and use the result
+If jsb notices, that the handler "Example" is not yet registered. Internally it will call `require` for "Example" and use the result
 with `jsb.registerHandler`. Afterwards is the handler for "Example" defined.
 
 This is very good if you want to keep the global namespace clean (since `var Example` defines a local variable). It's
