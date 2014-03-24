@@ -264,6 +264,7 @@ Changelog
 ---------
 
 * dev
+  - define jsb as AMD module (if define-function is defined) #18
   - added specific data with `data-jsb-ClassName` #16
   - removed input[hidden] as source for jsb data #17
   - multiple behaviours can be put on one element #16

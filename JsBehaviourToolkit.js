@@ -447,3 +447,9 @@ if (typeof jQuery !== 'undefined') {
  * Add alias for jsb
  */
 jsb = JsBehaviourToolkit;
+
+if (typeof define !== "undefined") {
+    define('jsb', function() {
+        return JsBehaviourToolkit;
+    });
+}
