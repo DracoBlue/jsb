@@ -256,8 +256,7 @@ the same like `jsb.on`.
 Resources
 ----------
 
-* Blog: <http://dracoblue.net/c/js-behaviour/>
-* Feed: <http://dracoblue.net/c/js-behaviour/feed/>
+* Blog: <http://dracoblue.net/c/jsbehaviour/>
 * Issue Tracker: <http://github.com/DracoBlue/js-behaviour/issues>
 
 Changelog
