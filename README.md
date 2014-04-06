@@ -312,7 +312,7 @@ Changelog
 ---------
 
 * dev
-  - [BC] removed JsBehaviourToolkit global (use jsb now!)
+  - [BC] removed JsBehaviourToolkit global (use jsb now!) #20
   - define jsb as AMD module (if define-function is defined) #18
   - added specific data with `data-jsb-ClassName` #16
   - [BC] removed input[hidden] as source for jsb data #17
