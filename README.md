@@ -373,7 +373,8 @@ Thanks to hoffigk and graste for the discussions and feedback!
 Contributors
 ------------
 * Lars Laade https://github.com/larslaade
-* Leon Weidauer http://sevenmil.es
+* Leon Weidauer https://github.com/lnwdr
+* Steffen Gransow https://github.com/graste
 
 License
 --------
