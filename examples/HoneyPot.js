@@ -25,4 +25,4 @@ HoneyPot.prototype.onClick = function() {
     jsb.fireEvent('HoneyPot::CLICKED', {"date": new Date().toString()});
 };
 
-JsBehaviourToolkit.registerHandler('honey_pot', HoneyPot);
+jsb.registerHandler('honey_pot', HoneyPot);

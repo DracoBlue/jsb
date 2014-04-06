@@ -1,11 +1,11 @@
 {
   "name": "jsb",
-  "homepage": "https://github.com/DracoBlue/js-behaviour",
+  "homepage": "https://github.com/DracoBlue/jsb",
   "authors": [
     "DracoBlue <JanS@DracoBlue.de>"
   ],
   "description": "A very extendable Toolkit to inject Javascript Behaviour into rendered HTML without Inline Javascript.",
-  "main": "JsBehaviourToolkit.js",
+  "main": "jsb.js",
   "keywords": [
     "ajax",
     "data-binding",

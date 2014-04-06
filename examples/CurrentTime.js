@@ -22,4 +22,4 @@ CurrentTime.prototype.refresh = function() {
     }
 };
 
-JsBehaviourToolkit.registerHandler('current_time', CurrentTime);
+jsb.registerHandler('current_time', CurrentTime);

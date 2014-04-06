@@ -41,7 +41,7 @@
 
     require(libraries, function()
     {
-        require(["./../JsBehaviourToolkit"], function() {
+        require(["./../jsb"], function() {
             jsb.applyBehaviour(document.body);
         });
     });

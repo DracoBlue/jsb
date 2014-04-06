@@ -25,4 +25,4 @@ TimeDifference.prototype.refresh = function() {
     }
 };
 
-JsBehaviourToolkit.registerHandler('time_difference', TimeDifference);
+jsb.registerHandler('time_difference', TimeDifference);

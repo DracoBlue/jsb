@@ -26,4 +26,4 @@ HoneyPotDisplay.prototype.setHitCount = function(count) {
     }
 };
 
-JsBehaviourToolkit.registerHandler('honey_pot_display', HoneyPotDisplay);
+jsb.registerHandler('honey_pot_display', HoneyPotDisplay);

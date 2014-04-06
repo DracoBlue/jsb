@@ -1,16 +1,16 @@
-JsBehaviour README
+jsb README
 =======================
 
-Latest Release: [![GitHub version](https://badge.fury.io/gh/DracoBlue%2Fjs-behaviour.png)](https://github.com/DracoBlue/js-behaviour/releases)
+Latest Release: [![GitHub version](https://badge.fury.io/gh/DracoBlue%2Fjsb.png)](https://github.com/DracoBlue/jsb/releases)
 
 Official Site: <http://dracoblue.net/>
 
-JsBehaviour is copyright 2010-2014 by DracoBlue <http://dracoblue.net>
+jsb is copyright 2010-2014 by DracoBlue <http://dracoblue.net>
 
-What is JsBehaviour?
+What is Jsb?
 --------------------
 
-JsBehaviour is very extendable Toolkit to inject Javascript Behaviour into
+Jsb is very extendable Toolkit to inject Javascript Behaviour into
 rendered HTML without Inline Javascript.
 
 Requirements:
@@ -22,7 +22,7 @@ Requirements:
 How does it work?
 -----------------
 
-The idea behind JsBehaviour is pretty simple. Put a class (jsb_) on all
+The idea behind jsb is pretty simple. Put a class (jsb_) on all
 elements which should be enriched/enhanced by javascript. Additionally
 put a class `jsb_`*keyword* on the element to define which behaviour
 should be applied to the element.
@@ -41,10 +41,10 @@ same.
 Example
 -------
 
-Include the JsBehaviourToolkit into your website with the following meta
+Include the jsb into your website with the following meta
 tag (before you define any behaviours):
 
-    <script type="text/javascript" src="js/JsBehaviourToolkit.js"> </script>
+    <script type="text/javascript" src="js/jsb.js"> </script>
 
 Additionally add this one:
 
@@ -135,7 +135,7 @@ for your behaviours. You may use the requirejs loader:
 Inject jsb *after* requirejs:
 
      <script type="text/javascript" src="js/requirejs.js"> </script>
-     <script type="text/javascript" src="js/JsBehaviourToolkit.js"> </script>
+     <script type="text/javascript" src="js/jsb.js"> </script>
 
 Create a new file (`js/Example.js`), but don't include it with `<script>` into the head:
 
@@ -256,16 +256,17 @@ the same like `jsb.on`.
 Resources
 ----------
 
-* Blog: <http://dracoblue.net/c/jsbehaviour/>
-* Issue Tracker: <http://github.com/DracoBlue/js-behaviour/issues>
+* Blog: <http://dracoblue.net/c/jsb/>
+* Issue Tracker: <http://github.com/DracoBlue/jsb/issues>
 
 Changelog
 ---------
 
 * dev
+  - [BC] removed JsBehaviourToolkit global (use jsb now!)
   - define jsb as AMD module (if define-function is defined) #18
   - added specific data with `data-jsb-ClassName` #16
-  - removed input[hidden] as source for jsb data #17
+  - [BC] removed input[hidden] as source for jsb data #17
   - multiple behaviours can be put on one element #16
 * 1.7.0 (2013/09/26)
   - requirejs don't need to call `jsb.registerHandler` anymore #11

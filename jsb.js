@@ -1,14 +1,14 @@
 /*
- * JsBehaviourToolkit 2.x-dev
+ * jsb 2.x-dev
  *
- * This file is part of JsBehaviour.
+ * This file is part of jsb (Javascript Behaviour Toolkit).
  * Copyright (c) 2010-2014 DracoBlue, http://dracoblue.net/
  *
  * Licensed under the terms of MIT License. For the full copyright and license
  * information, please see the LICENSE file in the root folder.
  */
 
-JsBehaviourToolkit = {
+jsb = {
     prefix: 'jsb_',
     prefix_regexp: /jsb_([^\s]+)/,
 
@@ -250,17 +250,17 @@ JsBehaviourToolkit = {
                 throw new Error('The handler ' + key + ' is not defined!');
             } else {
                 require([key], function(require_result) {
-                    if (typeof JsBehaviourToolkit.handlers[key] === 'undefined') {
+                    if (typeof jsb.handlers[key] === 'undefined') {
                         if (typeof require_result === "undefined")
                         {
                             throw new Error('The handler ' + key + ' is not defined (even with requirejs)!');
                         }
                         else
                         {
-                            JsBehaviourToolkit.registerHandler(key, require_result);
+                            jsb.registerHandler(key, require_result);
                         }
                     }
-                    JsBehaviourToolkit.callHandler(key, dom_element);
+                    jsb.callHandler(key, dom_element);
                 });
                 return ;
             }
@@ -357,15 +357,15 @@ if (typeof jQuery !== 'undefined') {
      * If we have jQuery available, we can use the jQuery methods instead
      * of the native ones (thus having compatibility for IE < 8, FF < 3 and so on)
      */
-    JsBehaviourToolkit.removeClassFromElement = function(dom_element, class_name) {
+    jsb.removeClassFromElement = function(dom_element, class_name) {
         jQuery(dom_element).removeClass(class_name);
     };
     
-    JsBehaviourToolkit.getJsbElementsInDomElement = function(dom_element) {
+    jsb.getJsbElementsInDomElement = function(dom_element) {
         return jQuery(dom_element).find('.' + this.prefix);
     };
     
-    JsBehaviourToolkit.parseValueString = function(value_string) {
+    jsb.parseValueString = function(value_string) {
         if (value_string.substr(0, 1) == '{') {
             return jQuery.parseJSON(value_string);
         } else {
@@ -387,7 +387,7 @@ if (typeof jQuery !== 'undefined') {
      */
     
     jQuery(window.document).ready(function() {
-        JsBehaviourToolkit.applyBehaviour(window.document);
+        jsb.applyBehaviour(window.document);
     });
 
 } else if (typeof MooTools !== 'undefined') {
@@ -395,15 +395,15 @@ if (typeof jQuery !== 'undefined') {
      * If we have MooTools available, we can use the MooTools methods instead
      * of the native ones (thus having compatibility for IE < 8, FF < 3 and so on)
      */
-    JsBehaviourToolkit.removeClassFromElement = function(dom_element, class_name) {
+    jsb.removeClassFromElement = function(dom_element, class_name) {
         $(dom_element).removeClass(class_name);
     };
     
-    JsBehaviourToolkit.getJsbElementsInDomElement = function(dom_element) {
+    jsb.getJsbElementsInDomElement = function(dom_element) {
         return $(dom_element).getElements('.' + this.prefix);
     };
     
-    JsBehaviourToolkit.parseValueString = function(value_string) {
+    jsb.parseValueString = function(value_string) {
         if (value_string.substr(0, 1) == '{') {
             return JSON.decode(value_string);
         } else {
@@ -425,7 +425,7 @@ if (typeof jQuery !== 'undefined') {
      */
     
     $(window).addEvent('domready', function() {
-        JsBehaviourToolkit.applyBehaviour(window.document);
+        jsb.applyBehaviour(window.document);
     });
 } else {
     
@@ -434,22 +434,17 @@ if (typeof jQuery !== 'undefined') {
      */
     if (window.addEventListener) {
         window.addEventListener("DOMContentLoaded", function() {
-            JsBehaviourToolkit.applyBehaviour(window.document);
+            jsb.applyBehaviour(window.document);
         }, true);
     } else if(window.attachEvent)  {
         window.attachEvent("onLoad",function() {
-            JsBehaviourToolkit.applyBehaviour(window.document);
+            jsb.applyBehaviour(window.document);
         });
     }
 }
 
-/*
- * Add alias for jsb
- */
-jsb = JsBehaviourToolkit;
-
 if (typeof define !== "undefined") {
     define('jsb', function() {
-        return JsBehaviourToolkit;
+        return jsb;
     });
 }
