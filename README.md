@@ -123,18 +123,37 @@ function jsbOptions(array $options = array()) {
 ?>
 ```
 
-Advanced: Using with requirejs
-------------------------------
+Advanced: Using with requirejs and bower
+----------------------------------------
 
 If you want to avoid to include all those script tags:
 
     <script type="text/javascript" src="js/Example.js"> </script>
 
-for your behaviours. You may use the requirejs loader:
+for your behaviours, you may use requirejs.
 
-Inject jsb *after* requirejs:
+Install jsb with bower:
+
+``` console
+$ bower install jsb
+```
+
+Inject a config to tell requirejs, where jsb lives in bower_components folder and
+afterwards apply all behaviours on `document.body`:
 
      <script type="text/javascript" src="js/requirejs.js"> </script>
+     <script>
+         requirejs.config({
+             baseUrl: './js/', // if your files live in the /js/ folder
+             paths: {
+                 jsb: './bower_components/jsb/jsb'
+             }
+         });
+
+         require(['jsb'], function() {
+             jsb.applyBehaviour(document.body);
+         });
+     </script>
      <script type="text/javascript" src="js/jsb.js"> </script>
 
 Create a new file (`js/Example.js`), but don't include it with `<script>` into the head:
@@ -162,6 +181,36 @@ also very nice, if you only want to load the element on demand!
 
 You can even use sub folders of any required depth: Put the file into `js/mymodule/Example.js` and call it from html with
 `class="jsb_ jsb_mymodule/Example.js"`.
+
+Force jQuery usage in jsb with requirejs
+---------------------------
+
+If you use jsb with requirejs, there is no dependency to jquery. But jsb would use jquery to find elements on the DOM, if
+ it were available before jsb is loaded.
+
+So, if you want to enforce it, define a shim like this:
+
+     <script>
+         requirejs.config({
+             baseUrl: './js/', // if your files live in the /js/ folder
+             paths: {
+                 jsb: './bower_components/jsb/jsb',
+                 jquery: './bower_components/jquery/dist/jquery'
+             },
+             shim: {
+                 jsb: {
+                    exports: 'jsb',
+                    deps: ['jquery']
+                 }
+             }
+         });
+
+         require(['jsb'], function() {
+             jsb.applyBehaviour(document.body);
+         });
+     </script>
+
+Now jsb will use jQuery's methods to `parseJSON`, find `jsb_`-classified objects in the DOM and to modify the classes.
 
 Advanced: Communication between instances
 -----------------------------------------
