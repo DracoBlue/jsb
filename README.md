@@ -300,7 +300,7 @@ the same like `jsb.on`.
         counter++;
     });
     jsb.fireEvent('MASTER_READY', { "key": "value"});
-	 // counter is now 2!
+    // counter is now 2!
 
 Resources
 ----------
@@ -311,7 +311,7 @@ Resources
 Changelog
 ---------
 
-* dev
+* 2.0.0 (2014/04/08)
   - [BC] removed JsBehaviourToolkit global (use jsb now!) #20
   - define jsb as AMD module (if define-function is defined) #18
   - added specific data with `data-jsb-ClassName` #16
