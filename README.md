@@ -5,7 +5,7 @@ Latest Release: [![GitHub version](https://badge.fury.io/gh/DracoBlue%2Fjsb.png)
 
 Official Site: <http://dracoblue.net/>
 
-jsb is copyright 2010-2014 by DracoBlue <http://dracoblue.net>
+jsb is copyright 2010-2015 by DracoBlue <http://dracoblue.net>
 
 What is Jsb?
 --------------------
@@ -311,6 +311,8 @@ Resources
 Changelog
 ---------
 
+* 2.0.1 (2015/07/28)
+  - fixed race condition in whenFired (see tests/WhenFiredRaceConditionTest)
 * 2.0.0 (2014/04/08)
   - [BC] removed JsBehaviourToolkit global (use jsb now!) #20
   - define jsb as AMD module (if define-function is defined) #18

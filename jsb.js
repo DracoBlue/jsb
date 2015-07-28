@@ -1,8 +1,8 @@
 /*
- * jsb 2.0.0
+ * jsb 2.1.0
  *
  * This file is part of jsb (Javascript Behaviour Toolkit).
- * Copyright (c) 2010-2014 DracoBlue, http://dracoblue.net/
+ * Copyright (c) 2010-2015 DracoBlue, http://dracoblue.net/
  *
  * Licensed under the terms of MIT License. For the full copyright and license
  * information, please see the LICENSE file in the root folder.
@@ -196,18 +196,20 @@ jsb = {
                 if (this.last_event_values.hasOwnProperty(key) && key.match(name_or_regexp)) {
                     (function(key)
                     {
+                        var last_value = that.last_event_values[key];
                         setTimeout(function()
                         {
-                            that.rawFireEventToListener([cb, name_or_regexp, filter], key, that.last_event_values[key]);
+                            that.rawFireEventToListener([cb, name_or_regexp, filter], key, last_value);
                         }, 0);
                     })(key);
                 }
             }
         } else {
             if (typeof this.last_event_values[name_or_regexp] !== 'undefined') {
+                var last_value = that.last_event_values[name_or_regexp];
                 setTimeout(function()
                 {
-                    that.rawFireEventToListener([cb, name_or_regexp, filter], name_or_regexp, that.last_event_values[name_or_regexp]);
+                    that.rawFireEventToListener([cb, name_or_regexp, filter], name_or_regexp, last_value);
                 }, 0);
             }
         }
