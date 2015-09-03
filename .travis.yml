@@ -15,7 +15,7 @@ deploy:
   provider: npm
   email: JanS@DracoBlue.de
   api_key:
-    secure: MJI5tgE1PKopA5YteYKodZNp0U/Z+mc+O1KgouMcjHJ0ivD6ze6GcOqA7BpaatEv2Kl+Q1VBP+7SxLF/OfaefnSs7jvgYogABr5ajuGaI/pX02M5r2r74K8r5/dp5lOMx8lbD9k05AClGfwr4Gl+VXZ5+bWsrs50dlvTNExXDmM=
+    secure: mzLrVmJq4Bd3z5D6rWvsz5mWzKGDCgWa1R/P0fJjJx8lT1sM8iwn6qAWEEOldPbrEUp7v8UZH9ILwhuUE3ivT2WTtNktZbwSsNMaSserfrsFkg8FFv5tbuH3pUy/LP5FjUwPeV0e82zrk9ClwZhgWKMfPJntYzugWhjSUyG5/V4=
   on:
     tags: true
     repo: DracoBlue/jsb
