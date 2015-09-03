@@ -1,5 +1,5 @@
 /*
- * jsb 2.1.0
+ * jsb
  *
  * This file is part of jsb (Javascript Behaviour Toolkit).
  * Copyright (c) 2010-2015 DracoBlue, http://dracoblue.net/
