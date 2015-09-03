@@ -3,6 +3,8 @@ jsb README
 
 Latest Release: [![GitHub version](https://badge.fury.io/gh/DracoBlue%2Fjsb.png)](https://github.com/DracoBlue/jsb/releases)
 
+Build-Status: [![Build Status](https://travis-ci.org/DracoBlue/jsb.png?branch=master)](https://travis-ci.org/DracoBlue/jsb)
+
 Official Site: <http://dracoblue.net/>
 
 jsb is copyright 2010-2015 by DracoBlue <http://dracoblue.net>
