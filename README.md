@@ -311,6 +311,9 @@ Resources
 Changelog
 ---------
 
+* dev
+  - don't try to listen to domready if window is not available (in case of nodejs)
+  - added compatibility to nodejs
 * 2.0.1 (2015/07/28)
   - fixed race condition in whenFired (see tests/WhenFiredRaceConditionTest)
 * 2.0.0 (2014/04/08)

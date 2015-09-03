@@ -384,14 +384,15 @@ if (typeof jQuery !== 'undefined') {
         }
     };
 
-    /*
-     * Fire domready in a jQuery way!
-     */
-    
-    jQuery(window.document).ready(function() {
-        jsb.applyBehaviour(window.document);
-    });
+    if (typeof window !== "undefined") {
+        /*
+         * Fire domready in a jQuery way!
+         */
 
+        jQuery(window.document).ready(function () {
+            jsb.applyBehaviour(window.document);
+        });
+    }
 } else if (typeof MooTools !== 'undefined') {
     /*
      * If we have MooTools available, we can use the MooTools methods instead
@@ -421,32 +422,38 @@ if (typeof jQuery !== 'undefined') {
             return value;
         }
     };
-    
-    /*
-     * Fire domready in a mootools way!
-     */
-    
-    $(window).addEvent('domready', function() {
-        jsb.applyBehaviour(window.document);
-    });
-} else {
-    
-    /*
-     * Fire domready in a native way!
-     */
-    if (window.addEventListener) {
-        window.addEventListener("DOMContentLoaded", function() {
-            jsb.applyBehaviour(window.document);
-        }, true);
-    } else if(window.attachEvent)  {
-        window.attachEvent("onLoad",function() {
+
+    if (typeof window !== "undefined") {
+        /*
+         * Fire domready in a mootools way!
+         */
+
+        $(window).addEvent('domready', function () {
             jsb.applyBehaviour(window.document);
         });
     }
+} else {
+
+    if (typeof window !== "undefined") {
+        /*
+         * Fire domready in a native way!
+         */
+        if (window.addEventListener) {
+            window.addEventListener("DOMContentLoaded", function() {
+                jsb.applyBehaviour(window.document);
+            }, true);
+        } else if(window.attachEvent)  {
+            window.attachEvent("onLoad",function() {
+                jsb.applyBehaviour(window.document);
+            });
+        }
+    }
 }
 
-if (typeof define !== "undefined") {
+if (typeof define !== "undefined" && define.amd) {
     define('jsb', function() {
         return jsb;
     });
+} else if (typeof module === 'object' && module.exports) {
+    module.exports = jsb;
 }
