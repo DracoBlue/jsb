@@ -1,5 +1,5 @@
 {
-  "name": "jsb",
+  "name": "node-jsb",
   "description": "A very extendable Toolkit to inject Javascript Behaviour into rendered HTML without Inline Javascript.",
   "main": "jsb.js",
   "directories": {
@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",

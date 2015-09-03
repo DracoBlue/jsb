@@ -304,6 +304,25 @@ the same like `jsb.on`.
     jsb.fireEvent('MASTER_READY', { "key": "value"});
     // counter is now 2!
 
+Advanced: Using with nodejs
+----------------------------------------
+
+If you want to run mocha tests or want to use the event system of jsb in nodejs, you can install jsb as npm package, too!
+
+``` console
+$ npm install node-jsb --save
+```
+
+In your source, you might use it like this:
+
+``` javascript
+var jsb = require('node-jsb');
+jsb.on('Event::NAME', function() {
+  console.log('Hi!');
+});
+jsb.fireEvent('Event::NAME);
+``` 
+
 Resources
 ----------
 
