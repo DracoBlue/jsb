@@ -320,7 +320,7 @@ var jsb = require('node-jsb');
 jsb.on('Event::NAME', function() {
   console.log('Hi!');
 });
-jsb.fireEvent('Event::NAME);
+jsb.fireEvent('Event::NAME');
 ``` 
 
 Resources
