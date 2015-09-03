@@ -1,0 +1,23 @@
+language: node_js
+sudo: false
+node_js:
+- '0.10'
+- '0.11'
+- '0.12'
+before_script:
+- npm install mocha
+script:
+- node_modules/.bin/mocha
+before_deploy:
+- npm install json
+- node_modules/.bin/json -E "this.version='$TRAVIS_TAG'" -f package.json -I
+deploy:
+  provider: npm
+  email: JanS@DracoBlue.de
+  api_key:
+    secure: MJI5tgE1PKopA5YteYKodZNp0U/Z+mc+O1KgouMcjHJ0ivD6ze6GcOqA7BpaatEv2Kl+Q1VBP+7SxLF/OfaefnSs7jvgYogABr5ajuGaI/pX02M5r2r74K8r5/dp5lOMx8lbD9k05AClGfwr4Gl+VXZ5+bWsrs50dlvTNExXDmM=
+  on:
+    tags: true
+    repo: DracoBlue/jsb
+    all_branches: true
+    node: 0.12
