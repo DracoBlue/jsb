@@ -15,6 +15,7 @@ jsb = {
     handlers: {},
     listeners: [],
     last_event_values: {},
+    sticky_event_values: {},
     
     /**
      * Set the prefix for the jsb toolkit.
@@ -71,14 +72,20 @@ jsb = {
      * @param {String} name
      * @param {Object} [values={}]
      */
-    fireEvent: function(name, values) {
+    fireEvent: function(name, values, sticky) {
         values = values || {};
-        
+        sticky = sticky || false;
+
         /*
-         * Remember the last value for calls to `jsb.whenFired`
+         * Remember the last values for calls to `jsb.whenFired`
          */
-        this.last_event_values[name] = values; 
-        
+        if (sticky) {
+            this.sticky_event_values[name] = this.sticky_event_values[name] || [];
+            this.sticky_event_values[name].push(values);
+        } else {
+            this.last_event_values[name] = values;
+        }
+
         var listeners = this.listeners;
         var listeners_length = listeners.length;
         for (var i = 0; i < listeners_length; i++) {
@@ -89,6 +96,10 @@ jsb = {
         {
             this.removeBoundListenersForInstance(values);
         }
+    },
+
+    fireStickyEvent: function(name, values) {
+        this.fireEvent(name, values, true);
     },
     
     /**
@@ -204,6 +215,23 @@ jsb = {
                     })(key);
                 }
             }
+            for (var key in this.sticky_event_values) {
+                if (this.sticky_event_values.hasOwnProperty(key) && key.match(name_or_regexp)) {
+                    (function(key)
+                    {
+                        var last_values = that.sticky_event_values[key];
+                        var last_values_length = last_values.length;
+                        for (var i = 0; i < last_values_length; i++) {
+                            (function(last_value) {
+                                setTimeout(function()
+                                {
+                                    that.rawFireEventToListener([cb, name_or_regexp, filter], key, last_value);
+                                }, 0);
+                            })(last_values[i]);
+                        }
+                    })(key);
+                }
+            }
         } else {
             if (typeof this.last_event_values[name_or_regexp] !== 'undefined') {
                 var last_value = that.last_event_values[name_or_regexp];
@@ -211,6 +239,18 @@ jsb = {
                 {
                     that.rawFireEventToListener([cb, name_or_regexp, filter], name_or_regexp, last_value);
                 }, 0);
+            }
+            if (typeof this.sticky_event_values[name_or_regexp] !== 'undefined') {
+                var last_values = that.sticky_event_values[name_or_regexp];
+                var last_values_length = last_values.length;
+                for (var i = 0; i < last_values_length; i++) {
+                    (function(last_value) {
+                        setTimeout(function()
+                        {
+                            that.rawFireEventToListener([cb, name_or_regexp, filter], name_or_regexp, last_value);
+                        }, 0);
+                    })(last_values[i]);
+                }
             }
         }
 

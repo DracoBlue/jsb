@@ -221,7 +221,7 @@ If you get used to `jsb`, you'll noticed that you have the need to communicate
 between multiple jsb_-objects.
 
 
-### jsb.fireEvent(`name`, `[values = {}]`)
+### jsb.fireEvent(`name`, `[values = {}, sticky = false`)
 
 Since 1.3.0 jsb ships with a very simple (by design) event system. It is
 framework independent and works with simple channel identifier and a
@@ -232,6 +232,9 @@ json-object as value.
 This should be fired by a Js-Behaviour which needs to say something, instead
 of global variables and direct call. This enables you to use dependency
 injection if you keep the channel identifier the same.
+
+If you set `sticky` to `true` or use the `jsb.fireStickyEvent` alias, you can retrieve multiple events with the same
+name with `jsb.whenFired`.
 
 ### jsb.on(`name`, `[filter, ]` `callback`)
 
@@ -304,6 +307,8 @@ the same like `jsb.on`.
     jsb.fireEvent('MASTER_READY', { "key": "value"});
     // counter is now 2!
 
+If you use `fireStickyEvent` in favor of `fireEvent`, it's also possible to use whenFired for multiple events with the same name-
+
 Advanced: Using with nodejs
 ----------------------------------------
 
@@ -343,8 +348,9 @@ Contributors
 * Lars Laade https://github.com/larslaade
 * Leon Weidauer https://github.com/lnwdr
 * Steffen Gransow https://github.com/graste
+* Benny Görlitz https://github.com/axten
 
 License
 --------
 
-JsBehaviour is licensed under the terms of MIT. See LICENSE for more information.
+Jsb is licensed under the terms of MIT. See LICENSE for more information.

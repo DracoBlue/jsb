@@ -1,6 +1,8 @@
 jsb CHANGELOG
 =======================
 
+* 2.3.0 (2015/09/16)
+  - added `fireStickyEvent` and `sticky` parameter to `fireEvent`
 * 2.2.0 (2015/09/03)
   - don't try to listen to domready if window is not available (in case of nodejs)
   - added compatibility to nodejs
