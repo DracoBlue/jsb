@@ -394,57 +394,18 @@ var jsb = {
     }
 };
 
-if (typeof jQuery !== 'undefined') {
+if (typeof window !== "undefined") {
     /*
-     * If we have jQuery available, we can use the jQuery methods instead
-     * of the native ones (thus having compatibility for IE < 8, FF < 3 and so on)
+     * Fire domready in a native way!
      */
-    jsb.removeClassFromElement = function(dom_element, class_name) {
-        jQuery(dom_element).removeClass(class_name);
-    };
-
-    if (typeof window !== "undefined") {
-        /*
-         * Fire domready in a jQuery way!
-         */
-
-        jQuery(window.document).ready(function () {
+    if (window.addEventListener) {
+        window.addEventListener("DOMContentLoaded", function() {
+            jsb.applyBehaviour(window.document);
+        }, true);
+    } else if(window.attachEvent)  {
+        window.attachEvent("onLoad",function() {
             jsb.applyBehaviour(window.document);
         });
-    }
-} else if (typeof MooTools !== 'undefined') {
-    /*
-     * If we have MooTools available, we can use the MooTools methods instead
-     * of the native ones (thus having compatibility for IE < 8, FF < 3 and so on)
-     */
-    jsb.removeClassFromElement = function(dom_element, class_name) {
-        $(dom_element).removeClass(class_name);
-    };
-
-    if (typeof window !== "undefined") {
-        /*
-         * Fire domready in a mootools way!
-         */
-
-        $(window).addEvent('domready', function () {
-            jsb.applyBehaviour(window.document);
-        });
-    }
-} else {
-
-    if (typeof window !== "undefined") {
-        /*
-         * Fire domready in a native way!
-         */
-        if (window.addEventListener) {
-            window.addEventListener("DOMContentLoaded", function() {
-                jsb.applyBehaviour(window.document);
-            }, true);
-        } else if(window.attachEvent)  {
-            window.attachEvent("onLoad",function() {
-                jsb.applyBehaviour(window.document);
-            });
-        }
     }
 }
 
