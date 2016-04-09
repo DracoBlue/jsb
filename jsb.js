@@ -288,12 +288,12 @@ var jsb = {
      */
     callHandler: function(key, dom_element) {
         if (typeof this.handlers[key] === 'undefined') {
-            if (typeof require === "undefined") {
+            if (typeof require === 'undefined') {
                 throw new Error('The handler ' + key + ' is not defined!');
             } else {
                 require([key], function(require_result) {
                     if (typeof jsb.handlers[key] === 'undefined') {
-                        if (typeof require_result === "undefined")
+                        if (typeof require_result === 'undefined')
                         {
                             throw new Error('The handler ' + key + ' is not defined (even with requirejs)!');
                         }
@@ -309,7 +309,7 @@ var jsb = {
         }
 
         var value_string = null;
-        var dashed_key_name = key.toString().replace(/\//g, "-");
+        var dashed_key_name = key.toString().replace(/\//g, '-');
 
         if (dom_element.getAttribute('data-jsb-' + dashed_key_name)) {
             /*
@@ -341,12 +341,12 @@ var jsb = {
             return JSON.parse(value_string);
         } else {
             var value = {};
-            var parts = value_string.split("&");
+            var parts = value_string.split('&');
             var parts_length = parts.length;
             for (var i = 0; i < parts_length; i++) {
-                var query_string_entry = parts[i].split("=");
+                var query_string_entry = parts[i].split('=');
                 var value_key = decodeURIComponent(query_string_entry[0]);
-                var value_content = decodeURIComponent(query_string_entry.slice(1).join("="));
+                var value_content = decodeURIComponent(query_string_entry.slice(1).join('='));
                 value[value_key] = value_content;
             }
             return value;
@@ -394,22 +394,22 @@ var jsb = {
     }
 };
 
-if (typeof window !== "undefined") {
+if (typeof window !== 'undefined') {
     /*
      * Fire domready in a native way!
      */
     if (window.addEventListener) {
-        window.addEventListener("DOMContentLoaded", function() {
+        window.addEventListener('DOMContentLoaded', function() {
             jsb.applyBehaviour(window.document);
         }, true);
     } else if(window.attachEvent)  {
-        window.attachEvent("onLoad",function() {
+        window.attachEvent('onLoad',function() {
             jsb.applyBehaviour(window.document);
         });
     }
 }
 
-if (typeof define !== "undefined" && define.amd) {
+if (typeof define !== 'undefined' && define.amd) {
     define('jsb', function() {
         return jsb;
     });
