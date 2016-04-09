@@ -8,7 +8,7 @@
  * information, please see the LICENSE file in the root folder.
  */
 
-jsb = {
+var jsb = {
     prefix: 'jsb_',
     prefix_regexp: /jsb_([^\s]+)/,
 
@@ -16,30 +16,30 @@ jsb = {
     listeners: [],
     last_event_values: {},
     sticky_event_values: {},
-    
+
     /**
      * Set the prefix for the jsb toolkit.
-     * 
+     *
      * @param {String} prefix
      */
     setPrefix: function(prefix) {
         this.prefix = prefix + '_';
         this.prefix_regexp = new RegExp(this.prefix + '([^\s]+)');
     },
-    
+
     /**
      * Register a new handler with the given constructor function
-     * 
+     *
      * @param {String} key
      * @param {Function} handler_function
      */
     registerHandler: function(key, handler_function) {
         this.handlers[key] = handler_function;
     },
-    
+
     /**
      * Apply all behaviours on a given dom_element and it's children.
-     * 
+     *
      * @param {HTMLElement} dom_element
      */
     applyBehaviour: function(parent_dom_element) {
@@ -63,10 +63,10 @@ jsb = {
             } while(key_match);
 
         }
-        
+
         this.fireEvent('Jsb::BEHAVIOURS_APPLIED');
     },
-    
+
     /**
      * Fires an event with the given name and values.
      * @param {String} name
@@ -91,7 +91,7 @@ jsb = {
         for (var i = 0; i < listeners_length; i++) {
             this.rawFireEventToListener(listeners[i], name, values);
         }
-        
+
         if (name === 'Jsb::REMOVED_INSTANCE')
         {
             this.removeBoundListenersForInstance(values);
@@ -101,10 +101,10 @@ jsb = {
     fireStickyEvent: function(name, values) {
         this.fireEvent(name, values, true);
     },
-    
+
     /**
      * Adds an event listener for a given name or regular expression.
-     * 
+     *
      * @param {String|RegExp} name_or_regexp
      * @param {Object|Function} [filter_or_cb=null]
      * @param {Function} cb
@@ -116,14 +116,14 @@ jsb = {
             filter = null;
             cb = filter_or_cb;
         }
-        
+
         this.listeners.push([cb, name_or_regexp, filter]);
 
         var that = this;
         var off_handler = function() {
             that.off(name_or_regexp, cb);
         };
-        
+
         /*
          * Call this method with your jsb instance, to allow automatic removal of the handler on
          * disposal of the jsb instance.
@@ -137,16 +137,16 @@ jsb = {
                 }
             }
         };
-        
+
         return off_handler;
     },
-    
+
     /**
      * Please call jsb.fireEvent('Jsb::REMOVED_INSTANCE', this) within your object
      * to free all handlers which are bound to the element (by using the dontLeak-method).
-     * 
+     *
      * @private
-     * 
+     *
      * @param instance Jsb Instance
      */
     removeBoundListenersForInstance: function(instance) {
@@ -158,15 +158,15 @@ jsb = {
                 new_listeners.push(listeners[i]);
             }
         }
-        
+
         this.listeners = new_listeners;
     },
-    
+
     /**
      * Removes an event listener for a given name or regular expression and handler function.
      *
      * The handler function needs to be the exact same Function object that was previously registered as an event handler.
-     * 
+     *
      * @param {String|RegExp} name_or_regexp
      * @param {Function} cb
      */
@@ -184,7 +184,7 @@ jsb = {
     /**
      * Register to an event as soon as it's fired for the first time
      * even if that happend earlier!
-     * 
+     *
      * @param {String|RegExp} name_or_regexp
      * @param {Object|Function} [filter_or_cb=null]
      * @param {Function} cb
@@ -198,9 +198,9 @@ jsb = {
             filter = null;
             cb = filter_or_cb;
         }
-                
+
         var off_handler = this.on(name_or_regexp, filter, cb);
-        
+
         var is_regexp = (name_or_regexp instanceof RegExp);
         if (is_regexp) {
             for (var key in this.last_event_values) {
@@ -256,7 +256,7 @@ jsb = {
 
         return off_handler;
     },
-    
+
     /**
      * @private
      */
@@ -273,13 +273,13 @@ jsb = {
                     }
                 }
             }
-            
+
             if (is_match) {
                 listener[0](values, name);
             }
         }
     },
-    
+
     /**
      * Call a specific handler on a given dom element
      * @private
@@ -329,7 +329,7 @@ jsb = {
             new this.handlers[key](dom_element);
         }
     },
-    
+
     /**
      * Parse a json or a query string into an object hash
      * @private
@@ -348,7 +348,7 @@ jsb = {
                 var value_key = decodeURIComponent(query_string_entry[0]);
                 var value_content = decodeURIComponent(query_string_entry.slice(1).join("="));
                 value[value_key] = value_content;
-            }   
+            }
             return value;
         }
     },
@@ -368,7 +368,7 @@ jsb = {
     /**
      * Return all elements within the dom_element, which match the
      * jsb prefix.
-     * 
+     *
      * @private
      * @param {HTMLElement} dom_element
      * @returns {HTMLElement[]}
@@ -389,7 +389,7 @@ jsb = {
         for (var r = 0; r < raw_dom_elements_length; r++) {
             dom_elements.push(raw_dom_elements[r]);
         }
-        
+
         return dom_elements;
     }
 };
@@ -402,26 +402,9 @@ if (typeof jQuery !== 'undefined') {
     jsb.removeClassFromElement = function(dom_element, class_name) {
         jQuery(dom_element).removeClass(class_name);
     };
-    
+
     jsb.getJsbElementsInDomElement = function(dom_element) {
         return jQuery(dom_element).find('.' + this.prefix);
-    };
-    
-    jsb.parseValueString = function(value_string) {
-        if (value_string.substr(0, 1) == '{') {
-            return jQuery.parseJSON(value_string);
-        } else {
-            var value = {};
-            var parts = value_string.split("&");
-            var parts_length = parts.length;
-            for (var i = 0; i < parts_length; i++) {
-                var query_string_entry = parts[i].split("=");
-                var value_key = decodeURIComponent(query_string_entry[0]);
-                var value_content = decodeURIComponent(query_string_entry.slice(1).join("="));
-                value[value_key] = value_content;
-            }   
-            return value;
-        }
     };
 
     if (typeof window !== "undefined") {
@@ -441,26 +424,9 @@ if (typeof jQuery !== 'undefined') {
     jsb.removeClassFromElement = function(dom_element, class_name) {
         $(dom_element).removeClass(class_name);
     };
-    
+
     jsb.getJsbElementsInDomElement = function(dom_element) {
         return $(dom_element).getElements('.' + this.prefix);
-    };
-    
-    jsb.parseValueString = function(value_string) {
-        if (value_string.substr(0, 1) == '{') {
-            return JSON.decode(value_string);
-        } else {
-            var value = {};
-            var parts = value_string.split("&");
-            var parts_length = parts.length;
-            for (var i = 0; i < parts_length; i++) {
-                var query_string_entry = parts[i].split("=");
-                var value_key = decodeURIComponent(query_string_entry[0]);
-                var value_content = decodeURIComponent(query_string_entry.slice(1).join("="));
-                value[value_key] = value_content;
-            }   
-            return value;
-        }
     };
 
     if (typeof window !== "undefined") {
