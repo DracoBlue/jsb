@@ -8,11 +8,11 @@ HoneyPot.prototype.initializeListener = function() {
     var that = this;
     if (typeof jQuery !== 'undefined') {
         jQuery(this.dom_element).bind('click', function() {
-            that.onClick();            
+            that.onClick();
         });
     } else if (typeof MooTools !== 'undefined') {
         this.dom_element.addEvent('click', function() {
-            that.onClick();            
+            that.onClick();
         });
     } else {
         this.dom_element.addEventListener('click', function() {
@@ -22,7 +22,9 @@ HoneyPot.prototype.initializeListener = function() {
 };
 
 HoneyPot.prototype.onClick = function() {
-    jsb.fireEvent('HoneyPot::CLICKED', {"date": new Date().toString()});
+    jsb.fireEvent('HoneyPot::CLICKED', {
+        'date': new Date().toString()
+    });
 };
 
 jsb.registerHandler('honey_pot', HoneyPot);

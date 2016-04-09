@@ -1,9 +1,7 @@
-define("OffGeneratorTest", [], function()
-{
-    "use strict";
+define('OffGeneratorTest', function() {
+    'use strict';
 
-    var OffGeneratorTest = function(dom_element, options)
-    {
+    var OffGeneratorTest = function(dom_element, options) {
         var that = this;
         this.dom_element = dom_element;
         var event_counter = 0;
@@ -18,52 +16,20 @@ define("OffGeneratorTest", [], function()
         off();
         jsb.fireEvent('OFF_GENERATOR_TEST');
 
-        setTimeout(function()
-        {
+        setTimeout(function() {
             if (event_counter === 1) {
                 that.markAsSucceeded();
             }
         }, 10);
     };
 
-    OffGeneratorTest.prototype.markAsSucceeded = function()
-    {
-        /*
-         * jQuery/Mootools
-         */
-        if (typeof $ !== 'undefined')
-        {
-            $(this.dom_element).addClass('test_succeeded');
-            $(this.dom_element).removeClass('test_failed');
-        }
-        else
-        {
-            /*
-             * Native
-             */
-            this.dom_element['className'] = 'test_succeeded';
-        }
+    OffGeneratorTest.prototype.markAsSucceeded = function() {
+        this.dom_element.className = 'test_succeeded';
     };
 
-    OffGeneratorTest.prototype.markAsFailed = function()
-    {
-        /*
-         * jQuery/Mootools
-         */
-        if (typeof $ !== 'undefined')
-        {
-            $(this.dom_element).addClass('test_failed');
-            $(this.dom_element).removeClass('test_succeeded');
-        }
-        else
-        {
-            /*
-             * Native
-             */
-            this.dom_element['className'] = 'test_failed';
-        }
+    OffGeneratorTest.prototype.markAsFailed = function() {
+        this.dom_element.className = 'test_failed';
     };
 
     return OffGeneratorTest;
 });
-
