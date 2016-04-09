@@ -17,8 +17,7 @@ rendered HTML without Inline Javascript.
 
 Requirements:
 
-* .jquery/.mootools-Version: Firefox, Safari, Chrome, Opera, IE6+
-* .native-Version: Firefox 3+, Safari 5+, Chrome, Opera, IE9+
+* Firefox 3+, Safari 5+, Chrome, Opera, IE9+
 * (optional) requirejs - for on demand and subfolder loading
 
 How does it work?
@@ -57,7 +56,7 @@ Now create a new file `js/Example.js`
     Example = function(dom_element, options) {
        dom_element.textContent = 'I am loaded with name: ' + options.name;
     };
-    
+
     jsb.registerHandler('Example', Example);
 
 If you want to use requirejs integration, create it like this (no `registerHandler` necessary!):
@@ -184,36 +183,6 @@ also very nice, if you only want to load the element on demand!
 You can even use sub folders of any required depth: Put the file into `js/mymodule/Example.js` and call it from html with
 `class="jsb_ jsb_mymodule/Example.js"`.
 
-Force jQuery usage in jsb with requirejs
----------------------------
-
-If you use jsb with requirejs, there is no dependency to jquery. But jsb would use jquery to find elements on the DOM, if
- it were available before jsb is loaded.
-
-So, if you want to enforce it, define a shim like this:
-
-     <script>
-         requirejs.config({
-             baseUrl: './js/', // if your files live in the /js/ folder
-             paths: {
-                 jsb: './bower_components/jsb/jsb',
-                 jquery: './bower_components/jquery/dist/jquery'
-             },
-             shim: {
-                 jsb: {
-                    exports: 'jsb',
-                    deps: ['jquery']
-                 }
-             }
-         });
-
-         require(['jsb'], function() {
-             jsb.applyBehaviour(document.body);
-         });
-     </script>
-
-Now jsb will use jQuery's methods to `parseJSON`, find `jsb_`-classified objects in the DOM and to modify the classes.
-
 Advanced: Communication between instances
 -----------------------------------------
 
@@ -326,7 +295,7 @@ jsb.on('Event::NAME', function() {
   console.log('Hi!');
 });
 jsb.fireEvent('Event::NAME');
-``` 
+```
 
 Resources
 ----------

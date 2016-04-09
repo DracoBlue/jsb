@@ -1,6 +1,9 @@
 jsb CHANGELOG
 =======================
 
+* 3.0.0 (2016/04/10)
+  - added UMD-wrapper to create a module with Node, AMD or browser globals #25
+  - removed support for jQuery and MooTools, only a native version is provided
 * 2.3.0 (2015/09/16)
   - added `fireStickyEvent` and `sticky` parameter to `fireEvent`
 * 2.2.0 (2015/09/03)
