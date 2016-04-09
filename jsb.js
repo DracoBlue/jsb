@@ -8,7 +8,7 @@
  * information, please see the LICENSE file in the root folder.
  */
 
-var jsb = {
+jsb = {
     prefix: 'jsb_',
     prefix_regexp: /jsb_([^\s]+)/,
 
@@ -92,8 +92,7 @@ var jsb = {
             this.rawFireEventToListener(listeners[i], name, values);
         }
 
-        if (name === 'Jsb::REMOVED_INSTANCE')
-        {
+        if (name === 'Jsb::REMOVED_INSTANCE') {
             this.removeBoundListenersForInstance(values);
         }
     },
@@ -189,8 +188,7 @@ var jsb = {
      * @param {Object|Function} [filter_or_cb=null]
      * @param {Function} cb
      */
-    whenFired: function(name_or_regexp, filter_or_cb, cb)
-    {
+    whenFired: function(name_or_regexp, filter_or_cb, cb) {
         var that = this;
         var filter = filter_or_cb;
 
@@ -205,11 +203,9 @@ var jsb = {
         if (is_regexp) {
             for (var key in this.last_event_values) {
                 if (this.last_event_values.hasOwnProperty(key) && key.match(name_or_regexp)) {
-                    (function(key)
-                    {
+                    (function(key) {
                         var last_value = that.last_event_values[key];
-                        setTimeout(function()
-                        {
+                        setTimeout(function() {
                             that.rawFireEventToListener([cb, name_or_regexp, filter], key, last_value);
                         }, 0);
                     })(key);
@@ -217,14 +213,12 @@ var jsb = {
             }
             for (var key in this.sticky_event_values) {
                 if (this.sticky_event_values.hasOwnProperty(key) && key.match(name_or_regexp)) {
-                    (function(key)
-                    {
+                    (function(key) {
                         var last_values = that.sticky_event_values[key];
                         var last_values_length = last_values.length;
                         for (var i = 0; i < last_values_length; i++) {
                             (function(last_value) {
-                                setTimeout(function()
-                                {
+                                setTimeout(function() {
                                     that.rawFireEventToListener([cb, name_or_regexp, filter], key, last_value);
                                 }, 0);
                             })(last_values[i]);
@@ -235,8 +229,7 @@ var jsb = {
         } else {
             if (typeof this.last_event_values[name_or_regexp] !== 'undefined') {
                 var last_value = that.last_event_values[name_or_regexp];
-                setTimeout(function()
-                {
+                setTimeout(function() {
                     that.rawFireEventToListener([cb, name_or_regexp, filter], name_or_regexp, last_value);
                 }, 0);
             }
@@ -245,8 +238,7 @@ var jsb = {
                 var last_values_length = last_values.length;
                 for (var i = 0; i < last_values_length; i++) {
                     (function(last_value) {
-                        setTimeout(function()
-                        {
+                        setTimeout(function() {
                             that.rawFireEventToListener([cb, name_or_regexp, filter], name_or_regexp, last_value);
                         }, 0);
                     })(last_values[i]);
@@ -293,12 +285,9 @@ var jsb = {
             } else {
                 require([key], function(require_result) {
                     if (typeof jsb.handlers[key] === 'undefined') {
-                        if (typeof require_result === 'undefined')
-                        {
+                        if (typeof require_result === 'undefined') {
                             throw new Error('The handler ' + key + ' is not defined (even with requirejs)!');
-                        }
-                        else
-                        {
+                        } else {
                             jsb.registerHandler(key, require_result);
                         }
                     }
