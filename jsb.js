@@ -403,10 +403,6 @@ if (typeof jQuery !== 'undefined') {
         jQuery(dom_element).removeClass(class_name);
     };
 
-    jsb.getJsbElementsInDomElement = function(dom_element) {
-        return jQuery(dom_element).find('.' + this.prefix);
-    };
-
     if (typeof window !== "undefined") {
         /*
          * Fire domready in a jQuery way!
@@ -423,10 +419,6 @@ if (typeof jQuery !== 'undefined') {
      */
     jsb.removeClassFromElement = function(dom_element, class_name) {
         $(dom_element).removeClass(class_name);
-    };
-
-    jsb.getJsbElementsInDomElement = function(dom_element) {
-        return $(dom_element).getElements('.' + this.prefix);
     };
 
     if (typeof window !== "undefined") {
