@@ -7,7 +7,7 @@ Build-Status: [![Build Status](https://travis-ci.org/DracoBlue/jsb.png?branch=ma
 
 Official Site: <http://dracoblue.net/>
 
-jsb is copyright 2010-2015 by DracoBlue <http://dracoblue.net>
+jsb is copyright 2010-2016 by DracoBlue <http://dracoblue.net>
 
 What is Jsb?
 --------------------
@@ -17,7 +17,7 @@ rendered HTML without Inline Javascript.
 
 Requirements:
 
-* Firefox 3+, Safari 5+, Chrome, Opera, IE9+
+* Firefox 3+, Safari 5+, Chrome, Opera, IE7+
 * (optional) requirejs - for on demand and subfolder loading
 
 How does it work?
