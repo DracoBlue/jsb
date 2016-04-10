@@ -1,6 +1,7 @@
 var jsb = require('./../');
 
 describe('events', function() {
+
     it('should fire and catch simple events', function(done) {
         var counter = 0;
         jsb.on('Event::SIMPLE', function() {
@@ -45,7 +46,6 @@ describe('events', function() {
         jsb.fireEvent('Event::WITH_OFFHANDLER');
     });
 
-
     it('should catch sticky events only once', function(done) {
         var counter = 0;
         this.timeout(1000);
@@ -67,14 +67,24 @@ describe('events', function() {
         var counter_one = 0;
         var counter_two = 0;
         this.timeout(1000);
-        jsb.fireStickyEvent('Event::STICKY_EVENT_WITH_VALUES', {"id": "myid"});
-        jsb.fireStickyEvent('Event::STICKY_EVENT_WITH_VALUES', {"id": "otherid"});
 
-        jsb.whenFired('Event::STICKY_EVENT_WITH_VALUES', {"id": "myid"}, function() {
+        jsb.fireStickyEvent('Event::STICKY_EVENT_WITH_VALUES', {
+            'id': 'myid'
+        });
+
+        jsb.fireStickyEvent('Event::STICKY_EVENT_WITH_VALUES', {
+            'id': 'otherid'
+        });
+
+        jsb.whenFired('Event::STICKY_EVENT_WITH_VALUES', {
+            'id': 'myid'
+        }, function() {
             counter_one++;
         });
 
-        jsb.whenFired('Event::STICKY_EVENT_WITH_VALUES', {"id": "otherid"}, function() {
+        jsb.whenFired('Event::STICKY_EVENT_WITH_VALUES', {
+            'id': 'otherid'
+        }, function() {
             counter_two++;
         });
 
