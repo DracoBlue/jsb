@@ -1,4 +1,6 @@
-define('WhenFiredRaceConditionTest', function() {
+define('WhenFiredRaceConditionTest', [
+    'jsb'
+], function(jsb) {
     'use strict';
 
     var WhenFiredRaceConditionTest = function(dom_element, options) {

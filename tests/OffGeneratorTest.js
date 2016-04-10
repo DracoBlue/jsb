@@ -1,4 +1,6 @@
-define('OffGeneratorTest', function() {
+define('OffGeneratorTest', [
+    'jsb'
+], function(jsb) {
     'use strict';
 
     var OffGeneratorTest = function(dom_element, options) {

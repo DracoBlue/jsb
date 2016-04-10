@@ -1,9 +1,16 @@
-(function() {
+requirejs.config({
+    baseUrl: '.',
+    paths: {
+        jsb: './../jsb'
+    }
+});
+
+require([
+    'jsb'
+], function(jsb) {
     'use strict';
 
-    require(['./../jsb'], function() {
-        jsb.applyBehaviour(document.body);
-    });
+    jsb.applyBehaviour(document.body);
 
     /*
      * Load the library (if one is required)
@@ -29,4 +36,4 @@
         document.getElementById('tests_count').textContent = tests_ok + tests_failed;
     }, 100);
 
-})();
+});

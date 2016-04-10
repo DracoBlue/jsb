@@ -1,4 +1,6 @@
-define('WhenFiredOffTest', function() {
+define('WhenFiredOffTest', [
+    'jsb'
+], function(jsb) {
     'use strict';
 
     var WhenFiredOffTest = function(dom_element, options) {

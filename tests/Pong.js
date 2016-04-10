@@ -1,4 +1,6 @@
-define('Pong', function() {
+define('Pong', [
+    'jsb'
+], function(jsb) {
     'use strict';
 
     var Pong = function(dom_element, options) {

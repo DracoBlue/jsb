@@ -1,4 +1,6 @@
-define('OffTest', function() {
+define('OffTest', [
+    'jsb'
+], function(jsb) {
     'use strict';
 
     var OffTest = function(dom_element, options) {

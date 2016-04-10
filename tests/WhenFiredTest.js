@@ -1,4 +1,6 @@
-define('WhenFiredTest', function() {
+define('WhenFiredTest', [
+    'jsb'
+], function(jsb) {
     'use strict';
 
     var WhenFiredTest = function(dom_element, options) {
