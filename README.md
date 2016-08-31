@@ -76,6 +76,10 @@ Now add somewhere in your html code the following:
 
     <span class="jsb_ jsb_Example" data-jsb="{&quot;name&quot;:&quot;Jan&quot;}" >Are you loaded?</span>
 
+or with single attribute quotes:
+
+    <span class="jsb_ jsb_Example" data-jsb='{"name": "Jan"}'>Are you loaded?</span>
+
 When you execute the html page now, the text "Are you loaded?" won't display,
 but will be replaced with 'I am loaded with name: Jan'.
 
