@@ -155,7 +155,7 @@ afterwards apply all behaviours on `document.body`:
      }
  });
 
- require(['jsb'], function() {
+ require(['jsb'], function(jsb) {
      jsb.applyBehaviour(document.body);
  });
 </script>
