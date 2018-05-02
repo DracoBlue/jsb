@@ -128,6 +128,11 @@ function jsbOptions(array $options = array()) {
 }
 ```
 
+Advanced: Using with webpack
+----------------------------------------
+
+If you are using webpack, please don't forget to add `jsb.registerHandler` at the end of your behaviour.
+
 Advanced: Using with requirejs and bower
 ----------------------------------------
 
