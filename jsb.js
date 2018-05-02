@@ -290,10 +290,12 @@
          */
         callHandler: function(key, dom_element) {
             if (typeof this.handlers[key] === 'undefined') {
-                if (typeof require === 'undefined') {
+                /* Hide require from webpack. It needs this fix. */
+                var need = window["require"];
+                if (typeof need === 'undefined') {
                     throw new Error('The handler ' + key + ' is not defined!');
                 } else {
-                    require([key], function(require_result) {
+                    need([key], function(require_result) {
                         if (typeof jsb.handlers[key] === 'undefined') {
                             if (typeof require_result === 'undefined') {
                                 throw new Error('The handler ' + key + ' is not defined (even with requirejs)!');

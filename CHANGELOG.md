@@ -1,6 +1,8 @@
 jsb CHANGELOG
 =======================
 
+* 3.1.0 (2016/05/02)
+  - hide require from webpack to avoid `Critical dependency: the request of a dependency is an expression` #34
 * 3.0.0 (2016/04/10)
   - added UMD-wrapper to create a module with Node, AMD or browser globals #25
   - removed support for jQuery and MooTools, only a native version is provided
