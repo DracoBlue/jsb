@@ -1,9 +1,7 @@
 language: node_js
 sudo: false
 node_js:
-- '0.10'
-- '0.11'
-- '0.12'
+- '4.4.7'
 before_script:
 - npm install mocha
 script:
@@ -20,4 +18,4 @@ deploy:
     tags: true
     repo: DracoBlue/jsb
     all_branches: true
-    node: 0.12
+    node: 4.4.7
