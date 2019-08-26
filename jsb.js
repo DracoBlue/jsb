@@ -324,10 +324,30 @@
                 value_string = dom_element.getAttribute('data-jsb');
             }
 
-            if (value_string !== null) {
-                new this.handlers[key](dom_element, this.parseValueString(value_string));
-            } else {
-                new this.handlers[key](dom_element);
+            this.handleJsbHandlers(this.handlers[key], dom_element, value_string);
+        },
+
+        /**
+         * This function creates an object from the handler constructor function and in the case
+         * where that function is not the handler but a dynamic import it uses the promise
+         * resolver to get the handler from the promise and instantiate the behaviour.
+         *
+         * @param jsb_handler
+         * @param dom_element
+         * @param value_string
+         */
+        handleJsbHandlers: function(jsb_handler, dom_element, value_string) {
+            var options = value_string !== null ? this.parseValueString(value_string): undefined;
+            var result = new jsb_handler(dom_element, options);
+
+            if (typeof result.then === 'function') {
+                result.then(object => {
+                    try {
+                        new object.default(dom_element, options);
+                    } catch (error) {
+                        console.error(error);
+                    }
+                });
             }
         },
 
