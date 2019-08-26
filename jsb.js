@@ -328,8 +328,9 @@
         },
 
         /**
-         * This function handles the various cases of different handler types class or simple function
-         * (the second type is for handling dynamic imports)
+         * This function creates an object from the handler constructor function and in the case
+         * where that function is not the handler but a dynamic import it uses the promise
+         * resolver to get the handler from the promise and instantiate the behaviour.
          *
          * @param jsb_handler
          * @param dom_element
