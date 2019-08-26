@@ -324,10 +324,29 @@
                 value_string = dom_element.getAttribute('data-jsb');
             }
 
-            if (value_string !== null) {
-                new this.handlers[key](dom_element, this.parseValueString(value_string));
-            } else {
-                new this.handlers[key](dom_element);
+            this.handleJsbHandlers(this.handlers[key], dom_element, value_string);
+        },
+
+        /**
+         * This function handles the various cases of different handler types class or simple function
+         * (the second type is for handling dynamic imports)
+         *
+         * @param jsb_handler
+         * @param dom_element
+         * @param value_string
+         */
+        handleJsbHandlers: function(jsb_handler, dom_element, value_string) {
+            var options = value_string !== null ? this.parseValueString(value_string): undefined;
+            var result = new jsb_handler(dom_element, options);
+
+            if (typeof result.then === 'function') {
+                result.then(object => {
+                    try {
+                        new object.default(dom_element, options);
+                    } catch (error) {
+                        console.error(error);
+                    }
+                });
             }
         },
 
