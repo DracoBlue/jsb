@@ -1,35 +1,40 @@
-var jsb = require('./../');
+import {
+    on,
+    fireEvent,
+    whenFired,
+    fireStickyEvent
+} from '../jsb.js';
 
 describe('events', function() {
 
     it('should fire and catch simple events', function(done) {
         var counter = 0;
-        jsb.on('Event::SIMPLE', function() {
+        on('Event::SIMPLE', function() {
             counter++;
             if (counter == 2) {
                 done();
             }
         });
-        jsb.fireEvent('Event::SIMPLE');
-        jsb.fireEvent('Event::SIMPLE');
+        fireEvent('Event::SIMPLE');
+        fireEvent('Event::SIMPLE');
     });
 
     it('should catch events of the past', function(done) {
         var counter = 0;
-        jsb.fireEvent('Event::FROM_THE_PAST');
-        jsb.whenFired('Event::FROM_THE_PAST', function() {
+        fireEvent('Event::FROM_THE_PAST');
+        whenFired('Event::FROM_THE_PAST', function() {
             counter++;
             if (counter == 2) {
                 done();
             }
         });
-        jsb.fireEvent('Event::FROM_THE_PAST');
+        fireEvent('Event::FROM_THE_PAST');
     });
 
     it('should detach if off handler is called', function(done) {
         var counter = 0;
         this.timeout(1000);
-        var offHandler = jsb.on('Event::WITH_OFFHANDLER', function() {
+        var offHandler = on('Event::WITH_OFFHANDLER', function() {
             counter++;
             if (counter == 1) {
                 offHandler();
@@ -40,17 +45,17 @@ describe('events', function() {
                         throw new Error('The handler should be unregistered, but calls again!');
                     }
                 }, 200);
-                jsb.fireEvent('Event::WITH_OFFHANDLER');
+                fireEvent('Event::WITH_OFFHANDLER');
             }
         });
-        jsb.fireEvent('Event::WITH_OFFHANDLER');
+        fireEvent('Event::WITH_OFFHANDLER');
     });
 
     it('should catch sticky events only once', function(done) {
         var counter = 0;
         this.timeout(1000);
-        jsb.fireStickyEvent('Event::STICKY_EVENT');
-        jsb.whenFired('Event::STICKY_EVENT', function() {
+        fireStickyEvent('Event::STICKY_EVENT');
+        whenFired('Event::STICKY_EVENT', function() {
             counter++;
         });
 
@@ -68,21 +73,21 @@ describe('events', function() {
         var counter_two = 0;
         this.timeout(1000);
 
-        jsb.fireStickyEvent('Event::STICKY_EVENT_WITH_VALUES', {
+        fireStickyEvent('Event::STICKY_EVENT_WITH_VALUES', {
             'id': 'myid'
         });
 
-        jsb.fireStickyEvent('Event::STICKY_EVENT_WITH_VALUES', {
+        fireStickyEvent('Event::STICKY_EVENT_WITH_VALUES', {
             'id': 'otherid'
         });
 
-        jsb.whenFired('Event::STICKY_EVENT_WITH_VALUES', {
+        whenFired('Event::STICKY_EVENT_WITH_VALUES', {
             'id': 'myid'
         }, function() {
             counter_one++;
         });
 
-        jsb.whenFired('Event::STICKY_EVENT_WITH_VALUES', {
+        whenFired('Event::STICKY_EVENT_WITH_VALUES', {
             'id': 'otherid'
         }, function() {
             counter_two++;

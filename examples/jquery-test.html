@@ -1,11 +1,10 @@
 <html>
 <head>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"> </script>
-    <script type="text/javascript" src="../jsb.js"> </script>
-    <script type="text/javascript" src="TimeDifference.js"> </script>
-    <script type="text/javascript" src="CurrentTime.js"> </script>
-    <script type="text/javascript" src="HoneyPot.js"> </script>
-    <script type="text/javascript" src="HoneyPotDisplay.js"> </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="module" src="TimeDifference.js"></script>
+    <script type="module" src="CurrentTime.js"></script>
+    <script type="module" src="HoneyPot.js"></script>
+    <script type="module" src="HoneyPotDisplay.js"></script>
 </head>
 <body>
     <h2>TimeDifference Test</h2>
@@ -28,7 +27,7 @@
             23th May 2010
         </span>
     </div>
-    
+
     <h2>HoneyPot (first element)</h2>
     Communicating with <code>jsb.fireEvent(name, values)</code>
     <div class="jsb_ jsb_honey_pot" style="background-color: yellow">
@@ -37,7 +36,7 @@
 
     <h2>HoneyPot second Element</h2>
     Communicating with <code>jsb.on(name, [filter,] callback)</code>
-    
+
     <div class="jsb_ jsb_honey_pot_display">
         Loading ....
     </div>

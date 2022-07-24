@@ -1,29 +1,32 @@
-HoneyPotDisplay = function(dom_element, options) {
-    var that = this;
-    this.dom_element = dom_element;
-    this.hit_count = 0;
-    this.setHitCount(0);
-    this.initializeListener();
-};
+import {
+    on,
+    registerHandler
+} from '../jsb.js';
 
-HoneyPotDisplay.prototype.initializeListener = function() {
-    var that = this;
-    
-    jsb.on(/^HoneyPot/, function() {
-        that.setHitCount(that.hit_count + 1);
-    });
-};
+class HoneyPotDisplay {
 
-HoneyPotDisplay.prototype.setHitCount = function(count) {
-    var text = 'Hits: ' + count;
-    this.hit_count = count;
-    if (typeof jQuery !== 'undefined') {
-        jQuery(this.dom_element).text(text);
-    } else if (typeof MooTools !== 'undefined') {
-        this.dom_element.set('text', text);
-    } else {
-        this.dom_element.textContent = text;
+    constructor(dom_element) {
+        this.dom_element = dom_element;
+        this.hit_count = 0;
+        this.setHitCount(0);
+        this.initializeListener();
+    };
+
+    initializeListener() {
+        on(/^HoneyPot/, () => this.setHitCount(this.hit_count + 1));
+    }
+
+    setHitCount(count) {
+        const text = 'Hits: ' + count;
+        this.hit_count = count;
+        if (typeof jQuery !== 'undefined') {
+            jQuery(this.dom_element).text(text);
+        } else if (typeof MooTools !== 'undefined') {
+            this.dom_element.set('text', text);
+        } else {
+            this.dom_element.textContent = text;
+        }
     }
 };
 
-jsb.registerHandler('honey_pot_display', HoneyPotDisplay);
+registerHandler('honey_pot_display', HoneyPotDisplay);

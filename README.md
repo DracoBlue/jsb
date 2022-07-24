@@ -7,7 +7,7 @@ Build-Status: [![Build Status](https://travis-ci.org/DracoBlue/jsb.png?branch=ma
 
 Official Site: <http://dracoblue.net/>
 
-jsb is copyright 2010-2016 by DracoBlue <http://dracoblue.net>
+jsb is copyright 2010-2022 by DracoBlue <http://dracoblue.net>
 
 What is Jsb?
 --------------------
@@ -17,7 +17,7 @@ rendered HTML without Inline Javascript.
 
 Requirements:
 
-* Firefox 3+, Safari 5+, Chrome, Opera, IE7+
+* Firefox 67+, Safari 11.1+, Chrome 63+
 * (optional) requirejs - for on demand and subfolder loading
 
 How does it work?
@@ -42,33 +42,33 @@ same.
 Example
 -------
 
-Include the jsb into your website with the following meta
-tag (before you define any behaviours):
-
-```html
-<script type="text/javascript" src="js/jsb.js"> </script>
-```
-Additionally add this one:
-```html
-<script type="text/javascript" src="js/Example.js"> </script>
-```
 Now create a new file `js/Example.js`
-```javascript
-Example = function(dom_element, options) {
-   dom_element.textContent = 'I am loaded with name: ' + options.name;
-};
 
-jsb.registerHandler('Example', Example);
+```html
+<script type="module" src="js/Example.js"> </script>
+```
+Import the needed parts of jsb into your website with import in your module:
+```javascript
+import { registerHandler } from 'jsb';
+
+class Example {
+    constructor(dom_element, options) {
+        dom_element.textContent = 'I am loaded with name: ' + options.name;
+    }
+}
+
+registerHandler('Example', Example);
 ```
 If you want to use requirejs integration, create it like this (no `registerHandler` necessary!):
 ```javascript
-define("Example", [], function()
-{
+define("Example", [], function() {
     "use strict";
 
-    var Example = function(dom_element, options) {
-       dom_element.textContent = 'I am loaded with name: ' + options.name;
-    };
+    class Example {
+        constructor(dom_element, options) {
+            dom_element.textContent = 'I am loaded with name: ' + options.name;
+        }
+    }
 
     return Example;
 });
@@ -142,10 +142,10 @@ If you want to avoid to include all those script tags:
 ```
 for your behaviours, you may use requirejs.
 
-Install jsb with bower:
+Install jsb with npm:
 
 ```console
-$ bower install jsb
+$ npm install node-jsb --save
 ```
 
 Inject a config to tell requirejs, where jsb lives in bower_components folder and
@@ -156,7 +156,7 @@ afterwards apply all behaviours on `document.body`:
  requirejs.config({
      baseUrl: './js/', // if your files live in the /js/ folder
      paths: {
-         jsb: './bower_components/jsb/jsb'
+         jsb: './node_modules/node-jsb/jsb'
      }
  });
 
@@ -251,7 +251,7 @@ jsb.on(
 Event handlers can be removed by passing the exact same name/regex and Function object to `jsb.off`.
 ```javascript
 var counter = 0;
-var handler = function(){
+var handler = function() {
     counter++
 };
 jsb.on('OFF_TEST', handler);
@@ -262,7 +262,7 @@ jsb.fireEvent('OFF_TEST'); //counter is still 1 because the listener was removed
 Alternatively `jsb.on` returns a function that can be called without any parameters and will remove the name/handler pair that was registered by `jsb.on` in that call.
 ```javascript
 var counter = 0;
-var handler = function(){
+var handler = function() {
     counter++
 };
 var off = jsb.on('OFF_TEST', handler);

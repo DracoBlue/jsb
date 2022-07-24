@@ -9,6 +9,7 @@
   "scripts": {
     "test": "mocha"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DracoBlue/jsb.git"
@@ -24,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/DracoBlue/jsb/issues"
   },
-  "homepage": "https://github.com/DracoBlue/jsb#readme"
+  "homepage": "https://github.com/DracoBlue/jsb#readme",
+  "devDependencies": {
+    "mocha": "10.0.0"
+  }
 }
