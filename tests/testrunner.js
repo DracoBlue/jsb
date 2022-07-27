@@ -1,7 +1,7 @@
 requirejs.config({
     baseUrl: '.',
     paths: {
-        jsb: './../jsb'
+        jsb: './../dist/jsb'
     }
 });
 

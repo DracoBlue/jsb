@@ -1,6 +1,6 @@
 import {
     registerHandler
-} from '../jsb.js'
+} from '../dist/jsb.es.js'
 
 class TimeDifference {
     constructor(dom_element, options = {}) {

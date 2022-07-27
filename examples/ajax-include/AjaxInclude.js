@@ -1,7 +1,7 @@
 import {
     registerHandler,
     applyBehaviour
-} from '../../jsb.js';
+} from '../../dist/jsb.es.js';
 class AjaxInclude {
 
     constructor(dom_element, options = {}) {

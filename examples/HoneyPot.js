@@ -1,7 +1,7 @@
 import {
     fireEvent,
     registerHandler
-} from '../jsb.js';
+} from '../dist/jsb.es.js';
 
 class HoneyPot {
 

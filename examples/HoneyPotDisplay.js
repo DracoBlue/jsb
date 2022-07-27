@@ -1,7 +1,7 @@
 import {
     on,
     registerHandler
-} from '../jsb.js';
+} from '../dist/jsb.es.js';
 
 class HoneyPotDisplay {
 
