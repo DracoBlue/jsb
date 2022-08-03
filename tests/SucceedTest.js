@@ -1,9 +1,14 @@
-define('SucceedTest', function() {
+define('SucceedTest', [
+    'BaseTest'
+], function(BaseTest) {
     'use strict';
 
-    var SucceedTest = function(dom_element, options) {
-        dom_element.className = 'test_succeeded';
-    };
+    class SucceedTest extends BaseTest {
+        constructor(dom_element) {
+            super(dom_element);
+            this.markAsSucceeded()
+        }
+    }
 
     return SucceedTest;
 });

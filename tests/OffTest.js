@@ -1,37 +1,32 @@
 define('OffTest', [
-    'jsb'
-], function(jsb) {
+    'jsb',
+    'BaseTest'
+], function(jsb, BaseTest) {
     'use strict';
 
-    var OffTest = function(dom_element, options) {
-        var that = this;
-        this.dom_element = dom_element;
-        var event_counter = 0;
+    class OffTest extends BaseTest {
+        constructor(dom_element) {
+            super(dom_element);
 
-        var offTestHandler = function() {
-            event_counter++;
+            let event_counter = 0;
+
+            const offTestHandler = function() {
+                event_counter++;
+            };
+
+            jsb.on('OFF_TEST', offTestHandler);
+
+            jsb.fireEvent('OFF_TEST');
+            jsb.off('OFF_TEST', offTestHandler);
+            jsb.fireEvent('OFF_TEST');
+
+            setTimeout(() => {
+                if (event_counter === 1) {
+                    this.markAsSucceeded();
+                }
+            }, 10);
         };
-
-        jsb.on('OFF_TEST', offTestHandler);
-
-        jsb.fireEvent('OFF_TEST');
-        jsb.off('OFF_TEST', offTestHandler);
-        jsb.fireEvent('OFF_TEST');
-
-        setTimeout(function() {
-            if (event_counter === 1) {
-                that.markAsSucceeded();
-            }
-        }, 10);
-    };
-
-    OffTest.prototype.markAsSucceeded = function() {
-        this.dom_element.className = 'test_succeeded';
-    };
-
-    OffTest.prototype.markAsFailed = function() {
-        this.dom_element.className = 'test_failed';
-    };
+    }
 
     return OffTest;
 });

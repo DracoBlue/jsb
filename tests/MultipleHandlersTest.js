@@ -1,18 +1,20 @@
-define('MultipleHandlersTest', function() {
+define('MultipleHandlersTest', [
+    'BaseTest'
+], function(BaseTest) {
     'use strict';
 
-    var MultipleHandlersTest = function(dom_element, options) {
-        var timer = setInterval(function() {
+    class MultipleHandlersTest extends BaseTest {
+        constructor(dom_element) {
+            super(dom_element);
+            const timer = setInterval(() => {
+                if (dom_element.classList.contains('addthis')) {
+                    clearInterval(timer);
 
-            var classes = dom_element.className;
-
-            if (classes.indexOf('addthis') > 0) {
-                clearInterval(timer);
-
-                dom_element.className = 'test_succeeded';
-            }
-        }, 100);
-    };
+                    this.markAsSucceeded();
+                }
+            }, 100);
+        }
+    }
 
     return MultipleHandlersTest;
 });

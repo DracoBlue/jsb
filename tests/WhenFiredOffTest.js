@@ -1,59 +1,54 @@
 define('WhenFiredOffTest', [
-    'jsb'
-], function(jsb) {
+    'jsb',
+    'BaseTest'
+], function(jsb, BaseTest) {
     'use strict';
 
-    var WhenFiredOffTest = function(dom_element, options) {
-        var that = this;
-        this.dom_element = dom_element;
-        var event_counter = 0;
+    class WhenFiredOffTest extends BaseTest {
+        constructor(dom_element, options) {
+            super(dom_element);
 
-        /*
-         * Register on the event with a normal handler to count how often it got
-         * called
-         */
-        jsb.on('WHEN_FIRED_OFF_TEST', function() {
-            event_counter++;
-            if (event_counter > 1) {
-                that.markAsFailed();
-            }
-        });
+            let event_counter = 0;
 
-        /*
-         * Fire the event, it should raise the `event_counter` to 1 now
-         */
-        jsb.fireEvent('WHEN_FIRED_OFF_TEST', {
-            'key': 'value'
-        });
-
-        setTimeout(function() {
             /*
-             * Register on the event, but use whenFired, thus the event handler
-             * should be called immediately and the `event_counter` should be still
-             * 1.
-             */
-            var off = jsb.whenFired('WHEN_FIRED_OFF_TEST', function(values) {
-                if (event_counter === 1 && values.key == 'value') {
-                    /* off should not be undefined now! */
-                    if (typeof off === 'undefined') {
-                        that.markAsFailed();
-                    }
-                    else {
-                        off();
-                        that.markAsSucceeded();
-                    }
+            * Register on the event with a normal handler to count how often it got
+            * called
+            */
+            jsb.on('WHEN_FIRED_OFF_TEST', () => {
+                event_counter++;
+                if (event_counter > 1) {
+                    this.markAsFailed();
                 }
             });
-        }, 10);
-    };
 
-    WhenFiredOffTest.prototype.markAsSucceeded = function() {
-        this.dom_element.className = 'test_succeeded';
-    };
+            /*
+            * Fire the event, it should raise the `event_counter` to 1 now
+            */
+            jsb.fireEvent('WHEN_FIRED_OFF_TEST', {
+                'key': 'value'
+            });
 
-    WhenFiredOffTest.prototype.markAsFailed = function() {
-        this.dom_element.className = 'test_failed';
-    };
+            setTimeout(() => {
+                /*
+                * Register on the event, but use whenFired, thus the event handler
+                * should be called immediately and the `event_counter` should be still
+                * 1.
+                */
+                const off = jsb.whenFired('WHEN_FIRED_OFF_TEST', (values) => {
+                    if (event_counter === 1 && values.key == 'value') {
+                        /* off should not be undefined now! */
+                        if (typeof off === 'undefined') {
+                            this.markAsFailed();
+                        }
+                        else {
+                            off();
+                            this.markAsSucceeded();
+                        }
+                    }
+                });
+            }, 10);
+        }
+    }
 
     return WhenFiredOffTest;
 });

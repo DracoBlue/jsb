@@ -1,69 +1,64 @@
 define('WhenFiredTest', [
-    'jsb'
-], function(jsb) {
+    'jsb',
+    'BaseTest'
+], function(jsb, BaseTest) {
     'use strict';
 
-    var WhenFiredTest = function(dom_element, options) {
-        var that = this;
-        this.dom_element = dom_element;
-        var event_counter = 0;
+    class WhenFiredTest extends BaseTest {
+        constructor(dom_element) {
+            super(dom_element);
 
-        /*
-         * Register on the event with a normal handler to count how often it got
-         * called
-         */
-        jsb.on('WHEN_FIRED_TEST', function() {
-            event_counter++;
-            if (event_counter > 1) {
-                that.markAsFailed();
-            }
-        });
+            let event_counter = 0;
 
-        /*
-         * Fire the event, it should raise the `event_counter` to 1 now
-         */
-        jsb.fireEvent('WHEN_FIRED_TEST', {
-            'key': 'value'
-        });
-
-        setTimeout(function() {
             /*
-             * Register on the event, but use whenFired, thus the event handler
-             * should be called immediately and the `event_counter` should be still
-             * 1.
-             */
-            jsb.whenFired('WHEN_FIRED_TEST', function(values) {
-                if (event_counter === 1 && values.key == 'value') {
-                    /*
-                     * Now test the same with an regular expression and a filter
-                     */
-                    jsb.whenFired(/^WHEN_FIRED_TEST$/, {
-                        'key': 'value'
-                    }, function(values) {
-                        if (event_counter === 1 && values.key == 'value') {
-                            that.markAsSucceeded();
-                            /*
-                             * We whould not get that event, if the filter is wrong!
-                             */
-                            jsb.whenFired(/^WHEN_FIRED_TEST$/, {
-                                'key': 'wrong_value'
-                            }, function(values) {
-                                that.markAsFailed();
-                            });
-                        }
-                    });
+            * Register on the event with a normal handler to count how often it got
+            * called
+            */
+            jsb.on('WHEN_FIRED_TEST', () => {
+                event_counter++;
+                if (event_counter > 1) {
+                    this.markAsFailed();
                 }
             });
-        }, 10);
-    };
 
-    WhenFiredTest.prototype.markAsSucceeded = function() {
-        this.dom_element.className = 'test_succeeded';
-    };
+            /*
+            * Fire the event, it should raise the `event_counter` to 1 now
+            */
+            jsb.fireEvent('WHEN_FIRED_TEST', {
+                'key': 'value'
+            });
 
-    WhenFiredTest.prototype.markAsFailed = function() {
-        this.dom_element.className = 'test_failed';
-    };
+            setTimeout(() => {
+                /*
+                * Register on the event, but use whenFired, thus the event handler
+                * should be called immediately and the `event_counter` should be still
+                * 1.
+                */
+                jsb.whenFired('WHEN_FIRED_TEST', (values) => {
+                    if (event_counter === 1 && values.key == 'value') {
+                        /*
+                        * Now test the same with an regular expression and a filter
+                        */
+                        jsb.whenFired(/^WHEN_FIRED_TEST$/, {
+                            'key': 'value'
+                        }, (values) => {
+                            if (event_counter === 1 && values.key == 'value') {
+                                this.markAsSucceeded();
+                                /*
+                                * We whould not get that event, if the filter is wrong!
+                                */
+                                jsb.whenFired(/^WHEN_FIRED_TEST$/, {
+                                    'key': 'wrong_value'
+                                }, (values) => {
+                                    this.markAsFailed();
+                                });
+                            }
+                        });
+                    }
+                });
+            }, 10);
+        }
+    }
 
     return WhenFiredTest;
 });
