@@ -34,8 +34,8 @@
   },
   "homepage": "https://github.com/DracoBlue/jsb#readme",
   "devDependencies": {
-    "@babel/core": "7.18.9",
-    "@babel/preset-env": "7.18.9",
+    "@babel/core": "7.18.10",
+    "@babel/preset-env": "7.18.10",
     "@rollup/plugin-babel": "5.3.1",
     "mocha": "10.0.0",
     "rimraf": "3.0.2",
