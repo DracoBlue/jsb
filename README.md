@@ -34,7 +34,7 @@ jsb.registerHandler('keyword', KeywordBehaviour);
 ```
 method. As soon as the dom is loaded
 ```javascript
-jsb.applyBehaviour(window.document);
+jsb.applyBehaviour(document.documentElement);
 ```
 is executed. You might even overwrite your Request.HTML method to do the
 same.
@@ -59,9 +59,11 @@ class Example {
 
 registerHandler('Example', Example);
 ```
+
 If you want to use requirejs integration, create it like this (no `registerHandler` necessary!):
+
 ```javascript
-define("Example", [], function() {
+define("Example", function() {
     "use strict";
 
     class Example {
@@ -73,11 +75,15 @@ define("Example", [], function() {
     return Example;
 });
 ```
+
 Now add somewhere in your html code the following:
+
 ```html
 <span class="jsb_ jsb_Example" data-jsb="{&quot;name&quot;:&quot;Jan&quot;}">Are you loaded?</span>
 ```
+
 or with single attribute quotes:
+
 ```html
 <span class="jsb_ jsb_Example" data-jsb='{"name": "Jan"}'>Are you loaded?</span>
 ```
@@ -128,12 +134,12 @@ function jsbOptions(array $options = array()) {
 }
 ```
 
-Advanced: Using with webpack
+Advanced: Using with bundler (webpack/rollup/parcel)
 ----------------------------------------
 
-If you are using webpack, please don't forget to add `jsb.registerHandler` at the end of your behaviour.
+If you are using a bundler, please don't forget to add `jsb.registerHandler` at the end of your behaviour.
 
-Advanced: Using with requirejs and bower
+Advanced: Using with requirejs and npm
 ----------------------------------------
 
 If you want to avoid to include all those script tags:
@@ -148,23 +154,35 @@ Install jsb with npm:
 $ npm install node-jsb --save
 ```
 
-Inject a config to tell requirejs, where jsb lives in bower_components folder and
-afterwards apply all behaviours on `document.body`:
+Inject a config to tell requirejs, where jsb lives in and afterwards apply all behaviours on `document.body`:
+
 ```html
 <script type="text/javascript" src="js/requirejs.js"> </script>
 <script>
  requirejs.config({
      baseUrl: './js/', // if your files live in the /js/ folder
      paths: {
-         jsb: './node_modules/node-jsb/jsb'
+         jsb: './node_modules/node-jsb/dist/jsb'
      }
  });
 
  require(['jsb'], function(jsb) {
-     jsb.applyBehaviour(document.body);
+    function runJsb() {
+        // using the "UnknownHandlerException" error to require the missing modules
+        try {
+            jsb.applyBehaviour(document.documentElement);
+        } catch (e) {
+            if (e.name && e.name === 'UnknownHandlerException') {
+                require([e.key], function(require_result) {
+                    jsb.registerHandler(e.key, require_result);
+                    runJsb();
+                });
+            }
+        }
+    }
+    runJsb();
  });
 </script>
-<script type="text/javascript" src="js/jsb.js"> </script>
 ```
 
 Create a new file (`js/Example.js`), but don't include it with `<script>` into the head:
@@ -184,8 +202,8 @@ And now just include your Behaviours in HTML, e.g.:
 ```html
 <span class="jsb_ jsb_Example" data-jsb="name=Jan&amp;param1=one">Are you loaded?</span>
 ```
-If jsb notices, that the handler "Example" is not yet registered. Internally it will call `require` for "Example" and use the result
-with `jsb.registerHandler`. Afterwards is the handler for "Example" defined.
+If jsb notices, that the handler "Example" is not yet registered. Internally it will throw the `UnknownHandlerException` error.
+You need to catch the error and load your module with requirejs like in the example above.
 
 This is very good if you want to keep the global namespace clean (since `var Example` defines a local variable). It's
 also very nice, if you only want to load the element on demand!

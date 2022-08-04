@@ -3,7 +3,7 @@ import {
     fireEvent,
     whenFired,
     fireStickyEvent
-} from '../jsb.js';
+} from '../dist/jsb.es.js';
 
 describe('events', function() {
 

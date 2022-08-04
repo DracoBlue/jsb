@@ -29,8 +29,8 @@ export function setPrefix(prefix) {
 /**
  * Register a new handler with the given constructor function
  *
- * @param {String} key
- * @param {Function} handler_function
+ * @param {String} key
+ * @param {Function} handler_function
  */
 export function registerHandler(key, handler_function) {
     handlers[key] = handler_function;
@@ -39,28 +39,27 @@ export function registerHandler(key, handler_function) {
 /**
  * Apply all behaviours on a given dom_element and it's children.
  *
- * @param {HTMLElement} dom_element
+ * @param {HTMLElement} parent_dom_element
  */
 export function applyBehaviour(parent_dom_element) {
-    let dom_elements = getJsbElementsInDomElement(parent_dom_element);
-    let dom_elements_length = dom_elements.length;
-    let dom_element = null;
-    let key = null;
-    let key_match = null;
+    const dom_elements = getJsbElementsInDomElement(parent_dom_element);
+    const dom_elements_length = dom_elements.length;
+
+    let key_match;
 
     for (let i = 0; i < dom_elements_length; i++) {
-        dom_element = dom_elements[i];
+        const dom_element = dom_elements[i];
         removeClassFromElement(dom_element, prefix);
 
         do {
             key_match = dom_element.className.match(prefix_regexp);
             if (key_match) {
-                key = key_match[1];
+                const key = key_match[1];
+
                 callHandler(key, dom_element);
                 removeClassFromElement(dom_element, prefix + key);
             }
         } while(key_match);
-
     }
 
     fireEvent('Jsb::BEHAVIOURS_APPLIED');
@@ -68,9 +67,9 @@ export function applyBehaviour(parent_dom_element) {
 
 /**
  * Fires an event with the given name and values.
- * @param {String} name
- * @param {Object} [values={}]
- * @param {Boolean} [sticky=false]
+ * @param {String} name
+ * @param {Object} [values={}]
+ * @param {Boolean} [sticky=false]
  */
 export function fireEvent(name, values = {}, sticky = false) {
     /*
@@ -95,8 +94,8 @@ export function fireEvent(name, values = {}, sticky = false) {
 
 /**
  * Fires an event with the given name and values.
- * @param {String} name
- * @param {Object} [values={}]
+ * @param {String} name
+ * @param {Object} [values={}]
  */
 export function fireStickyEvent(name, values) {
     fireEvent(name, values, true);
@@ -158,8 +157,8 @@ function removeBoundListenersForInstance(instance) {
  *
  * The handler function needs to be the exact same Function object that was previously registered as an event handler.
  *
- * @param {String|RegExp} name_or_regexp
- * @param {Function} cb
+ * @param {String|RegExp} name_or_regexp
+ * @param {Function} cb
  */
 export function off(name_or_regexp, cb) {
     listeners = listeners.filter(
@@ -172,9 +171,9 @@ export function off(name_or_regexp, cb) {
  * Register to an event as soon as it's fired for the first time
  * even if that happend earlier!
  *
- * @param {String|RegExp} name_or_regexp
- * @param {Object|Function} [filter_or_cb=null]
- * @param {Function} cb
+ * @param {String|RegExp} name_or_regexp
+ * @param {Object|Function} [filter_or_cb=null]
+ * @param {Function} cb
  */
 export function whenFired(name_or_regexp, filter_or_cb, cb) {
     let filter = filter_or_cb;
@@ -243,9 +242,9 @@ export function whenFired(name_or_regexp, filter_or_cb, cb) {
 
 /**
  * @private
- * @param Function listener
- * @param String name
- * @param Array.<(String|RegExp)> values
+ * @param {Function} listener
+ * @param {String} name
+ * @param {Array.<(String|RegExp)>} values
  */
 function rawFireEventToListener(listener, name, values) {
     let is_regexp_match = (listener[1] instanceof RegExp && name.match(listener[1]));
@@ -268,30 +267,27 @@ function rawFireEventToListener(listener, name, values) {
 }
 
 /**
+ * Exception for unknown key.
+ * @param {String} key
+ * @param {HTMLElement} dom_element
+ */
+function UnknownHandlerException(key, dom_element) {
+    this.name = 'UnknownHandlerException';
+    this.message = `The handler ${key} is not definded.`;
+    this.key = key;
+    this.domElement = dom_element;
+}
+
+/**
  * Call a specific handler on a given dom element
  * @private
- * @param String key
- * @param HTMLElement dom_element
+ * @param {String} key
+ * @param {HTMLElement} dom_element
  */
 function callHandler(key, dom_element) {
     if (typeof handlers[key] === 'undefined') {
-        /* Hide require from webpack. It needs this fix. */
-        let need = window["require"];
-        if (typeof need === 'undefined') {
-            throw new Error('The handler ' + key + ' is not defined!');
-        } else {
-            need([key], (require_result) => {
-                if (typeof handlers[key] === 'undefined') {
-                    if (typeof require_result === 'undefined') {
-                        throw new Error('The handler ' + key + ' is not defined (even with requirejs)!');
-                    } else {
-                        registerHandler(key, require_result);
-                    }
-                }
-                callHandler(key, dom_element);
-            });
-            return ;
-        }
+        dom_element.classList.add(prefix);
+        throw new UnknownHandlerException(key, dom_element);
     }
 
     let value_string = null;
@@ -319,7 +315,7 @@ function callHandler(key, dom_element) {
 /**
  * Parse a json or a query string into an object hash
  * @private
- * @param String value_string
+ * @param {String} value_string
  * @return Object
  */
 function parseValueString(value_string) {
@@ -341,8 +337,8 @@ function parseValueString(value_string) {
 
 /**
  * @private
- * @param HTMLElement dom_element
- * @param String class_name
+ * @param {HTMLElement} dom_element
+ * @param {String} class_name
  * @return void
  */
 function removeClassFromElement(dom_element, class_name) {
@@ -354,7 +350,7 @@ function removeClassFromElement(dom_element, class_name) {
  * jsb prefix.
  *
  * @private
- * @param HTMLElement dom_element
+ * @param {HTMLElement} dom_element
  * @returns HTMLElement[]
  */
 function getJsbElementsInDomElement(dom_element) {
@@ -363,13 +359,4 @@ function getJsbElementsInDomElement(dom_element) {
      * change as soon as we remove the element's className.
      */
     return [].slice.call(dom_element.getElementsByClassName(prefix));
-}
-
-/*
- * Fire domready in a native way!
- */
-if (typeof window !== 'undefined' && window.addEventListener) {
-    window.addEventListener('DOMContentLoaded', () => {
-        applyBehaviour(window.document);
-    }, true);
 }
