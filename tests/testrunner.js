@@ -16,7 +16,9 @@ require([
         } catch (e) {
             if (e.name && e.name === 'UnknownHandlerException') {
                 require([e.key], function(require_result) {
-                    jsb.registerHandler(e.key, require_result);
+                    if (require_result && !jsb.hasHandler(e.key)) {
+                        jsb.registerHandler(e.key, require_result);
+                    }
                     runJsb();
                 });
             }

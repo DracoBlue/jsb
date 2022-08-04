@@ -32,12 +32,11 @@ Each behaviour can register on such *keyword* by using this
 ```javascript
 jsb.registerHandler('keyword', KeywordBehaviour);
 ```
-method. As soon as the dom is loaded
+method. As soon as the dom is loaded call:
 ```javascript
 jsb.applyBehaviour(document.documentElement);
 ```
-is executed. You might even overwrite your Request.HTML method to do the
-same.
+If you use ES modules, you do not need a dom ready event.
 
 Example
 -------
@@ -144,7 +143,7 @@ Advanced: Using with requirejs and npm
 
 If you want to avoid to include all those script tags:
 ```html
-<script type="text/javascript" src="js/Example.js"> </script>
+<script src="js/Example.js"></script>
 ```
 for your behaviours, you may use requirejs.
 
@@ -157,7 +156,7 @@ $ npm install node-jsb --save
 Inject a config to tell requirejs, where jsb lives in and afterwards apply all behaviours on `document.body`:
 
 ```html
-<script type="text/javascript" src="js/requirejs.js"> </script>
+<script src="js/requirejs.js"> </script>
 <script>
  requirejs.config({
      baseUrl: './js/', // if your files live in the /js/ folder
@@ -174,7 +173,9 @@ Inject a config to tell requirejs, where jsb lives in and afterwards apply all b
         } catch (e) {
             if (e.name && e.name === 'UnknownHandlerException') {
                 require([e.key], function(require_result) {
-                    jsb.registerHandler(e.key, require_result);
+                    if (require_result && !jsb.hasHandler(e.key)) {
+                        jsb.registerHandler(e.key, require_result);
+                    }
                     runJsb();
                 });
             }

@@ -37,6 +37,16 @@ export function registerHandler(key, handler_function) {
 }
 
 /**
+ * Tests if a handler is registered.
+ *
+ * @param {String} key
+ * @returns Boolean
+ */
+export function hasHandler(key) {
+    return (typeof handlers[key] !== 'undefined');
+}
+
+/**
  * Apply all behaviours on a given dom_element and it's children.
  *
  * @param {HTMLElement} parent_dom_element
@@ -173,7 +183,7 @@ export function off(name_or_regexp, cb) {
  *
  * @param {String|RegExp} name_or_regexp
  * @param {Object|Function} [filter_or_cb=null]
- * @param {Function} cb
+ * @param {Function} [cb]
  */
 export function whenFired(name_or_regexp, filter_or_cb, cb) {
     let filter = filter_or_cb;
@@ -190,10 +200,10 @@ export function whenFired(name_or_regexp, filter_or_cb, cb) {
     if (is_regexp) {
         for (let key in last_event_values) {
             if (last_event_values.hasOwnProperty(key) && key.match(name_or_regexp)) {
-                (function(key) {
+                ((key) => {
                     let last_value = last_event_values[key];
 
-                    setTimeout(function() {
+                    setTimeout(() => {
                         rawFireEventToListener([cb, name_or_regexp, filter], key, last_value);
                     }, 0);
                 })(key);
@@ -201,12 +211,12 @@ export function whenFired(name_or_regexp, filter_or_cb, cb) {
         }
         for (let key in sticky_event_values) {
             if (sticky_event_values.hasOwnProperty(key) && key.match(name_or_regexp)) {
-                (function(key) {
+                ((key) => {
                     let last_values = sticky_event_values[key];
                     let last_values_length = last_values.length;
 
                     for (let i = 0; i < last_values_length; i++) {
-                        (function(last_value) {
+                        ((last_value) => {
                             setTimeout(() => {
                                 rawFireEventToListener([cb, name_or_regexp, filter], key, last_value);
                             }, 0);
@@ -219,7 +229,7 @@ export function whenFired(name_or_regexp, filter_or_cb, cb) {
         if (typeof last_event_values[name_or_regexp] !== 'undefined') {
             let last_value = last_event_values[name_or_regexp];
 
-            setTimeout(function() {
+            setTimeout(() => {
                 rawFireEventToListener([cb, name_or_regexp, filter], name_or_regexp, last_value);
             }, 0);
         }
@@ -228,7 +238,7 @@ export function whenFired(name_or_regexp, filter_or_cb, cb) {
             let last_values_length = last_values.length;
 
             for (let i = 0; i < last_values_length; i++) {
-                (function(last_value) {
+                ((last_value) => {
                     setTimeout(() => {
                         rawFireEventToListener([cb, name_or_regexp, filter], name_or_regexp, last_value);
                     }, 0);
@@ -242,7 +252,7 @@ export function whenFired(name_or_regexp, filter_or_cb, cb) {
 
 /**
  * @private
- * @param {Function} listener
+ * @param {Array} listener
  * @param {String} name
  * @param {Array.<(String|RegExp)>} values
  */
@@ -268,6 +278,7 @@ function rawFireEventToListener(listener, name, values) {
 
 /**
  * Exception for unknown key.
+ * @private
  * @param {String} key
  * @param {HTMLElement} dom_element
  */
@@ -286,6 +297,7 @@ function UnknownHandlerException(key, dom_element) {
  */
 function callHandler(key, dom_element) {
     if (typeof handlers[key] === 'undefined') {
+        // add prefix again, to enable a re-run
         dom_element.classList.add(prefix);
         throw new UnknownHandlerException(key, dom_element);
     }
