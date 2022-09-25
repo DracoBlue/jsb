@@ -165,7 +165,7 @@ Inject a config to tell requirejs, where jsb lives in and afterwards apply all b
             jsb.applyBehaviour(document.documentElement);
         } catch (e) {
             if (e.name && e.name === 'UnknownHandlerException') {
-                require([e.key], function(require_result) {
+                require([e.key], (require_result) => {
                     if (require_result && !jsb.hasHandler(e.key)) {
                         jsb.registerHandler(e.key, require_result);
                     }
@@ -233,7 +233,7 @@ injection if you keep the channel identifier the same.
 
 If you set `sticky` to `true` or use the `jsb.fireStickyEvent` alias, you can retrieve multiple events with the same name with `jsb.whenFired`.
 
-### on(`name`, `[filter, ]` `callback`)
+### on(`name`, `callback`, `[filter]`)
 
 You can listen to that event, too:
 
@@ -260,13 +260,13 @@ on(
     // identifier
     'HoneyPot::CLICKED',
 
-    // filter everything with name = Bob
-    {'name': 'Bob'},
-
     // callback
     (values, eventName) => {
         console.log(`The user ${values.name} clicked it already ${values.times}`);
-    }
+    },
+
+    // filter everything with name = Bob
+    {'name': 'Bob'}
 );
 ```
 
@@ -334,7 +334,7 @@ off();
 fireEvent('OFF_TEST');
 ```
 
-### whenFired(`name`, `[filter, ]` `callback`)
+### whenFired(`name`, `callback`, `[filter]`)
 
 If the event may be triggered before your jsb class is loaded, you can use `whenFired`. Afterwards it behaves the same like `on`.
 

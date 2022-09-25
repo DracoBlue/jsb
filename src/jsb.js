@@ -1,3 +1,5 @@
+// @ts-check
+
 /*
  * jsb
  *
@@ -115,17 +117,10 @@ export function fireStickyEvent(name, values) {
  * Adds an event listener for a given name or regular expression.
  *
  * @param {String|RegExp} name_or_regexp
- * @param {Object|Function} filter_or_cb
- * @param {Function} [cb]
+ * @param {Function} cb
+ * @param {Object} [filter]
  */
-export function on(name_or_regexp, filter_or_cb, cb) {
-    let filter = filter_or_cb || null;
-
-    if (!cb) {
-        filter = null;
-        cb = filter_or_cb;
-    }
-
+export function on(name_or_regexp, cb, filter) {
     listeners.push([cb, name_or_regexp, filter]);
 
     let off_handler = () => {
@@ -182,18 +177,11 @@ export function off(name_or_regexp, cb) {
  * even if that happend earlier!
  *
  * @param {String|RegExp} name_or_regexp
- * @param {Object|Function} [filter_or_cb=null]
- * @param {Function} [cb]
+ * @param {Function} cb
+ * @param {Object} [filter]
  */
-export function whenFired(name_or_regexp, filter_or_cb, cb) {
-    let filter = filter_or_cb;
-
-    if (!cb) {
-        filter = null;
-        cb = filter_or_cb;
-    }
-
-    let off_handler = on(name_or_regexp, filter, cb);
+export function whenFired(name_or_regexp, cb, filter) {
+    let off_handler = on(name_or_regexp, cb, filter);
 
     let is_regexp = (name_or_regexp instanceof RegExp);
 
@@ -225,7 +213,7 @@ export function whenFired(name_or_regexp, filter_or_cb, cb) {
                 })(key);
             }
         }
-    } else {
+    } else if (typeof name_or_regexp === 'string') {
         if (typeof last_event_values[name_or_regexp] !== 'undefined') {
             let last_value = last_event_values[name_or_regexp];
 
