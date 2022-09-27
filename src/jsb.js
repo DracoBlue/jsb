@@ -21,7 +21,7 @@ let sticky_event_values = {};
 /**
  * Set the prefix for the jsb toolkit.
  *
- * @param {String} prefix
+ * @param {string} prefix
  */
 export function setPrefix(prefix) {
     prefix = prefix + '_';
@@ -29,9 +29,9 @@ export function setPrefix(prefix) {
 }
 
 /**
- * Register a new handler with the given constructor function
+ * Register a new handler with the given constructor function or class.
  *
- * @param {String} key
+ * @param {string} key
  * @param {Function} handler_function
  */
 export function registerHandler(key, handler_function) {
@@ -41,15 +41,15 @@ export function registerHandler(key, handler_function) {
 /**
  * Tests if a handler is registered.
  *
- * @param {String} key
- * @returns Boolean
+ * @param {string} key
+ * @returns boolean
  */
 export function hasHandler(key) {
     return (typeof handlers[key] !== 'undefined');
 }
 
 /**
- * Apply all behaviours on a given dom_element and it's children.
+ * Apply all behaviours on a given dom-element and it's children.
  *
  * @param {HTMLElement} parent_dom_element
  */
@@ -79,9 +79,9 @@ export function applyBehaviour(parent_dom_element) {
 
 /**
  * Fires an event with the given name and values.
- * @param {String} name
- * @param {Object} [values={}]
- * @param {Boolean} [sticky=false]
+ * @param {string} name
+ * @param {object} [values={}]
+ * @param {boolean} [sticky=false]
  */
 export function fireEvent(name, values = {}, sticky = false) {
     /*
@@ -94,10 +94,7 @@ export function fireEvent(name, values = {}, sticky = false) {
         last_event_values[name] = values;
     }
 
-    let listeners_length = listeners.length;
-    for (let i = 0; i < listeners_length; i++) {
-        rawFireEventToListener(listeners[i], name, values);
-    }
+    listeners.forEach((listener) => rawFireEventToListener(listener, name, values));
 
     if (name === 'Jsb::REMOVED_INSTANCE') {
         removeBoundListenersForInstance(values);
@@ -106,8 +103,8 @@ export function fireEvent(name, values = {}, sticky = false) {
 
 /**
  * Fires an event with the given name and values.
- * @param {String} name
- * @param {Object} [values={}]
+ * @param {string} name
+ * @param {object} [values={}]
  */
 export function fireStickyEvent(name, values) {
     fireEvent(name, values, true);
@@ -116,9 +113,10 @@ export function fireStickyEvent(name, values) {
 /**
  * Adds an event listener for a given name or regular expression.
  *
- * @param {String|RegExp} name_or_regexp
+ * @param {string|RegExp} name_or_regexp
  * @param {Function} cb
- * @param {Object} [filter]
+ * @param {object} [filter]
+ * @return Function off_handler
  */
 export function on(name_or_regexp, cb, filter) {
     listeners.push([cb, name_or_regexp, filter]);
@@ -127,16 +125,17 @@ export function on(name_or_regexp, cb, filter) {
         off(name_or_regexp, cb);
     };
 
-    /*
-     * Call this method with your jsb instance, to allow automatic removal of the handler on
-     * disposal of the jsb instance.
+    /**
+     * Call this method with your class instance, to allow automatic removal of the handler on
+     * disposal of the class instance.
+     * @param {any} instance
      */
-    off_handler.dontLeak = (element) => {
+    off_handler.dontLeak = (instance) => {
         for (let i = 0; i < listeners.length; i++) {
             let listener = listeners[i];
 
             if (listener[0] === cb && listener[1] === name_or_regexp && listener[2] === filter) {
-                listener[3] = element;
+                listener[3] = instance;
                 return ;
             }
         }
@@ -176,9 +175,9 @@ export function off(name_or_regexp, cb) {
  * Register to an event as soon as it's fired for the first time
  * even if that happend earlier!
  *
- * @param {String|RegExp} name_or_regexp
+ * @param {string|RegExp} name_or_regexp
  * @param {Function} cb
- * @param {Object} [filter]
+ * @param {object} [filter]
  */
 export function whenFired(name_or_regexp, cb, filter) {
     let off_handler = on(name_or_regexp, cb, filter);
@@ -315,8 +314,8 @@ function callHandler(key, dom_element) {
 /**
  * Parse a json or a query string into an object hash
  * @private
- * @param {String} value_string
- * @return Object
+ * @param {string} value_string
+ * @return object
  */
 function parseValueString(value_string) {
     if (value_string.substring(0, 1) == '{') {
@@ -338,7 +337,7 @@ function parseValueString(value_string) {
 /**
  * @private
  * @param {HTMLElement} dom_element
- * @param {String} class_name
+ * @param {string} class_name
  * @return void
  */
 function removeClassFromElement(dom_element, class_name) {

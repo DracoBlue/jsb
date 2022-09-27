@@ -1,6 +1,7 @@
 {
   "name": "node-jsb",
   "description": "A very extendable Toolkit to inject Javascript Behaviour into rendered HTML without Inline Javascript.",
+  "typings": "./src/jsb.d.ts",
   "main": "./dist/jsb.js",
   "module": "./dist/jsb.es.js",
   "files": [
