@@ -1,7 +1,7 @@
 {
   "name": "node-jsb",
   "description": "A very extendable Toolkit to inject Javascript Behaviour into rendered HTML without Inline Javascript.",
-  "typings": "./src/jsb.d.ts",
+  "typings": "./jsb.d.ts",
   "main": "./dist/jsb.js",
   "module": "./dist/jsb.es.js",
   "files": [
@@ -13,9 +13,10 @@
   },
   "scripts": {
     "test": "mocha",
-    "build": "npm run build:clean && npm run build:lib",
+    "build": "npm run build:ts && npm run build:clean && npm run build:lib",
     "build:clean": "rimraf dist",
-    "build:lib": "rollup -c"
+    "build:lib": "rollup -c",
+    "build:ts": "tsc --declaration --allowJs --emitDeclarationOnly jsb.js"
   },
   "type": "module",
   "repository": {
@@ -40,7 +41,8 @@
     "@rollup/plugin-babel": "5.3.1",
     "mocha": "10.0.0",
     "rimraf": "3.0.2",
-    "rollup": "2.79.1"
+    "rollup": "2.79.1",
+    "typescript": "4.8.4"
   },
   "browserslist": [
     "> .5% and last 2 versions",
