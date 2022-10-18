@@ -3,6 +3,7 @@ import {
 } from '../dist/jsb.es.js'
 
 class TimeDifference {
+
     constructor(dom_element, options = {}) {
         options.interval = options.interval || 1000;
         this.dom_element = dom_element;
