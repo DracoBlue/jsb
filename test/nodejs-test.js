@@ -85,16 +85,16 @@ describe('events', () => {
             'id': 'otherid'
         });
 
-        whenFired('Event::STICKY_EVENT_WITH_VALUES', {
-            'id': 'myid'
-        }, () => {
+        whenFired('Event::STICKY_EVENT_WITH_VALUES', () => {
             counter_one++;
+        }, {
+            'id': 'myid'
         });
 
-        whenFired('Event::STICKY_EVENT_WITH_VALUES', {
-            'id': 'otherid'
-        }, () => {
+        whenFired('Event::STICKY_EVENT_WITH_VALUES', () => {
             counter_two++;
+        }, {
+            'id': 'otherid'
         });
 
         setTimeout(() => {
