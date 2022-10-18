@@ -15,15 +15,15 @@ define('WhenFiredRaceConditionTest', [
                 'id': 1
             });
 
-            jsb.whenFired('WHEN_FIRED_RACE_CONDITION_TEST', {
-                'id': 1
-            }, (values) => {
+            jsb.whenFired('WHEN_FIRED_RACE_CONDITION_TEST', (values) => {
                 /* This happend up to jsb 2.0.0, to be values.id == 2, because the next event is already the last event */
                 if (values.id == 1) {
                     this.markAsSucceeded();
                 } else {
                     this.markAsFailed();
                 }
+            }, {
+                'id': 1
             });
 
             jsb.fireEvent('WHEN_FIRED_RACE_CONDITION_TEST', {

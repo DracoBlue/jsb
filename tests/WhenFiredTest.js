@@ -39,20 +39,20 @@ define('WhenFiredTest', [
                         /*
                         * Now test the same with an regular expression and a filter
                         */
-                        jsb.whenFired(/^WHEN_FIRED_TEST$/, {
-                            'key': 'value'
-                        }, (values) => {
+                        jsb.whenFired(/^WHEN_FIRED_TEST$/, (values) => {
                             if (event_counter === 1 && values.key == 'value') {
                                 this.markAsSucceeded();
                                 /*
                                 * We whould not get that event, if the filter is wrong!
                                 */
-                                jsb.whenFired(/^WHEN_FIRED_TEST$/, {
-                                    'key': 'wrong_value'
-                                }, (values) => {
+                                jsb.whenFired(/^WHEN_FIRED_TEST$/, (values) => {
                                     this.markAsFailed();
+                                }, {
+                                    'key': 'wrong_value'
                                 });
                             }
+                        }, {
+                            'key': 'value'
                         });
                     }
                 });
