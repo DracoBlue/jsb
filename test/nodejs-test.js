@@ -4,6 +4,7 @@ import {
 } from 'mocha';
 import {
     on,
+    off,
     fireEvent,
     whenFired,
     fireStickyEvent
@@ -35,7 +36,7 @@ describe('events', () => {
         fireEvent('Event::FROM_THE_PAST');
     });
 
-    it('should detach if off handler is called', function(done) {
+    it('should detach if off handler is called (string)', function(done) {
         let counter = 0;
         this.timeout(1000);
         let offHandler = on('Event::WITH_OFFHANDLER', () => {
@@ -52,6 +53,72 @@ describe('events', () => {
                 fireEvent('Event::WITH_OFFHANDLER');
             }
         });
+        fireEvent('Event::WITH_OFFHANDLER');
+    });
+
+    it('should detach if off is called (string)', function(done) {
+        let counter = 0;
+        this.timeout(1000);
+
+        let handler = () => {
+            counter++;
+            if (counter == 1) {
+                off('Event::WITH_OFFHANDLER', handler);
+                setTimeout(() => {
+                    if (counter == 1) {
+                        done();
+                    } else {
+                        throw new Error('The handler should be unregistered, but calls again!');
+                    }
+                }, 200);
+                fireEvent('Event::WITH_OFFHANDLER');
+            }
+        };
+
+        on('Event::WITH_OFFHANDLER', handler);
+        fireEvent('Event::WITH_OFFHANDLER');
+    });
+
+    it('should detach if off handler is called (regex)', function(done) {
+        let counter = 0;
+        this.timeout(1000);
+        let offHandler = on(/::WITH_OFFHANDLER/ig, () => {
+            counter++;
+            if (counter == 1) {
+                offHandler();
+                setTimeout(() => {
+                    if (counter == 1) {
+                        done();
+                    } else {
+                        throw new Error('The handler should be unregistered, but calls again!');
+                    }
+                }, 200);
+                fireEvent('Event::WITH_OFFHANDLER');
+            }
+        });
+        fireEvent('Event::WITH_OFFHANDLER');
+    });
+
+    it('should detach if off is called (regex)', function(done) {
+        let counter = 0;
+        this.timeout(1000);
+
+        let handler = () => {
+            counter++;
+            if (counter == 1) {
+                off(/::WITH_OFFHANDLER/ig, handler);
+                setTimeout(() => {
+                    if (counter == 1) {
+                        done();
+                    } else {
+                        throw new Error('The handler should be unregistered, but calls again!');
+                    }
+                }, 200);
+                fireEvent('Event::WITH_OFFHANDLER');
+            }
+        };
+
+        on(/::WITH_OFFHANDLER/ig, handler);
         fireEvent('Event::WITH_OFFHANDLER');
     });
 

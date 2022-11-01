@@ -136,7 +136,7 @@ export function on(name_or_regexp, cb, filter) {
 
             if (listener[0] === cb && listener[1] === name_or_regexp && listener[2] === filter) {
                 listener[3] = instance;
-                return ;
+                return;
             }
         }
     };
