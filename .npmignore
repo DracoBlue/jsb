@@ -2,8 +2,6 @@
 /test
 /tests
 .travis.yml
-bower.json
 
 .idea
 .project
-bower_components
