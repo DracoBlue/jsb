@@ -12,6 +12,7 @@
     "test": "tests"
   },
   "scripts": {
+    "prepare": "npm run build",
     "test": "mocha",
     "build": "npm run build:ts && npm run build:clean && npm run build:lib",
     "build:clean": "rimraf dist",
