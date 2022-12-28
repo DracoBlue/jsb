@@ -1,6 +1,6 @@
 {
   "name": "node-jsb",
-  "description": "A very extendable Toolkit to inject Javascript Behaviour into rendered HTML without Inline Javascript.",
+  "description": "A very extendable toolkit to inject JavaScript behaviour into rendered HTML without inline JavaScript.",
   "typings": "./jsb.d.ts",
   "main": "./dist/jsb.js",
   "module": "./dist/jsb.es.js",
@@ -37,13 +37,13 @@
   },
   "homepage": "https://github.com/DracoBlue/jsb#readme",
   "devDependencies": {
-    "@babel/core": "7.19.6",
-    "@babel/preset-env": "7.19.4",
-    "@rollup/plugin-babel": "6.0.2",
-    "mocha": "10.1.0",
-    "rimraf": "3.0.2",
-    "rollup": "3.2.3",
-    "typescript": "4.8.4"
+    "@babel/core": "7.21.4",
+    "@babel/preset-env": "7.21.4",
+    "@rollup/plugin-babel": "6.0.3",
+    "mocha": "10.2.0",
+    "rimraf": "5.0.0",
+    "rollup": "3.20.2",
+    "typescript": "5.0.4"
   },
   "browserslist": [
     "> .5% and last 2 versions",
