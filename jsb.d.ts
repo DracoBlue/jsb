@@ -1,9 +1,9 @@
 /**
  * Set the prefix for the jsb toolkit.
  *
- * @param {string} prefix
+ * @param {string} customPrefix
  */
-export function setPrefix(prefix: string): void;
+export function setPrefix(customPrefix: string): void;
 /**
  * Register a new handler with the given constructor function or class.
  *
@@ -43,17 +43,9 @@ export function fireStickyEvent(name: string, values?: object): void;
  * @param {string|RegExp} name_or_regexp
  * @param {Function} cb
  * @param {object} [filter]
- * @return Function off_handler
+ * @returns {Function} off_handler
  */
-export function on(name_or_regexp: string | RegExp, cb: Function, filter?: object): {
-    (): void;
-    /**
-     * Call this method with your class instance, to allow automatic removal of the handler on
-     * disposal of the class instance.
-     * @param {any} instance
-     */
-    dontLeak(instance: any): void;
-};
+export function on(name_or_regexp: string | RegExp, cb: Function, filter?: object): Function;
 /**
  * Removes an event listener for a given name or regular expression and handler function.
  *
@@ -70,13 +62,6 @@ export function off(name_or_regexp: string | RegExp, cb: Function): void;
  * @param {string|RegExp} name_or_regexp
  * @param {Function} cb
  * @param {object} [filter]
+ * @returns {Function}
  */
-export function whenFired(name_or_regexp: string | RegExp, cb: Function, filter?: object): {
-    (): void;
-    /**
-     * Call this method with your class instance, to allow automatic removal of the handler on
-     * disposal of the class instance.
-     * @param {any} instance
-     */
-    dontLeak(instance: any): void;
-};
+export function whenFired(name_or_regexp: string | RegExp, cb: Function, filter?: object): Function;

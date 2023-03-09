@@ -21,11 +21,11 @@ let sticky_event_values = {};
 /**
  * Set the prefix for the jsb toolkit.
  *
- * @param {string} prefix
+ * @param {string} customPrefix
  */
-export function setPrefix(prefix) {
-    prefix = prefix + '_';
-    prefix_regexp = new RegExp(prefix + '([^\s]+)');
+export function setPrefix(customPrefix) {
+    prefix = customPrefix + '_';
+    prefix_regexp = new RegExp(prefix + '([^\\s]+)');
 }
 
 /**
@@ -57,9 +57,8 @@ export function applyBehaviour(parent_dom_element) {
     const dom_elements = getJsbElementsInDomElement(parent_dom_element);
     const dom_elements_length = dom_elements.length;
 
-    let key_match;
-
     for (let i = 0; i < dom_elements_length; i++) {
+        let key_match;
         const dom_element = dom_elements[i];
         removeClassFromElement(dom_element, prefix);
 
@@ -84,9 +83,7 @@ export function applyBehaviour(parent_dom_element) {
  * @param {boolean} [sticky=false]
  */
 export function fireEvent(name, values = {}, sticky = false) {
-    /*
-     * Remember the last values for calls to `whenFired`
-     */
+    // Remember the last values for calls to `whenFired`
     if (sticky) {
         sticky_event_values[name] = sticky_event_values[name] || [];
         sticky_event_values[name].push(values);
@@ -106,7 +103,7 @@ export function fireEvent(name, values = {}, sticky = false) {
  * @param {string} name
  * @param {object} [values={}]
  */
-export function fireStickyEvent(name, values) {
+export function fireStickyEvent(name, values = {}) {
     fireEvent(name, values, true);
 }
 
@@ -116,7 +113,7 @@ export function fireStickyEvent(name, values) {
  * @param {string|RegExp} name_or_regexp
  * @param {Function} cb
  * @param {object} [filter]
- * @return Function off_handler
+ * @returns {Function} off_handler
  */
 export function on(name_or_regexp, cb, filter) {
     listeners.push([cb, name_or_regexp, filter]);
@@ -150,7 +147,7 @@ export function on(name_or_regexp, cb, filter) {
  *
  * @private
  *
- * @param instance Jsb Instance
+ * @param {any} instance
  */
 function removeBoundListenersForInstance(instance) {
     listeners = listeners.filter((listenerItem) => (listenerItem[3] !== instance));
@@ -178,6 +175,7 @@ export function off(name_or_regexp, cb) {
  * @param {string|RegExp} name_or_regexp
  * @param {Function} cb
  * @param {object} [filter]
+ * @returns {Function}
  */
 export function whenFired(name_or_regexp, cb, filter) {
     let off_handler = on(name_or_regexp, cb, filter);
@@ -315,7 +313,7 @@ function callHandler(key, dom_element) {
  * Parse a json or a query string into an object hash
  * @private
  * @param {string} value_string
- * @return object
+ * @returns {object}
  */
 function parseValueString(value_string) {
     if (value_string.substring(0, 1) == '{') {
@@ -338,7 +336,6 @@ function parseValueString(value_string) {
  * @private
  * @param {HTMLElement} dom_element
  * @param {string} class_name
- * @return void
  */
 function removeClassFromElement(dom_element, class_name) {
     dom_element.classList.remove(class_name);
@@ -350,7 +347,7 @@ function removeClassFromElement(dom_element, class_name) {
  *
  * @private
  * @param {HTMLElement} dom_element
- * @returns HTMLElement[]
+ * @returns {HTMLElement[]}
  */
 function getJsbElementsInDomElement(dom_element) {
     /*
