@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <script type="module" src="TimeDifference.js"></script>
+    <script type="module" src="CurrentTime.js"></script>
+    <script type="module" src="HoneyPot.js"></script>
+    <script type="module" src="HoneyPotDisplay.js"></script>
+    <script type="module" src="runPrefixJsb.js"></script>
+</head>
+<body>
+    <h2>TimeDifference Test</h2>
+    <div>
+        with input-field only: <span>
+            <input type="hidden" class="custom_ custom_time_difference" value="interval=1000&amp;timestamp=Thu May 23 1985 00:00:00 GMT+0200 (CEST)"/>
+            23th May 2010
+        </span>
+    </div>
+
+    <h2>CurrentTime Test</h2>
+    <div>
+        without input-field: <span class="custom_ custom_current_time">
+            23th May 2010
+        </span>
+    </div>
+
+    <h2>HoneyPot (first element)</h2>
+    Communicating with <code>jsb.fireEvent(name, values)</code>
+    <div class="custom_ custom_honey_pot" style="background-color: yellow">
+        Honey Pot! Click me!
+    </div>
+
+    <h2>HoneyPot second Element</h2>
+    Communicating with <code>jsb.on(name, [filter,] callback)</code>
+
+    <div class="custom_ custom_honey_pot_display">
+        Loading ....
+    </div>
+
+</body>
+
+</html>
