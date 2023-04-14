@@ -1,35 +1,40 @@
-(function()
-{
-    var AjaxInclude = function(dom_element, options)
-    {
-        this.dom_element = jQuery(dom_element);
-        this.options = options || {};
+import {
+    registerHandler,
+    applyBehaviour
+} from '../../dist/jsb.es.js';
+class AjaxInclude {
+
+    constructor(dom_element, options = {}) {
+        this.dom_element = dom_element;
+        this.options = options;
         this.options.method = this.options.method || 'replace';
         this.loadNow();
-    };
+    }
 
-    jsb.registerHandler('ajax_include', AjaxInclude);
+    loadNow() {
+        fetch(this.options.url)
+            .then((response) => response.text())
+            .then((data) => {
+                const method_name = this.options.method;
+                const parent = this.dom_element.parentNode;
+                const div = document.createElement('div');
 
-    AjaxInclude.prototype.loadNow = function()
-    {
-        var that = this;
-        var request_options = this.options.options || {};
-        request_options.url = this.options.url;
+                div.innerHTML = data;
 
-        $.ajax(request_options).done(function(data)
-        {
-            var method_name = that.options.method;
-            var parent = that.dom_element.parent();
-            if (method_name === 'replace') {
-                that.dom_element.replaceWith(data);
-            } else {
-                that.dom_element[method_name](data);
-            }
-            /*
-             * Execute all behaviours on it's parent.
-             */
-            jsb.applyBehaviour(parent);
-        });
-    };
+                const elements = [].slice.call(div.childNodes);
 
-})();
+                if (method_name === 'replace') {
+                    this.dom_element.replaceWith(...elements);
+                } else {
+                    this.dom_element[method_name](...elements);
+                }
+                /*
+                 * Execute all behaviours on it's parent.
+                 */
+                applyBehaviour(parent);
+            });
+    }
+}
+
+registerHandler('ajax_include', AjaxInclude);
+export default AjaxInclude;

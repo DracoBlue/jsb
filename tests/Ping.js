@@ -3,9 +3,11 @@ define('Ping', [
 ], function(jsb) {
     'use strict';
 
-    var Ping = function(dom_element, options) {
-        jsb.fireEvent('PING');
-    };
+    class Ping {
+        constructor() {
+            jsb.fireEvent('PING');
+        }
+    }
 
     return Ping;
 });

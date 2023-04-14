@@ -1,37 +1,32 @@
 define('OffGeneratorTest', [
-    'jsb'
-], function(jsb) {
+    'jsb',
+    'BaseTest'
+], function(jsb, BaseTest) {
     'use strict';
 
-    var OffGeneratorTest = function(dom_element, options) {
-        var that = this;
-        this.dom_element = dom_element;
-        var event_counter = 0;
+    class OffGeneratorTest extends BaseTest {
+        constructor(dom_element) {
+            super(dom_element);
 
-        var offTestHandler = function() {
-            event_counter++;
-        };
+            let event_counter = 0;
 
-        var off = jsb.on('OFF_GENERATOR_TEST', offTestHandler);
+            const offTestHandler = function() {
+                event_counter++;
+            };
 
-        jsb.fireEvent('OFF_GENERATOR_TEST');
-        off();
-        jsb.fireEvent('OFF_GENERATOR_TEST');
+            const off = jsb.on('OFF_GENERATOR_TEST', offTestHandler);
 
-        setTimeout(function() {
-            if (event_counter === 1) {
-                that.markAsSucceeded();
-            }
-        }, 10);
-    };
+            jsb.fireEvent('OFF_GENERATOR_TEST');
+            off();
+            jsb.fireEvent('OFF_GENERATOR_TEST');
 
-    OffGeneratorTest.prototype.markAsSucceeded = function() {
-        this.dom_element.className = 'test_succeeded';
-    };
-
-    OffGeneratorTest.prototype.markAsFailed = function() {
-        this.dom_element.className = 'test_failed';
-    };
+            setTimeout(() => {
+                if (event_counter === 1) {
+                    this.markAsSucceeded();
+                }
+            }, 10);
+        }
+    }
 
     return OffGeneratorTest;
 });

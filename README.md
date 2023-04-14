@@ -7,97 +7,95 @@ Build-Status: [![Build Status](https://travis-ci.org/DracoBlue/jsb.png?branch=ma
 
 Official Site: <http://dracoblue.net/>
 
-jsb is copyright 2010-2016 by DracoBlue <http://dracoblue.net>
+jsb is copyright 2010-2022 by DracoBlue <http://dracoblue.net>
 
 What is Jsb?
 --------------------
 
-Jsb is very extendable Toolkit to inject Javascript Behaviour into
-rendered HTML without Inline Javascript.
-
-Requirements:
-
-* Firefox 3+, Safari 5+, Chrome, Opera, IE7+
-* (optional) requirejs - for on demand and subfolder loading
+Jsb is very extendable toolkit to inject JavaScript behaviour into
+rendered HTML without inline JavaScript.
 
 How does it work?
 -----------------
 
 The idea behind jsb is pretty simple. Put a class (jsb_) on all
-elements which should be enriched/enhanced by javascript. Additionally
+elements which should be enriched/enhanced by JavaScript. Additionally
 put a class `jsb_`*keyword* on the element to define which behaviour
 should be applied to the element.
 
-Each behaviour can register on such *keyword* by using this
+Each behaviour can register on such *keyword* by using the `registerHandler` method
+
 ```javascript
-jsb.registerHandler('keyword', KeywordBehaviour);
+import { registerHandler } from 'node-jsb'
+
+registerHandler('keyword', KeywordBehaviour)
 ```
-method. As soon as the dom is loaded
+
+As soon as the dom is loaded call:
+
 ```javascript
-jsb.applyBehaviour(window.document);
+import { applyBehaviour } from 'node-jsb'
+
+applyBehaviour(document.documentElement)
 ```
-is executed. You might even overwrite your Request.HTML method to do the
-same.
+
+If you use ES modules, you do not need a dom ready event.
 
 Example
 -------
 
-Include the jsb into your website with the following meta
-tag (before you define any behaviours):
+Create a new file `js/Example.js` and include it as a module.
 
 ```html
-<script type="text/javascript" src="js/jsb.js"> </script>
+<script type="module" src="js/Example.js"> </script>
 ```
-Additionally add this one:
-```html
-<script type="text/javascript" src="js/Example.js"> </script>
-```
-Now create a new file `js/Example.js`
+
+Import the needed parts of jsb into your module:
+
 ```javascript
-Example = function(dom_element, options) {
-   dom_element.textContent = 'I am loaded with name: ' + options.name;
-};
+import { registerHandler } from 'jsb';
 
-jsb.registerHandler('Example', Example);
+class Example {
+    constructor(dom_element, options) {
+        dom_element.textContent = `I am loaded with name: ${options.name}`;
+    }
+}
+
+registerHandler('Example', Example);
 ```
-If you want to use requirejs integration, create it like this (no `registerHandler` necessary!):
-```javascript
-define("Example", [], function()
-{
-    "use strict";
 
-    var Example = function(dom_element, options) {
-       dom_element.textContent = 'I am loaded with name: ' + options.name;
-    };
+Now add somewhere in your HTML code the following:
 
-    return Example;
-});
-```
-Now add somewhere in your html code the following:
 ```html
 <span class="jsb_ jsb_Example" data-jsb="{&quot;name&quot;:&quot;Jan&quot;}">Are you loaded?</span>
 ```
+
 or with single attribute quotes:
+
 ```html
 <span class="jsb_ jsb_Example" data-jsb='{"name": "Jan"}'>Are you loaded?</span>
 ```
 
-When you execute the html page now, the text "Are you loaded?" won't display,
-but will be replaced with 'I am loaded with name: Jan'.
+When you execute the HTML page now, the text "Are you loaded?" won't display, but will be replaced with 'I am loaded with name: Jan'.
 
 It is also possible to use the query string syntax:
+
 ```html
 <span class="jsb_ jsb_Example" data-jsb="name=Jan&amp;param1=one">Are you loaded?</span>
 ```
+
 Check out the generator functions for your favorite programming language.
 
-If you want to have special data for one class, you might use `data-jsb-ClassName`.
+If you want to have special data for one class, you might use `data-jsb-Keyword`.
+
 ```html
 <span class="jsb_ jsb_Example" data-jsb-Example="{&quot;name&quot;:&quot;Jan&quot;}">Are you loaded?</span>
 ```
+
 Foldernames must be replaced with dashes, so: `view/ui/Gui` becomes to `data-jsb-view-ui-Gui`.
 
-Since jsb 2.0 it's also possible to put multiple classes on one element:
+It's also possible to put multiple classes on one element:
+
 ```html
 <span class="jsb_ jsb_Example jsb_OtherExample" data-jsb="name=Jan&amp;param1=one" data-jsb-OtherExample="only=for-other">Are you loaded?</span>
 ```
@@ -128,69 +126,89 @@ function jsbOptions(array $options = array()) {
 }
 ```
 
-Advanced: Using with webpack
+Advanced: Using with bundler (webpack/rollup/parcel)
 ----------------------------------------
 
-If you are using webpack, please don't forget to add `jsb.registerHandler` at the end of your behaviour.
+If you are using a bundler, please don't forget to add `registerHandler` at the end of your behaviour.
 
-Advanced: Using with requirejs and bower
+Advanced: Using with requirejs and npm
 ----------------------------------------
 
 If you want to avoid to include all those script tags:
 ```html
-<script type="text/javascript" src="js/Example.js"> </script>
+<script src="js/Example.js"></script>
 ```
 for your behaviours, you may use requirejs.
 
-Install jsb with bower:
+Install jsb with npm:
 
 ```console
-$ bower install jsb
+$ npm install node-jsb --save
 ```
 
-Inject a config to tell requirejs, where jsb lives in bower_components folder and
-afterwards apply all behaviours on `document.body`:
+Inject a config to tell requirejs, where jsb lives in and afterwards apply all behaviours on `document.documentElement`:
+
 ```html
-<script type="text/javascript" src="js/requirejs.js"> </script>
+<script src="js/requirejs.js"> </script>
 <script>
  requirejs.config({
      baseUrl: './js/', // if your files live in the /js/ folder
      paths: {
-         jsb: './bower_components/jsb/jsb'
+         jsb: './node_modules/node-jsb/dist/jsb'
      }
  });
 
- require(['jsb'], function(jsb) {
-     jsb.applyBehaviour(document.body);
+ require(['jsb'], (jsb) => {
+    let runJsb = () {
+        // using the "UnknownHandlerException" error to require the missing modules
+        try {
+            jsb.applyBehaviour(document.documentElement);
+        } catch (e) {
+            if (e.name && e.name === 'UnknownHandlerException') {
+                require([e.key], (require_result) => {
+                    if (require_result && !jsb.hasHandler(e.key)) {
+                        jsb.registerHandler(e.key, require_result);
+                    }
+                    runJsb();
+                });
+            }
+        }
+    }
+    runJsb();
  });
 </script>
-<script type="text/javascript" src="js/jsb.js"> </script>
 ```
 
-Create a new file (`js/Example.js`), but don't include it with `<script>` into the head:
-```javascript
-define("Example", [], function()
-{
-    "use strict";
+Create a new file (`js/Example.js`), but don't include it with `<script>` into the head.
+Calling `registerHandler` is also not needed with requirejs.
 
-    var Example = function(dom_element, options) {
-       dom_element.textContent = 'I am loaded with name: ' + options.name;
-    };
+```javascript
+define('Example', () => {
+    'use strict';
+
+    class Example {
+        constructor(dom_element, options) {
+            dom_element.textContent = 'I am loaded with name: ' + options.name;
+        }
+    }
 
     return Example;
 });
 ```
-And now just include your Behaviours in HTML, e.g.:
+
+And now just include your behaviours in HTML, e.g.:
+
 ```html
 <span class="jsb_ jsb_Example" data-jsb="name=Jan&amp;param1=one">Are you loaded?</span>
 ```
-If jsb notices, that the handler "Example" is not yet registered. Internally it will call `require` for "Example" and use the result
-with `jsb.registerHandler`. Afterwards is the handler for "Example" defined.
 
-This is very good if you want to keep the global namespace clean (since `var Example` defines a local variable). It's
+If jsb notices that the handler "Example" is not yet registered, internally it will throw the `UnknownHandlerException` error.
+You need to catch the error and load your module with requirejs like in the example above.
+
+This is very good if you want to keep the global namespace clean (since `class Example` defines a local variable). It's
 also very nice, if you only want to load the element on demand!
 
-You can even use sub folders of any required depth: Put the file into `js/mymodule/Example.js` and call it from html with
+You can even use sub folders of any required depth: Put the file into `js/mymodule/Example.js` and call it from HTML with
 `class="jsb_ jsb_mymodule/Example.js"`.
 
 Advanced: Communication between instances
@@ -199,95 +217,149 @@ Advanced: Communication between instances
 If you get used to `jsb`, you'll noticed that you have the need to communicate
 between multiple jsb_-objects.
 
+### fireEvent(`name`, `[values = {}, sticky = false`)
 
-### jsb.fireEvent(`name`, `[values = {}, sticky = false`)
-
-Since 1.3.0 jsb ships with a very simple (by design) event system. It is
+Jsb ships with a very simple (by design) event system. It is
 framework independent and works with simple channel identifier and a
 json-object as value.
+
 ```javascript
-jsb.fireEvent('HoneyPot::CLICKED', {"name": "Bob", "times": 2});
+fireEvent('HoneyPot::CLICKED', {'name': 'Bob', 'times': 2});
 ```
-This should be fired by a Js-Behaviour which needs to say something, instead
+
+This should be fired by a module which needs to say something, instead
 of global variables and direct call. This enables you to use dependency
 injection if you keep the channel identifier the same.
 
-If you set `sticky` to `true` or use the `jsb.fireStickyEvent` alias, you can retrieve multiple events with the same
-name with `jsb.whenFired`.
+If you set `sticky` to `true` or use the `jsb.fireStickyEvent` alias, you can retrieve multiple events with the same name with `jsb.whenFired`.
 
-### jsb.on(`name`, `[filter, ]` `callback`)
+### on(`name`, `callback`, `[filter]`)
 
 You can listen to that event, too:
+
 ```javascript
-jsb.on(
-    'HoneyPot::CLICKED', // identifier
-    function(values, event_name) { // callback
-        alert('The user ' + values.name + ' clicked it already ' + values.times);
+import { on } from 'node-jsb';
+
+on(
+    // identifier
+    'HoneyPot::CLICKED',
+
+    // callback
+    (values, eventName) => {
+        console.log(`The user ${values.name} clicked it already ${values.times}`);
     }
 );
 ```
+
 It's even possible to filter for a filter-object when listening:
+
 ```javascript
-jsb.on(
-    'HoneyPot::CLICKED', // identifier
-    {"name": "Bob"}, // filter everything with name = Bob
-    function(values, event_name) { // callback
-        alert('The user ' + values.name + ' clicked it already ' + values.times);
-    }
+import { on } from 'node-jsb';
+
+on(
+    // identifier
+    'HoneyPot::CLICKED',
+
+    // callback
+    (values, eventName) => {
+        console.log(`The user ${values.name} clicked it already ${values.times}`);
+    },
+
+    // filter everything with name = Bob
+    {'name': 'Bob'}
 );
 ```
-You may also use RegExp as channel identifier when calling `jsb.on`:
+
+You may also use RegExp as channel identifier when calling `on`:
+
 ```javascript
-jsb.on(
-    /^HoneyPot.*$, // identifier which starts with HoneyPot*
-    function(values, event_name) { // callback
-        alert('The user ' + values.name + ' clicked it already ' + values.times + ' with event name: ' + event_name);
+import { on } from 'node-jsb';
+
+on(
+    // identifier which starts with HoneyPot*
+    /^HoneyPot.*$,
+
+    // callback
+    (values, eventName) => {
+        console.log(`The user ${values.name} clicked it already ${values.times} width event name: ${eventName}`);
     }
 );
 ```
 
-### jsb.off(`name`, `callback`)
+### off(`name`, `callback`)
 
-Event handlers can be removed by passing the exact same name/regex and Function object to `jsb.off`.
+Event handlers can be removed by passing the exact same name/regex and function object to `off`.
+
 ```javascript
-var counter = 0;
-var handler = function(){
+import { on, off, fireEvent} from 'node-jsb';
+
+let counter = 0;
+let handler = () => {
     counter++
 };
-jsb.on('OFF_TEST', handler);
-jsb.fireEvent('OFF_TEST'); //counter is now 1
-jsb.off('OFF_TEST', handler);
-jsb.fireEvent('OFF_TEST'); //counter is still 1 because the listener was removed before the second event fired.
+
+// listen
+on('OFF_TEST', handler);
+
+// counter is now 1
+fireEvent('OFF_TEST');
+
+// remove the handler
+off('OFF_TEST', handler);
+
+// counter is still 1 because the listener was removed before the second event fired
+fireEvent('OFF_TEST');
 ```
-Alternatively `jsb.on` returns a function that can be called without any parameters and will remove the name/handler pair that was registered by `jsb.on` in that call.
+
+Alternatively `on` returns a function that can be called without any parameters and will remove the name/handler pair that was registered by `on` in that call.
+
 ```javascript
-var counter = 0;
-var handler = function(){
+import { on, off, fireEvent} from 'node-jsb';
+
+let counter = 0;
+let handler = () => {
     counter++
 };
-var off = jsb.on('OFF_TEST', handler);
-jsb.fireEvent('OFF_TEST'); //counter is now 1
+
+// add listener and save the result
+let off = on('OFF_TEST', handler);
+
+// counter is now 1
+fireEvent('OFF_TEST');
+
+// call the function to remove the listener
 off();
-jsb.fireEvent('OFF_TEST'); //counter is still 1 because the listener was removed before the second event fired.
-```
-### jsb.whenFired(`name`, `[filter, ]` `callback`)
 
-If the event may be triggered before your jsb class is loaded, you can use `jsb.whenFired`. Afterwards it behaves
-the same like `jsb.on`.
+// counter is still 1 because the listener was removed before the second event fired.
+fireEvent('OFF_TEST');
+```
+
+### whenFired(`name`, `callback`, `[filter]`)
+
+If the event may be triggered before your jsb class is loaded, you can use `whenFired`. Afterwards it behaves the same like `on`.
+
 ```javascript
-var counter = 0;
-jsb.fireEvent('MASTER_READY', { "key": "value"});
-jsb.whenFired(/^MASTER_READY$/, function(values, event_name) {
+import { on, fireEvent, whenFired} from 'node-jsb';
+
+let counter = 0;
+
+// event called before listening
+fireEvent('MASTER_READY', { "key": "value"});
+
+// listen
+whenFired(/^MASTER_READY$/, (values, event_name) => {
     /*
      * Will be called IMMEDIATELY because the event
      * was already fired.
      */
     counter++;
 });
-jsb.fireEvent('MASTER_READY', { "key": "value"});
+
 // counter is now 2!
+fireEvent('MASTER_READY', { "key": "value"});
 ```
-If you use `fireStickyEvent` in favor of `fireEvent`, it's also possible to use whenFired for multiple events with the same name-
+
+If you use `fireStickyEvent` in favor of `fireEvent`, it's also possible to use whenFired for multiple events with the same name.
 
 Advanced: Using with nodejs
 ----------------------------------------
@@ -301,10 +373,12 @@ $ npm install node-jsb --save
 In your source, you might use it like this:
 
 ```javascript
-var jsb = require('node-jsb');
-jsb.on('Event::NAME', function() {
-  console.log('Hi!');
+let jsb = require('node-jsb');
+
+jsb.on('Event::NAME', () => {
+    console.log('Hi!');
 });
+
 jsb.fireEvent('Event::NAME');
 ```
 

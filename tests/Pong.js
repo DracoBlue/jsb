@@ -1,18 +1,22 @@
 define('Pong', [
-    'jsb'
-], function(jsb) {
+    'jsb',
+    'BaseTest'
+], function(jsb, BaseTest) {
     'use strict';
 
-    var Pong = function(dom_element, options) {
-        jsb.on('PING', function(values, name) {
-            if (name !== 'PING') {
-                console.error('Event name ' + name + ' was not PING!');
-                return;
-            }
+    class Pong extends BaseTest {
+        constructor(dom_element) {
+            super(dom_element);
+            jsb.on('PING', (values, name) => {
+                if (name !== 'PING') {
+                    console.error('Event name ' + name + ' was not PING!');
+                    return;
+                }
 
-            dom_element.className = 'test_succeeded';
-        });
-    };
+                this.markAsSucceeded()
+            });
+        }
+    }
 
     return Pong;
 });

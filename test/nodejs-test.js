@@ -1,98 +1,174 @@
-var jsb = require('./../');
+import {
+    describe,
+    it
+} from 'mocha';
+import {
+    on,
+    off,
+    fireEvent,
+    whenFired,
+    fireStickyEvent
+} from '../dist/jsb.es.js';
 
-describe('events', function() {
+describe('events', () => {
 
     it('should fire and catch simple events', function(done) {
-        var counter = 0;
-        jsb.on('Event::SIMPLE', function() {
+        let counter = 0;
+        on('Event::SIMPLE', () => {
             counter++;
             if (counter == 2) {
                 done();
             }
         });
-        jsb.fireEvent('Event::SIMPLE');
-        jsb.fireEvent('Event::SIMPLE');
+        fireEvent('Event::SIMPLE');
+        fireEvent('Event::SIMPLE');
     });
 
     it('should catch events of the past', function(done) {
-        var counter = 0;
-        jsb.fireEvent('Event::FROM_THE_PAST');
-        jsb.whenFired('Event::FROM_THE_PAST', function() {
+        let counter = 0;
+        fireEvent('Event::FROM_THE_PAST');
+        whenFired('Event::FROM_THE_PAST', () => {
             counter++;
             if (counter == 2) {
                 done();
             }
         });
-        jsb.fireEvent('Event::FROM_THE_PAST');
+        fireEvent('Event::FROM_THE_PAST');
     });
 
-    it('should detach if off handler is called', function(done) {
-        var counter = 0;
+    it('should detach if off handler is called (string)', function(done) {
+        let counter = 0;
         this.timeout(1000);
-        var offHandler = jsb.on('Event::WITH_OFFHANDLER', function() {
+        let offHandler = on('Event::WITH_OFFHANDLER', () => {
             counter++;
             if (counter == 1) {
                 offHandler();
-                setTimeout(function() {
+                setTimeout(() => {
                     if (counter == 1) {
                         done();
                     } else {
                         throw new Error('The handler should be unregistered, but calls again!');
                     }
                 }, 200);
-                jsb.fireEvent('Event::WITH_OFFHANDLER');
+                fireEvent('Event::WITH_OFFHANDLER');
             }
         });
-        jsb.fireEvent('Event::WITH_OFFHANDLER');
+        fireEvent('Event::WITH_OFFHANDLER');
+    });
+
+    it('should detach if off is called (string)', function(done) {
+        let counter = 0;
+        this.timeout(1000);
+
+        let handler = () => {
+            counter++;
+            if (counter == 1) {
+                off('Event::WITH_OFFHANDLER', handler);
+                setTimeout(() => {
+                    if (counter == 1) {
+                        done();
+                    } else {
+                        throw new Error('The handler should be unregistered, but calls again!');
+                    }
+                }, 200);
+                fireEvent('Event::WITH_OFFHANDLER');
+            }
+        };
+
+        on('Event::WITH_OFFHANDLER', handler);
+        fireEvent('Event::WITH_OFFHANDLER');
+    });
+
+    it('should detach if off handler is called (regex)', function(done) {
+        let counter = 0;
+        this.timeout(1000);
+        let offHandler = on(/::WITH_OFFHANDLER/ig, () => {
+            counter++;
+            if (counter == 1) {
+                offHandler();
+                setTimeout(() => {
+                    if (counter == 1) {
+                        done();
+                    } else {
+                        throw new Error('The handler should be unregistered, but calls again!');
+                    }
+                }, 200);
+                fireEvent('Event::WITH_OFFHANDLER');
+            }
+        });
+        fireEvent('Event::WITH_OFFHANDLER');
+    });
+
+    it('should detach if off is called (regex)', function(done) {
+        let counter = 0;
+        this.timeout(1000);
+
+        let handler = () => {
+            counter++;
+            if (counter == 1) {
+                off(/::WITH_OFFHANDLER/ig, handler);
+                setTimeout(() => {
+                    if (counter == 1) {
+                        done();
+                    } else {
+                        throw new Error('The handler should be unregistered, but calls again!');
+                    }
+                }, 200);
+                fireEvent('Event::WITH_OFFHANDLER');
+            }
+        };
+
+        on(/::WITH_OFFHANDLER/ig, handler);
+        fireEvent('Event::WITH_OFFHANDLER');
     });
 
     it('should catch sticky events only once', function(done) {
-        var counter = 0;
+        let counter = 0;
         this.timeout(1000);
-        jsb.fireStickyEvent('Event::STICKY_EVENT');
-        jsb.whenFired('Event::STICKY_EVENT', function() {
+        fireStickyEvent('Event::STICKY_EVENT');
+        whenFired('Event::STICKY_EVENT', () => {
             counter++;
         });
 
-        setTimeout(function() {
+        setTimeout(() => {
             if (counter == 1) {
                 done();
             } else {
-                throw new Error('The handler should be called only once, but calls ' + counter + ' times!');
+                throw new Error(`The handler should be called only once, but calls ${counter} times!`);
             }
         }, 200);
     });
 
     it('should catch sticky events only once', function(done) {
-        var counter_one = 0;
-        var counter_two = 0;
+        let counter_one = 0;
+        let counter_two = 0;
         this.timeout(1000);
 
-        jsb.fireStickyEvent('Event::STICKY_EVENT_WITH_VALUES', {
+        fireStickyEvent('Event::STICKY_EVENT_WITH_VALUES', {
             'id': 'myid'
         });
 
-        jsb.fireStickyEvent('Event::STICKY_EVENT_WITH_VALUES', {
+        fireStickyEvent('Event::STICKY_EVENT_WITH_VALUES', {
             'id': 'otherid'
         });
 
-        jsb.whenFired('Event::STICKY_EVENT_WITH_VALUES', {
-            'id': 'myid'
-        }, function() {
+        whenFired('Event::STICKY_EVENT_WITH_VALUES', () => {
             counter_one++;
+        }, {
+            'id': 'myid'
         });
 
-        jsb.whenFired('Event::STICKY_EVENT_WITH_VALUES', {
-            'id': 'otherid'
-        }, function() {
+        whenFired('Event::STICKY_EVENT_WITH_VALUES', () => {
             counter_two++;
+        }, {
+            'id': 'otherid'
         });
 
-        setTimeout(function() {
+        setTimeout(() => {
             if (counter_one == 1 && counter_two == 1) {
                 done();
             } else {
-                throw new Error('The handler should be called only once, but calls ' + counter_one + ' times for myid and ' + counter_two +' times for otherid!');
+                throw new Error(`The handler should be called only once, but calls ${counter_one} times for myid and ${counter_two} times for otherid!`);
             }
         }, 200);
     });
